@@ -16,11 +16,11 @@ public class Block
   
   
   public enum STATUS
-  { FREE_FALL, HIT, FATALLY_HIT, ONGROUND, ZAPPED;
+  { FREE_FALL, HIT, FATALLY_HIT, ONGROUND, ZAPPED
   }
   
   public enum MODE
-  { REMOVE_HITS, BALLOONS;
+  { REMOVE_HITS, BALLOONS
   }
   
   private static final Color BLOCK_COLOR = new Color(117,146,60); 

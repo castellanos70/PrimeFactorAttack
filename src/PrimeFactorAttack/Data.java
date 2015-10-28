@@ -27,7 +27,7 @@ public class Data
     LEVELUP,
     TIMESTOP,
     ENDED,
-  };
+  }
   
   //When this is true, pressing 'n' will advance to next level
   public static final boolean CHEAT_ON = true;

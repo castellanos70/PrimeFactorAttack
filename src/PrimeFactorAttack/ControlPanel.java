@@ -171,7 +171,7 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
     }
   
     else 
-    { for( int i=0; i<primeButtons.length; i++ )
+    { for(int i=0; i<primeButtons.length; i++ )
       {
         primeButtons[i].setEnabled(false);
       }

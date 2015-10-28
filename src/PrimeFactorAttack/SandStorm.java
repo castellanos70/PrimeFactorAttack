@@ -12,10 +12,6 @@ public class SandStorm
 {
   
   private static int canvasWidth, canvasHeight;
-  private static GameCanvas canvas;
-  
-  
-  
   private static Random rand = new Random();
   
   private static int[] sandColor = { 0x3a242b, 0x3b2426, 0x352325, 0x836454, 0x7d5533, 0x8b7352, 
@@ -210,7 +206,7 @@ public class SandStorm
         int x = Utility.polarToX(radius[i], angle[i], originX[i]);
         int y = Utility.polarToY(radius[i], angle[i], originY[i]);
         //For speed, if the comet is off screen, do not draw its spray
-        if (plotPoint(x,y,orbitColor[i]) == false) continue;
+        if (!plotPoint(x, y, orbitColor[i])) continue;
          
         //Draw the comet and its spray.
         //On the first iteration, n=0 so the random spray distance is multiplied by 0.
@@ -275,33 +271,21 @@ public class SandStorm
         int y = Utility.polarToY(radius[i], angle[i], targetY);
         //if (time==0 && SandStorm.updateIdx==0)  System.out.println("     plot("+x+", "+y);
         //For speed, if the comet is off screen, do not draw its spray
-        if (plotPoint(x,y,orbitColor[i]) == false) continue;
+        if (!plotPoint(x, y, orbitColor[i])) continue;
          
         //Draw the comet and its spray.
         //On the first iteration, n=0 so the random spray distance is multiplied by 0.
         //Thus, the first iteration plots a particle exactly on the orbit. 
         
         for (int n=1; n<SPRAY_COUNT_HIT; n++)
-        { 
-          
+        {
           double rr = radius[i]+n*sprayDist*(rand.nextDouble());
           x = Utility.polarToX(rr, angle[i], targetX);
           y = Utility.polarToY(rr, angle[i], targetY);
           plotPoint(x,y,orbitColor[i]);
         }
       }
-      
-      
-//      //Subtracts the calculated sprayDistance if time is >= 550
-//      if (time >= 550)
-//      { sprayDistance-=(26.0-1.0)/450;
-//      }
-      
-      
-    }      
-  
-    
-    
+    }
   } 
   
   
@@ -316,7 +300,6 @@ public class SandStorm
     Data.imageSand.setRGB(x, y, rgb);
     Data.imageTmp.setRGB(x, y, rgb);
     return true;
- 
   }
 
   
@@ -340,7 +323,6 @@ public class SandStorm
       return Math.atan2(yy,xx);
 
     }
-    
   }
 
 

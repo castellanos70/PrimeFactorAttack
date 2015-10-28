@@ -191,7 +191,7 @@ public class GameCanvas extends Canvas
   
   public void drawBox(int x, int y, int size, Color c)
   { Data.graphTmp.setColor(c);
-  Data.graphTmp.fillRect(x, y, size, size);
+    Data.graphTmp.fillRect(x, y, size, size);
   }
   
   
