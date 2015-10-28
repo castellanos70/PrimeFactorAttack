@@ -13,10 +13,10 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.Random;
 
-import PrimeFactorAttack.Game;
-import PrimeFactorAttack.Utility;
-import PrimeFactorAttack.main.Block;
-import PrimeFactorAttack.main.Grid;
+import PrimeFactorAttack.Data;
+import PrimeFactorAttack.utility.Utility;
+import PrimeFactorAttack.Block;
+import PrimeFactorAttack.Grid;
 
 public class Mandala_Derek_Long extends Mandala
 {
@@ -55,13 +55,13 @@ public class Mandala_Derek_Long extends Mandala
 
     block = curBlock;
     factor = block.getHitFactor();
-    canvasWidth = Game.image.getWidth();
-    canvasHeight = Game.image.getHeight();
+    canvasWidth = Data.image.getWidth();
+    canvasHeight = Data.image.getHeight();
 
     updateCount = 0;
 
     done = false;
-    factorIdx = Game.getIndexOfPrime(factor);
+    factorIdx = Data.getIndexOfPrime(factor);
 
     upperLeft = new Point[factor * 6];
     upperRight = new Point[factor * 6];
@@ -98,8 +98,8 @@ public class Mandala_Derek_Long extends Mandala
       // to clear sandstorm for kill explosion after a few frames
       if (i == 3)
       {
-        Game.graphSand.drawImage(Game.image, 0, 0, null);
-        Game.graphTmp.drawImage(Game.image, 0, 0, null);
+        Data.graphSand.drawImage(Data.image, 0, 0, null);
+        Data.graphTmp.drawImage(Data.image, 0, 0, null);
       }
       for (int j = 0; j < upperLeft.length; j++)
       { // for an expanding pattern from the origin
@@ -160,8 +160,8 @@ public class Mandala_Derek_Long extends Mandala
   {
     if (x < 0 || y < 0 || x >= canvasWidth || y >= canvasHeight) return;
     // for the explosion, no color change
-    Game.imageSand.setRGB(x, y, rgb);
-    Game.imageTmp.setRGB(x, y, rgb);
+    Data.imageSand.setRGB(x, y, rgb);
+    Data.imageTmp.setRGB(x, y, rgb);
 
   }
   

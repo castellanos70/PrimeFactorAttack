@@ -3,9 +3,9 @@ package PrimeFactorAttack.mandala;
 import java.awt.Color;
 import java.util.Random;
 
-import PrimeFactorAttack.Game;
-import PrimeFactorAttack.main.Block;
-import PrimeFactorAttack.main.Grid;
+import PrimeFactorAttack.Data;
+import PrimeFactorAttack.Block;
+import PrimeFactorAttack.Grid;
 
 public class Mandala_Tyler_Brandt extends Mandala
 
@@ -99,14 +99,14 @@ public class Mandala_Tyler_Brandt extends Mandala
     }
     
     
-    Game.graphSand.setColor(xColor[updateCount]);
+    Data.graphSand.setColor(xColor[updateCount]);
     int r = (rand.nextInt(15) + 10); // random size
     int a = (rand.nextInt(100)+10); // random location around orbit
     
-    Game.graphSand.fillOval(targetX-((r/2) + a), targetY+((r/2)-a), r, r);
-    Game.graphSand.fillOval(targetX-((r/2) + a), targetY-((r/2)-a), r, r);
-    Game.graphSand.fillOval(targetX+((r/2) + a), targetY+((r/2)-a), r, r);
-    Game.graphSand.fillOval(targetX+((r/2) + a), targetY-((r/2)-a), r, r);
+    Data.graphSand.fillOval(targetX-((r/2) + a), targetY+((r/2)-a), r, r);
+    Data.graphSand.fillOval(targetX-((r/2) + a), targetY-((r/2)-a), r, r);
+    Data.graphSand.fillOval(targetX+((r/2) + a), targetY+((r/2)-a), r, r);
+    Data.graphSand.fillOval(targetX+((r/2) + a), targetY-((r/2)-a), r, r);
     updateCount++;
     if (updateCount >=updateNeeded) done=true;
     

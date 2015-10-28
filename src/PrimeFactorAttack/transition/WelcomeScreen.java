@@ -3,11 +3,9 @@ package PrimeFactorAttack.transition;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.util.Random;
-import javax.swing.JPanel;
 
-import PrimeFactorAttack.main.FullPanel;
+import PrimeFactorAttack.FullPanel;
 
 /**
  * @version 2011.1109

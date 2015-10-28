@@ -2,9 +2,9 @@ package PrimeFactorAttack.mandala;
 
 import java.awt.Color;
 
-import PrimeFactorAttack.Game;
-import PrimeFactorAttack.main.Block;
-import PrimeFactorAttack.main.Grid;
+import PrimeFactorAttack.Data;
+import PrimeFactorAttack.Block;
+import PrimeFactorAttack.Grid;
 
 public class Mandala_Ezra_Stallings extends Mandala
 {
@@ -31,8 +31,8 @@ public class Mandala_Ezra_Stallings extends Mandala
     
     block = curBlock;
     factor = block.getHitFactor();
-    canvasWidth = Game.image.getWidth();
-    canvasHeight = Game.image.getHeight();
+    canvasWidth = Data.image.getWidth();
+    canvasHeight = Data.image.getHeight();
 
     updateCount = 0;
 
@@ -61,13 +61,13 @@ public class Mandala_Ezra_Stallings extends Mandala
       }
     }
 
-    Game.graphTmp.setColor(Color.RED);// draw in red
+    Data.graphTmp.setColor(Color.RED);// draw in red
 
     for (int i = 0; i < factor; i++) // go through the entire list each frame
     {
 
       // draw each block
-      Game.graphTmp.fillRect((int) blocks[i][0], (int) blocks[i][1],
+      Data.graphTmp.fillRect((int) blocks[i][0], (int) blocks[i][1],
           (int) (updateCount / 2.0), (int) (updateCount / 2.0));
 
       blocks[i][0] += mods[i][0];
@@ -89,8 +89,8 @@ public class Mandala_Ezra_Stallings extends Mandala
       // NOTE i think it looks better without this, but it was in the
       // requirements
       {
-        Game.graphSand.setColor(Color.BLACK);
-        Game.graphSand.fillRect((int) blocks[i][0], (int) blocks[i][1], 25, 25);
+        Data.graphSand.setColor(Color.BLACK);
+        Data.graphSand.fillRect((int) blocks[i][0], (int) blocks[i][1], 25, 25);
       }
     }
 

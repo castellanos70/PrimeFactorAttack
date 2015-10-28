@@ -6,9 +6,9 @@ package PrimeFactorAttack.mandala;
  */
 import java.util.Random;
 
-import PrimeFactorAttack.Game;
-import PrimeFactorAttack.main.Block;
-import PrimeFactorAttack.main.Grid;
+import PrimeFactorAttack.Data;
+import PrimeFactorAttack.Block;
+import PrimeFactorAttack.Grid;
 
 public class Mandala_Steven_Kelley extends Mandala
 {
@@ -41,14 +41,14 @@ public class Mandala_Steven_Kelley extends Mandala
     
     block = curBlock;
     factor = block.getHitFactor();
-    canvasWidth = Game.image.getWidth();
-    canvasHeight = Game.image.getHeight();
+    canvasWidth = Data.image.getWidth();
+    canvasHeight = Data.image.getHeight();
 
     updateCount = 0;
 
     done = false;
 
-    factorIdx = Game.getIndexOfPrime(factor);
+    factorIdx = Data.getIndexOfPrime(factor);
 
     updateNeeded = 1;
 
@@ -90,8 +90,8 @@ public class Mandala_Steven_Kelley extends Mandala
   private static boolean plotPoint(int x, int y, int rgb)
   {
     if (x < 0 || y < 0 || x >= canvasWidth || y >= canvasHeight) return false;
-    Game.imageSand.setRGB(x, y, rgb);
-    Game.imageTmp.setRGB(x, y, rgb);
+    Data.imageSand.setRGB(x, y, rgb);
+    Data.imageTmp.setRGB(x, y, rgb);
     return true;
 
   }

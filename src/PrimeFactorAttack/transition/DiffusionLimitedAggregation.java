@@ -9,7 +9,7 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-import PrimeFactorAttack.Game;
+import PrimeFactorAttack.Data;
 
 
 public class DiffusionLimitedAggregation
@@ -48,12 +48,12 @@ public class DiffusionLimitedAggregation
   { 
     
     System.out.println("IntroScreen.setUp()");
-    canvasWidth = Game.image.getWidth();
-    canvasHeight = Game.image.getHeight();
+    canvasWidth = Data.image.getWidth();
+    canvasHeight = Data.image.getHeight();
     
-    String str = "resources/sandstoneTexture.png";
+    String str = "sandstoneTexture.png";
     
-    Image texture = new ImageIcon(Game.resource.getResource(str)).getImage();
+    Image texture = new ImageIcon(Data.resourcePath + str).getImage();
     sandStoneTexture = new BufferedImage(canvasWidth,canvasHeight, BufferedImage.TYPE_INT_RGB);
     Graphics2D g = sandStoneTexture.createGraphics();
     g.drawImage(texture,0,0,null);
@@ -76,32 +76,32 @@ public class DiffusionLimitedAggregation
     levelIdx++;
     
     
-    Game.graph.setPaint(Color.WHITE);
-    Game.graph.fillRect(0, 0, canvasWidth, canvasHeight);
+    Data.graph.setPaint(Color.WHITE);
+    Data.graph.fillRect(0, 0, canvasWidth, canvasHeight);
     
-    Game.graphSand.drawImage(Game.image, 0, 0, null);
+    Data.graphSand.drawImage(Data.image, 0, 0, null);
     
     //String[] msg = levelMsg.get(levelIdx);
     
-    Game.graphSand.setFont(supperLargeFont);
-    Game.graphSand.setColor(Color.BLACK);
-    Game.graphSand.drawString(STR1, 100,220);
+    Data.graphSand.setFont(supperLargeFont);
+    Data.graphSand.setColor(Color.BLACK);
+    Data.graphSand.drawString(STR1, 100,220);
     
-    Game.graphSand.setFont(largeFont);
+    Data.graphSand.setFont(largeFont);
     
     
-    Game.graphSand.drawString(STR2, 120,290);
-    Game.graphSand.drawString(STR3, 120,330);
+    Data.graphSand.drawString(STR2, 120,290);
+    Data.graphSand.drawString(STR3, 120,330);
     
     
     for (int xx=0; xx<canvasWidth; xx++)
     { 
       for (int yy=0; yy<canvasHeight; yy++)
       { 
-        int rgb = Game.imageSand.getRGB(xx,yy);
+        int rgb = Data.imageSand.getRGB(xx,yy);
         if (rgb != WHITE)
         { rgb = sandStoneTexture.getRGB(xx,yy);
-        Game.imageSand.setRGB(xx,yy, rgb);
+        Data.imageSand.setRGB(xx,yy, rgb);
         }
       }
     }
@@ -109,13 +109,13 @@ public class DiffusionLimitedAggregation
     
     
     
-    Game.graphTmp.drawImage(Game.imageSand, 0, 0, null);
+    Data.graphTmp.drawImage(Data.imageSand, 0, 0, null);
     
     for (int i=0; i<PARTICLE_COUNT; i++)
     { x[i] = rand.nextInt(canvasWidth);
       y[i] = rand.nextInt(canvasHeight);
       int rgb = sandStoneTexture.getRGB(x[i],y[i]);
-      Game.imageTmp.setRGB(x[i], y[i], rgb);
+      Data.imageTmp.setRGB(x[i], y[i], rgb);
     }
     
   }
@@ -126,7 +126,7 @@ public class DiffusionLimitedAggregation
   { 
     //System.out.println("IntroScreen.update()");
     
-    Game.graphTmp.drawImage(Game.imageSand, 0, 0, null);
+    Data.graphTmp.drawImage(Data.imageSand, 0, 0, null);
     
     for (int i=0; i<PARTICLE_COUNT; i++)
     { int d=rand.nextInt(4);
@@ -163,7 +163,7 @@ public class DiffusionLimitedAggregation
   private boolean plotPoint(int x, int y, int rgb)
   { 
     if (x<0 || y<0 || x>=canvasWidth || y >=canvasHeight) return false;
-    Game.imageTmp.setRGB(x, y, rgb);
+    Data.imageTmp.setRGB(x, y, rgb);
     return true;
     
     
@@ -174,12 +174,12 @@ public class DiffusionLimitedAggregation
     if (x<=0 || x >=canvasWidth-1) return false;
     if (y<=0 || y >=canvasHeight-1) return false;
     
-    int rgb = Game.imageSand.getRGB(x+dx, y+dy);
+    int rgb = Data.imageSand.getRGB(x+dx, y+dy);
     if (rgb != background_rgb)
     { 
       rgb=sandStoneTexture.getRGB(x, y);
-      Game.imageSand.setRGB(x, y, rgb);
-      Game.imageTmp.setRGB(x, y, rgb);
+      Data.imageSand.setRGB(x, y, rgb);
+      Data.imageTmp.setRGB(x, y, rgb);
       return true;
     }
     return false;

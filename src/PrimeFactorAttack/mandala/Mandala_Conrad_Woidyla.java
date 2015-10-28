@@ -3,10 +3,10 @@ package PrimeFactorAttack.mandala;
 import java.awt.Color;
 import java.util.Random;
 
-import PrimeFactorAttack.Game;
-import PrimeFactorAttack.Utility;
-import PrimeFactorAttack.main.Block;
-import PrimeFactorAttack.main.Grid;
+import PrimeFactorAttack.Data;
+import PrimeFactorAttack.utility.Utility;
+import PrimeFactorAttack.Block;
+import PrimeFactorAttack.Grid;
 
 
 /*******************************************************************************
@@ -42,8 +42,8 @@ public class Mandala_Conrad_Woidyla extends Mandala
     // methods in this class.
     block = curblock;
     factor = block.getHitFactor();
-    canvasWidth = Game.image.getWidth();
-    canvasHeight = Game.image.getHeight();
+    canvasWidth = Data.image.getWidth();
+    canvasHeight = Data.image.getHeight();
 
     updateCount = 0;
 
@@ -176,8 +176,8 @@ public class Mandala_Conrad_Woidyla extends Mandala
   private static void plotPoint(int x, int y, Color pointColor)
   {
     if (x < 0 || y < 0 || x >= canvasWidth || y >= canvasHeight) return;
-    Game.imageSand.setRGB(x, y, pointColor.getRGB());
-    Game.imageTmp.setRGB(x, y, pointColor.getRGB());
+    Data.imageSand.setRGB(x, y, pointColor.getRGB());
+    Data.imageTmp.setRGB(x, y, pointColor.getRGB());
   }
 
 }

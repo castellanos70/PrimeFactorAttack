@@ -2,10 +2,10 @@ package PrimeFactorAttack.mandala;
 
 import java.util.Random;
 
-import PrimeFactorAttack.Game;
-import PrimeFactorAttack.Utility;
-import PrimeFactorAttack.main.Block;
-import PrimeFactorAttack.main.Grid;
+import PrimeFactorAttack.Data;
+import PrimeFactorAttack.utility.Utility;
+import PrimeFactorAttack.Block;
+import PrimeFactorAttack.Grid;
 
 /*******************************************************
  * @version 2011.0429
@@ -27,11 +27,11 @@ public class Mandala_Nick_Lauve extends Mandala
   private static boolean done;
 
   // Values of location (angle and radius) and velocity of each comet.
-  private static double[] angle = new double[Game.MAX_FACTOR];
-  private static double[] radius = new double[Game.MAX_FACTOR];
-  private static double[] angularSpeed = new double[Game.MAX_FACTOR];
-  private static double[] radialSpeed = new double[Game.MAX_FACTOR];
-  private static int[] orbitColor = new int[Game.MAX_FACTOR];
+  private static double[] angle = new double[Data.MAX_FACTOR];
+  private static double[] radius = new double[Data.MAX_FACTOR];
+  private static double[] angularSpeed = new double[Data.MAX_FACTOR];
+  private static double[] radialSpeed = new double[Data.MAX_FACTOR];
+  private static int[] orbitColor = new int[Data.MAX_FACTOR];
 
   // sprayCount is the number of sand particles plotted with each step of each
   // comet
@@ -52,8 +52,8 @@ public class Mandala_Nick_Lauve extends Mandala
     
     block = curblock;
     factor = block.getHitFactor();
-    canvasWidth = Game.image.getWidth();
-    canvasHeight = Game.image.getHeight();
+    canvasWidth = Data.image.getWidth();
+    canvasHeight = Data.image.getHeight();
     // System.out.println("Mandala_Nick_Lauve("+factor+", "+block+")");
     for (int i = 0; i < factor; i++)
     {
@@ -158,8 +158,8 @@ public class Mandala_Nick_Lauve extends Mandala
   private static boolean plotPoint(int x, int y, int rgb)
   {
     if (x < 0 || y < 0 || x >= canvasWidth || y >= canvasHeight) return false;
-    Game.imageSand.setRGB(x, y, rgb);
-    Game.imageTmp.setRGB(x, y, rgb);
+    Data.imageSand.setRGB(x, y, rgb);
+    Data.imageTmp.setRGB(x, y, rgb);
     return true;
 
   }

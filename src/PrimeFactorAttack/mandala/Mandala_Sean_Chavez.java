@@ -8,10 +8,10 @@ package PrimeFactorAttack.mandala;
  ****************************************************************************/
 import java.util.Random;
 
-import PrimeFactorAttack.Game;
-import PrimeFactorAttack.Utility;
-import PrimeFactorAttack.main.Block;
-import PrimeFactorAttack.main.Grid;
+import PrimeFactorAttack.Data;
+import PrimeFactorAttack.utility.Utility;
+import PrimeFactorAttack.Block;
+import PrimeFactorAttack.Grid;
 
 public class Mandala_Sean_Chavez extends Mandala
 {
@@ -27,7 +27,7 @@ public class Mandala_Sean_Chavez extends Mandala
   private static boolean done;
   private Block block;
 
-  private static int[] orbitColor = new int[Game.MAX_FACTOR];
+  private static int[] orbitColor = new int[Data.MAX_FACTOR];
 
   // Target is the center of the block. It is only used when "hit" is true.
   private int targetX, targetY;
@@ -41,8 +41,8 @@ public class Mandala_Sean_Chavez extends Mandala
    
     block = curBlock;
     factor = block.getHitFactor();
-    canvasWidth = Game.image.getWidth();
-    canvasHeight = Game.image.getHeight();
+    canvasWidth = Data.image.getWidth();
+    canvasHeight = Data.image.getHeight();
 
     for (int i = 0; i < factor; i++)
     {
@@ -106,8 +106,8 @@ public class Mandala_Sean_Chavez extends Mandala
   private static boolean plotPoint(int x, int y, int rgb)
   {
     if (x < 0 || y < 0 || x >= canvasWidth || y >= canvasHeight) return false;
-    Game.imageSand.setRGB(x, y, rgb);
-    Game.imageTmp.setRGB(x, y, rgb);
+    Data.imageSand.setRGB(x, y, rgb);
+    Data.imageTmp.setRGB(x, y, rgb);
     return true;
 
   }
