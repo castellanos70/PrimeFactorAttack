@@ -33,6 +33,9 @@ public class Block
   public static final double SPEED_FAST = 3.0;  //pixels per frame
   public static final double SPEED_DROP = 24.0;  //pixels per frame
   public static final double SPEED_MIN = 0.25;//pixels per frame
+  public static final double SPEED_UPBUMP = -6.0;  //pixels per frame
+  public static final double UPBUMP_DELTA_SPEED = 0.25;  //pixels per frame per frame
+  private double currentBaseSpeed = SPEED_NORMAL;
 
   
   private int origNum;
@@ -137,6 +140,10 @@ public class Block
     //System.out.println("Block.removeFactor() num="+num + ", col="+colLeft);
 
     if (status != STATUS.HIT) return;
+
+    speed = SPEED_UPBUMP;
+    currentBaseSpeed = SPEED_NORMAL;
+
     num = num/hitFactor;
     
     if (mode == MODE.REMOVE_HITS)
@@ -239,7 +246,8 @@ public class Block
   {
     if (status == STATUS.ONGROUND) return (int)top;
     if (status == STATUS.ZAPPED) return -1;
-    
+
+    if (speed < currentBaseSpeed) speed += UPBUMP_DELTA_SPEED;
     //System.out.println("Block.move(): speed="+speed);
     top += speed;
     
@@ -322,8 +330,8 @@ public class Block
   { if (kill) status = STATUS.FATALLY_HIT;
     else status = STATUS.HIT;
     
-    if (speed >= SPEED_NORMAL) setSpeed(SPEED_SLOW);
-    else setSpeed(SPEED_VERYSLOW);
+    //if (speed >= SPEED_NORMAL) setSpeed(SPEED_SLOW);
+    //else setSpeed(SPEED_VERYSLOW);
     hitFactor = factor;
   }
   

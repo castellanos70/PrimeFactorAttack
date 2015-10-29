@@ -2,3 +2,6 @@
 BackupAndBonusLevels
 out
 *.iml
+.classpath
+.project
+*~

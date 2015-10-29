@@ -172,7 +172,7 @@ public class SandStorm
     
   }
     
-  public static void update()
+  public static boolean update()
   {
     
     if (stormHit) drawHit(); 
@@ -182,6 +182,7 @@ public class SandStorm
     if (updateIdx >= UPDATES_PER_SANDSTORM) abort();
 
     //System.out.println("SandStorm.update(): time="+updateIdx);
+    return stormInProgress;
   }
   
   public static void abort()

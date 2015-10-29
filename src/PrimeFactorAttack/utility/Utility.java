@@ -210,7 +210,7 @@ public class Utility
       { 
         str += divisor;
         n = n / divisor;
-        if (n>1) str+=" ";
+        if (n>1) str+="   ";
       }
       else divisor++;
     }

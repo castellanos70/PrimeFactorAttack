@@ -20,7 +20,7 @@ TODO (add more items or place your name on things you want to do):<br>
    gets really old having 4th grade students I have demoed this to tell me that my
    students need to come and go to study with this or that grade school teacher would
    could teach these things really well. A prime number is a natural
-   number ***greater than 1**** that has no positive divisors other than 1 and itself!
+   number ***greater than 1*** that has no positive divisors other than 1 and itself!
 
 
 7) Theme shift: Many of the explosions are both nice looking and mathematical. I think
@@ -34,3 +34,8 @@ TODO (add more items or place your name on things you want to do):<br>
     One level could have 5 or 6 different but related backgrounds so in one game,
     one background is shown
     and in a different game at the same level a different background is shown.
+
+8) Different sound effects or each level. Not sound effects that you find on the web,
+   but sounds that you create and record yourself.
+
+

@@ -749,10 +749,9 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     if (block == null) return;
     
     canvas.copySandLayerToTempLayer();
-    
-    
+
     if (SandStorm.isStormInProgress())
-    { SandStorm.update();
+    { boolean stillTargeting = SandStorm.update();
     }
     else 
     { if (block.isFatallyHit()) 
