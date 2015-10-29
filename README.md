@@ -19,7 +19,9 @@ TODO (add more items or place your name on things you want to do):<br>
    students to call it a prime. Well, 1 is neither a composite number nor a prime. It
    gets really old having 4th grade students I have demoed this to tell me that my
    students need to come and go to study with this or that grade school teacher would
-   could teach these things really well.
+   could teach these things really well. A prime number is a natural
+   number ***greater than 1**** that has no positive divisors other than 1 and itself!
+
 
 7) Theme shift: Many of the explosions are both nice looking and mathematical. I think
    it would be nice to add "famous mathematicians" theme that ties all the levels together.
