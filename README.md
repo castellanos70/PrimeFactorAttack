@@ -14,10 +14,12 @@ TODO (add more items or place your name on things you want to do):<br>
 5) Different button styles at different levels.
 
 6) 1 IS NOT A PRIME!!! A number of the bonus levels ask the player to do something with
-   primes and something different with composite numbers. Then present 1 and expect
+   primes and something different with composite numbers. These dumb levels then
+    show the number 1 and expect
    students to call it a prime. Well, 1 is neither a composite number nor a prime. It
    gets really old having 4th grade students I have demoed this to tell me that my
-   students did not pay attention when in grade school.
+   students need to come and go to study with this or that grade school teacher would
+   could teach these things really well.
 
 7) Theme shift: Many of the explosions are both nice looking and mathematical. I think
    it would be nice to add "famous mathematicians" theme that ties all the levels together.
