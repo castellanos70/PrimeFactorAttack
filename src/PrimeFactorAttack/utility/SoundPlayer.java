@@ -27,7 +27,7 @@ public class SoundPlayer
 
     // load the sound into memory (a Clip)
     DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
-    Clip clip = (Clip) AudioSystem.getLine(info);
+    clip = (Clip) AudioSystem.getLine(info);
     clip.open(sound);
   }
 
@@ -35,6 +35,7 @@ public class SoundPlayer
   //Plays in a new thread
   public void play()
   { //System.out.println("soundEffect="+soundEffect.toString());
+    clip.setFramePosition(0);
     clip.start(); // Play only once
 
   }

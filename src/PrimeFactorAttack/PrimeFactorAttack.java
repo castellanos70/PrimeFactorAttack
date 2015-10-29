@@ -29,7 +29,12 @@ import PrimeFactorAttack.transition.DiffusionLimitedAggregation;
 import PrimeFactorAttack.transition.LevelUpScreen;
 import PrimeFactorAttack.utility.SandTraveler;
 import PrimeFactorAttack.transition.WelcomeScreen;
-import PrimeFactorAttack.utility.Utility;
+import PrimeFactorAttack.bonuslevel.BonusLevel;
+import PrimeFactorAttack.utility.SoundPlayer;
+import PrimeFactorAttack.bonuslevel.BonusLevel_Daniel_Gomez;
+import PrimeFactorAttack.bonuslevel.BonusLevel_Jeffrey_Nichol;
+import PrimeFactorAttack.bonuslevel.BonusLevel_Marcos_Lemus;
+import PrimeFactorAttack.bonuslevel.BonusLevel_Colin_Monroe;
 
 
 public class PrimeFactorAttack extends JFrame implements ActionListener
@@ -42,11 +47,12 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   public static final int MAX_FACTORS = 10;
   public static final Color WIGET_BACKGROUND = new Color(238,238,238);
 
+  private Container contentPane;
   private GameCanvas canvas; 
   private Grid grid;
   private ControlPanel control;
   private Block block;
-  private ArrayList<Block> deadBlocks = new ArrayList<Block>();
+  private ArrayList<Block> deadBlocks = new ArrayList<>();
   
   
   private Timer myTimer;
@@ -79,11 +85,12 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   
   private SandTraveler pauseScreen; 
   
-  private Utility.SoundPlayer soundKill, soundHit, soundMiss, soundGround;
+  private SoundPlayer soundKill, soundHit, soundMiss, soundGround;
  
   private FullPanel fullPanel;
   private WelcomeScreen welcomeScreen;
   private LevelUpScreen levelUp;
+  private BonusLevel bonusLevel;
   
   private DiffusionLimitedAggregation diffusionLimitedAggregation;
   
@@ -95,7 +102,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     System.out.println("PrimeFactorAttack()");
 
     this.setBounds(0, 0, INSIDE_WIDTH, INSIDE_HEIGHT);
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     this.setVisible(true);
     Insets edges = this.getInsets();
     int outsideWidth = INSIDE_WIDTH + edges.left + edges.right;
@@ -104,7 +111,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     this.setBounds(0, 0, outsideWidth, outsideHeight);
 
 
-    Container contentPane = this.getContentPane();
+    contentPane = this.getContentPane();
     contentPane.setLayout(null);
     contentPane.setBackground(WIGET_BACKGROUND);
     
@@ -152,10 +159,10 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 
     
     try
-    { soundKill = new Utility.SoundPlayer(Data.resourcePath + "sounds/fireworks.wav");
-      soundHit = new Utility.SoundPlayer(Data.resourcePath + "sounds/laser.wav");
-      soundMiss = new Utility.SoundPlayer(Data.resourcePath + "sounds/wind.wav");
-      soundGround  = new Utility.SoundPlayer(Data.resourcePath + "sounds/rockHitCement.wav");
+    { soundKill = new SoundPlayer(Data.resourcePath + "sounds/fireworks.wav");
+      soundHit = new SoundPlayer(Data.resourcePath + "sounds/laser.wav");
+      soundMiss = new SoundPlayer(Data.resourcePath + "sounds/wind.wav");
+      soundGround  = new SoundPlayer(Data.resourcePath + "sounds/rockHitCement.wav");
     }
     
     
@@ -172,8 +179,6 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     diffusionLimitedAggregation.setup();
     
     setStatus(Data.Status.WELCOME);
-
-    //setStatus(Game.Status.READY_TO_START);
 
   }
   
@@ -211,9 +216,6 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
         deadBlocks.clear();
         grid.clear();
       }
-      else if ((gameStatus == Data.Status.TIMESTOP))
-      { 
-      }
     }  
     
     else if (newStatus == Data.Status.LEVELUP)
@@ -224,6 +226,24 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       
       BufferedImage buf = fullPanel.getOffscreenBuffer();
       levelUp = LevelUpScreen.create(skillLevel, buf);
+    }
+
+
+    else if (newStatus == Data.Status.BONUS_LEVEL)
+    {
+
+      int r = rand.nextInt(4);
+      if (r==0) bonusLevel = new BonusLevel_Colin_Monroe();
+      else if (r==1) bonusLevel = new BonusLevel_Daniel_Gomez();
+      else if (r==3) bonusLevel = new BonusLevel_Jeffrey_Nichol();
+      else bonusLevel = new BonusLevel_Marcos_Lemus();
+
+      fullPanel.setVisible(false);
+      control.setVisible(false);
+      canvas.setVisible(false);
+      contentPane.add(bonusLevel);
+      bonusLevel.setLocation(0,0);
+      bonusLevel.init();
     }
     
     else if (newStatus == Data.Status.ENDED)
@@ -825,12 +845,23 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       canvas.updateDisplay(); 
     }
     else if (gameStatus == Data.Status.LEVELUP)
-    { 
+    {
       //System.out.println("......gameStatus == Game.Status.LEVELUP");
-      boolean done = levelUp.update();
-      if (done) this.setStatus(Data.Status.RUNNING);
+      boolean stillRunning = levelUp.update();
+      if (!stillRunning)
+      {
+        this.setStatus(Data.Status.BONUS_LEVEL);
+      }
+      else fullPanel.repaint();
+    }
+    else if (gameStatus == Data.Status.BONUS_LEVEL)
+    {
+      //System.out.println("......gameStatus == Game.Status.LEVELUP");
+      boolean stillRunning = bonusLevel.nextFrame();
+      if (!stillRunning) this.setStatus(Data.Status.RUNNING);
       fullPanel.repaint();
     }
+
     else if (gameStatus == Data.Status.TIMESTOP)
     { pauseScreen.update();
       canvas.updateDisplay(); 

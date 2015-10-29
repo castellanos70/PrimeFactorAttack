@@ -19,7 +19,7 @@ public abstract class LevelUpScreen
   
   public static LevelUpScreen create(int level, BufferedImage buf)
   { 
-    LevelUpScreen levelUp = null;
+    LevelUpScreen levelUp;
     if (level == 5)
     {
       levelUp = new LevelUpScreen_Luke_Stankus(buf, 
@@ -55,11 +55,11 @@ public abstract class LevelUpScreen
     
   }
   
-  //Returns false when the level is not done.
+  //Returns false when the level is done.
   //Otherwise returns true.
   public boolean update()
   { 
-    return true;
+    return false;
   }
   
   

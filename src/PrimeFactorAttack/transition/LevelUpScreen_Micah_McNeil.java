@@ -125,15 +125,15 @@ public boolean update()
 	// ends the game
 	if (frameCounter >= 450)
 	{
-		return true;
+		return false;
 	}
-	return false;
+	return true;
 }
 
 //handles first text fade in/out and scaling and offset
 private void DrawCongratulationsText()
 {
-  	if (wordFader <= 250 && fadeSwitch == true)
+  	if (wordFader <= 250 && fadeSwitch)
   	{
   		wordFader+=5;
   		
@@ -153,7 +153,7 @@ private void DrawCongratulationsText()
 		canvas.fillRect(0, 0, offscreenBuffer.getWidth(), 
 				offscreenBuffer.getWidth());
   	}
-  	if (wordFader >= 3 && fadeSwitch == false)
+  	if (wordFader >= 3 && !fadeSwitch)
   	{
 	  wordFader -= 3;
 	  // switch off to next text
@@ -186,7 +186,7 @@ private void DrawCongratulationsText()
 //handles first text fade in/out and scaling and offset
 private void DrawUnlockedText()
 {
-  	if (wordFader <= 250 && fadeSwitch == true)
+  	if (wordFader <= 250 && fadeSwitch)
   	{
   		wordFader+=5;
   		

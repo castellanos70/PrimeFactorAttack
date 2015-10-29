@@ -20,11 +20,12 @@ public class Data
   
   public static final int FRAME_RATE = 30; //millisec
   
-  public static enum Status 
+  public enum Status
   { WELCOME,
     READY_TO_START,
     RUNNING, 
     LEVELUP,
+    BONUS_LEVEL,
     TIMESTOP,
     ENDED,
   }

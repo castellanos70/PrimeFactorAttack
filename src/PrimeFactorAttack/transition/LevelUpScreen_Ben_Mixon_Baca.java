@@ -86,7 +86,8 @@ public class LevelUpScreen_Ben_Mixon_Baca extends LevelUpScreen
   /********************************************************
    * private GeneralPath makeTriangles(int x, int counter)
    * 
-   * @param int x, int counter:
+   * @param x
+   * @param counter:
    *
    * This method contains a bunch of control statements
    * that use some of the other class variables such as
@@ -199,7 +200,8 @@ public class LevelUpScreen_Ben_Mixon_Baca extends LevelUpScreen
   /********************************************************
    * private GeneralPath fillTriangles(int x, int counter)
    * 
-   * @param int x, int counter:
+   * @param x
+   * @param counter
    * 
    * This method contains a bunch of control statements
    * that use some of the other class variables such as
@@ -313,7 +315,8 @@ public class LevelUpScreen_Ben_Mixon_Baca extends LevelUpScreen
   /*******************************************************
    * private void drawBall(int ballwidth, int ballheight)
    *
-   * @param int ballWidth, int ballheight: 
+   * @param ballwidth
+   * @param ballheight
    *        this two arguments are actually passed
    *        the same number when called in the method
    *        update. It was just more convientent to 
@@ -376,8 +379,7 @@ public class LevelUpScreen_Ben_Mixon_Baca extends LevelUpScreen
 
   /***************************************************
    * private Color myGlassColors()
-   * 
-   * @param
+   *
    * 
    * @return Color: returns a Color object unique
    *                to each fragment of glass
@@ -469,15 +471,13 @@ public class LevelUpScreen_Ben_Mixon_Baca extends LevelUpScreen
 
   /*************************************************************
    * private void drawFallingString()
-   * 
-   * @param null.
+   *
    * 
    * This method seperates the unlockString into its individual
    * characters using method substring(int, i1, int i2)
    * so they can be drawn and given individual downward
    * velocities.
-   * 
-   * @return void.
+   *
    ************************************************************/
   private void drawFallingString()
   {
@@ -588,12 +588,12 @@ public class LevelUpScreen_Ben_Mixon_Baca extends LevelUpScreen
           canvas.fill(fillTriangles[x]);
         }
       }
-      return false;//returns false to update if the frame count is less than 450.
+      return true;//returns true if the frame count is less than 450.
     }
 
     else
     {
-      return true; //returns true to LevelUpFrame if the frame count exceeds 450.
+      return false; //returns false if the frame count exceeds 450.
     }
   }
 }

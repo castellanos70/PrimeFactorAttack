@@ -41,7 +41,7 @@ public class LevelUpScreen_Jeff_Richards extends LevelUpScreen
   public LevelUpScreen_Jeff_Richards(BufferedImage offscreenBuffer,
       String str2, String str3)
   {
-    if (!offscreenBuffer.equals(null)) offscreenBuffer.flush();
+    if (offscreenBuffer!=null) offscreenBuffer.flush();
     int width = offscreenBuffer.getWidth();
     int height = offscreenBuffer.getHeight();
     this.offscreenBuffer = offscreenBuffer;
@@ -98,7 +98,7 @@ public class LevelUpScreen_Jeff_Richards extends LevelUpScreen
     //Sets up and executes the equations for the fractal
   
     x = 1.5 * (x - w / 2) / (0.5 * w);
-    y = (y - h / 2) / (0.5 * h);;
+    y = (y - h / 2) / (0.5 * h);
   
     double cI = .75;
     double xOld = x;
@@ -173,9 +173,9 @@ public class LevelUpScreen_Jeff_Richards extends LevelUpScreen
     
     if (counter >= 60) drawLevel();
     
-    if (counter <= 450) return false;
+    if (counter <= 450) return true;
     
-    else return true;
+    return false;
   
   }
   

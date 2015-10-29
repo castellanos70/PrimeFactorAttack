@@ -12,6 +12,8 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import PrimeFactorAttack.Data;
+import javax.swing.ImageIcon;
 
 //Utility is collection of static helper methods.
 
@@ -45,9 +47,15 @@ public class Utility
   //
   //Returns a buffered image containing the loaded image.
   ////////////////////////////////////////////////////////////////////////
-  public static BufferedImage loadImage(String imagePath, Component wigit)
+
+  public static BufferedImage loadBufferedImage(String imagePath, Component wigit)
   {
-    if (imagePath == null) return null;
+
+    //ImageIcon icon = new ImageIcon(Data.resourcePath + imagePath);
+    //int w = icon.getIconWidth();
+    //int h = icon.getIconHeight();
+    //BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
     
     // Create a MediaTracker instance, to montior loading of images
     MediaTracker tracker = new MediaTracker(wigit);
@@ -61,7 +69,7 @@ public class Utility
 
     // Load the image
     Toolkit tk = Toolkit.getDefaultToolkit();
-    Image loadedImage = tk.getImage(imagePath);
+    Image loadedImage = tk.getImage(Data.resourcePath + imagePath);
 
     // Register it with media tracker
     tracker.addImage(loadedImage, 1);
@@ -75,10 +83,9 @@ public class Utility
     BufferedImage imageBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     Graphics g = imageBuffer.getGraphics();
     g.drawImage(loadedImage, 0, 0, null);
-    
-    return imageBuffer; 
+    return imageBuffer;
   }
-  
+
   
   ////////////////////////////////////////////////////////////////////////
   //  Returns true iff n is prime
@@ -96,16 +103,7 @@ public class Utility
   }
   
   
-  ////////////////////////////////////////////////////////////////////////
-  // returns a random prime less than or equal to n
-  ////////////////////////////////////////////////////////////////////////
-  public static int getRandomPrime(int n)
-  {
-    for (int i=0; i<PRIME.length; i++)
-    {
-    }
-    return 0;
-  }
+
   
   
   ////////////////////////////////////////////////////////////////////////
@@ -170,7 +168,7 @@ public class Utility
   ////////////////////////////////////////////////////////////////////////
   public static long[] getPrimeFactorsWithLargePrimes(long n)
   { 
-    ArrayList<Long> factorList = new ArrayList<Long>();
+    ArrayList<Long> factorList = new ArrayList<>();
     long max = (long)Math.sqrt(n);
     System.out.println("n="+n);
     System.out.println("max="+max);
@@ -191,7 +189,7 @@ public class Utility
     
     long[] list = new long[factorList.size()];
     for (int i=0; i<factorList.size(); i++)
-    { list[i] = factorList.get(i).longValue();
+    { list[i] = factorList.get(i);
     }
     return list;
   }
@@ -219,7 +217,6 @@ public class Utility
     return str;
   }
   
-  
 
   
   public static int polarToX(double r, double theta, int originX)
@@ -233,35 +230,6 @@ public class Utility
   { 
     double y = r*Math.sin(theta);
     return (originY)-(int)y;
-
-  }
-
-
-  public static class SoundPlayer
-  {
-    private Clip clip;
-
-    public SoundPlayer(String wavfile) throws Exception
-    {
-      File soundFile = new File(wavfile);
-      AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
-
-      // load the sound into memory (a Clip)
-      DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
-      clip = (Clip) AudioSystem.getLine(info);
-      clip.open(sound);
-    }
-
-
-    //Plays in a new thread
-    public void play()
-    { clip.start(); // Play only once
-    }
-
-    public void stop()
-    {
-      clip.stop();
-    }
 
   }
 }

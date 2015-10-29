@@ -559,8 +559,8 @@ public class LevelUpScreen_Luke_Stankus extends LevelUpScreen
         }
       }
     }
-    if (frameCount > 500) return true;
-    return false;
+    if (frameCount > 500) return false;
+    return true;
   }
   
   //Class for individual particles.
@@ -696,6 +696,5 @@ public class LevelUpScreen_Luke_Stankus extends LevelUpScreen
     int ix = (int) ((x-minX) * scale);
     return ix+shiftX;
   }
-  
 }
 
