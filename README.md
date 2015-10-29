@@ -9,6 +9,24 @@ TODO (add more items or place your name on things you want to do):<br>
 
 3) Greatly improve transition screens.
 
-4) Greatly improve bounusLevel games.
+4) Greatly improve bonus level games.
 
 5) Different button styles at different levels.
+
+6) 1 IS NOT A PRIME!!! A number of the bonus levels ask the player to do something with
+   primes and something different with composite numbers. Then present 1 and expect
+   students to call it a prime. Well, 1 is neither a composite number nor a prime. It
+   gets really old having 4th grade students I have demoed this to tell me that my
+   students did not pay attention when in grade school.
+
+7) Theme shift: Many of the explosions are both nice looking and mathematical. I think
+   it would be nice to add "famous mathematicians" theme that ties all the levels together.
+    I would like to see a few of the main classic dudes featured
+    (i.e. Euclid, Newton, Pythagoras, Archimedes, Euler, Turing, Hypatia, Ada Lovelace, Florence Nightingale)
+    but with a greater number of modern
+    mathemagicians (https://en.wikipedia.org/wiki/Category:21st-century_mathematicians).
+    For example, the background images could be low contrast bust superimposed on abstract
+    landscapes that include symbols and elements of the depicted mathematician's work.
+    One level could have 5 or 6 different but related backgrounds so in one game,
+    one background is shown
+    and in a different game at the same level a different background is shown.
