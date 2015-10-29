@@ -33,8 +33,8 @@ public class Block
   public static final double SPEED_FAST = 3.0;  //pixels per frame
   public static final double SPEED_DROP = 24.0;  //pixels per frame
   public static final double SPEED_MIN = 0.25;//pixels per frame
-  public static final double SPEED_UPBUMP = -6.0;  //pixels per frame
-  public static final double UPBUMP_DELTA_SPEED = 0.25;  //pixels per frame per frame
+  public static final double SPEED_UPBUMP = -12.0;  //pixels per frame
+  public static final double UPBUMP_DELTA_SPEED = 0.75;  //pixels per frame per frame
   private double currentBaseSpeed = SPEED_NORMAL;
 
   
