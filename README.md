@@ -9,7 +9,7 @@ TODO (add more items or place your name on things you want to do):<br>
 
 3) Greatly improve transition screens.
 
-4) Greatly improve bonus level games.
+4) Greatly improve bonus level games/add new games (Jarek).
 
 5) Different button styles at different levels.
 
