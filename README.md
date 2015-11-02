@@ -9,7 +9,15 @@ TODO (add more items or place your name on things you want to do):<br>
 
 3) Greatly improve transition screens.
 
-4) Greatly improve bonus level games/add new games (Jarek).
+4) Greatly improve bonus level games/add new games.  
+   Jarek:  I plan to add a new bonus level (that extends BonusLevel.java) in which a player must avoid composite 
+   numbers entering the screen at random locations.  The player is given ammunition consisting of the prime numbers im
+   the initial number's prime factorization.  When the player shoots a composite number with a divisible prime number,
+   the prime number will be shown inside of the block drawn for the composite number.  If the player successfully his 
+   the composite number with all of the values in its prime factorization, the ammunition used will be dropped by the 
+   composite number block.  New composite number monsters will be spawn in addition to prime number ammunition.  
+   If the player hits a composite number monster with a prime number that is not divisible, the composite number will
+   increase in size based on a difficulty factor.
 
 5) Different button styles at different levels.
 
