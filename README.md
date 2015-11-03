@@ -18,6 +18,8 @@ TODO (add more items or place your name on things you want to do):<br>
    composite number block.  New composite number monsters will be spawn in addition to prime number ammunition.  
    If the player hits a composite number monster with a prime number that is not divisible, the composite number will
    increase in size based on a difficulty factor.
+   
+   (I plan on creating a new bonus level as well. I'll probably squeeze it in directly after the first level is finished, as to give the kids an opportunity to play it. I'm not sure how far in the game they will get. The bonus level I'm thinking of doing is something similar to the Space Invaders arcade game. -Josh Rhodes)
 
 5) Different button styles at different levels.
 
