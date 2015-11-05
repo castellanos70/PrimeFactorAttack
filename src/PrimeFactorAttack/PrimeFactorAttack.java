@@ -159,10 +159,12 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 
     
     try
-    { soundKill = new SoundPlayer(Data.resourcePath + "sounds/fireworks.wav");
+    {
+      //soundKill = new SoundPlayer(Data.resourcePath + "sounds/fireworks.wav");
       soundHit = new SoundPlayer(Data.resourcePath + "sounds/laser.wav");
       soundMiss = new SoundPlayer(Data.resourcePath + "sounds/wind.wav");
       soundGround  = new SoundPlayer(Data.resourcePath + "sounds/rockHitCement.wav");
+      soundKill = new SoundPlayer(Data.resourcePath + "sounds/sand.wav");
     }
     
     
