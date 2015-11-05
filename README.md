@@ -22,6 +22,7 @@ TODO (add more items or place your name on things you want to do):<br>
    (I plan on creating a new bonus level as well. I'll probably squeeze it in directly after the first level is finished, as to give the kids an opportunity to play it. I'm not sure how far in the game they will get. The bonus level I'm thinking of doing is something similar to the Space Invaders arcade game. -Josh Rhodes)
 
 5) Different button styles at different levels.
+   Josh: I plan to change the look of the buttons after every bonus level. For instance, the first 5 levels will be the black    buttons at the beginning of the game then the buttons will have a different look on levels 6-10, 11-15, etc. until you       reach the end of the game.
 
 6) 1 IS NOT A PRIME!!!  A prime number is a natural
    number ***greater than 1*** that has no positive divisors other than 1 and itself!
