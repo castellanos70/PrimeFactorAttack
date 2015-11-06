@@ -50,4 +50,4 @@ TODO (add more items or place your name on things you want to do):<br>
    level automatically starts, perhaps randomly selected from the bonus levels already implemented. At the
    conclusion of the bonus level, the game resumes as it was before. 
 
-
+10) Evan: I will add a game over screen so that the user does not have to press the end game button when they lose.
