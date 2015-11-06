@@ -25,7 +25,7 @@ TODO (add more items or place your name on things you want to do):<br>
    Josh: I plan to change the look of the buttons after every bonus level. For instance, the first 5 levels will be the black buttons at the beginning of the game then the buttons will have a different look on levels 6-10, 11-15, etc. until you reach the end of the game.
 
 6) 1 IS NOT A PRIME!!!  A prime number is a natural
-   number ***greater than 1*** that has no positive divisors other than 1 and itself!
+   number ***greater than 1*** that has no positive divisors other than 1 and itself! 
 
 7) Theme shift: Many of the explosions are both nice looking and mathematical. I think
    it would be nice to add "famous mathematicians" theme that ties all the levels together.
@@ -43,5 +43,11 @@ TODO (add more items or place your name on things you want to do):<br>
    but sounds that you create and record yourself.
    Jaehee: I already changed that sound when I shoot the number(original sound:fireworks.wav -> changed sound: sand.wav)
    And I plan to make this sound as various versions sounds for each level.
+   Chase: I will add sound effects to when the user gives a bad input, a sort of shrieky sound, and other 
+          sorts with my Viola, trumpet, clarinet etc...
+
+9) Chase: When a user gets 10 in a row correct all of the boxes on the bottom of the screen explode and a bonus
+   level automatically starts, perhaps randomly selected from the bonus levels already implemented. At the
+   conclusion of the bonus level, the game resumes as it was before. 
 
 
