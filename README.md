@@ -20,6 +20,8 @@ TODO (add more items or place your name on things you want to do):<br>
    increase in size based on a difficulty factor.
    
    (I plan on creating a new bonus level as well. I'll probably squeeze it in directly after the first level is finished, as to give the kids an opportunity to play it. I'm not sure how far in the game they will get. The bonus level I'm thinking of doing is something similar to the Space Invaders arcade game. -Josh Rhodes)
+   
+   Sam: Improve fish bonus level: fix transparency issues with image display; add timer end condition rather than score, and display said timer; implement WASD movement in place of mouse
 
 5) Different button styles at different levels.                                                                              
    Josh: I plan to change the look of the buttons after every bonus level. For instance, the first 5 levels will be the black buttons at the beginning of the game then the buttons will have a different look on levels 6-10, 11-15, etc. until you reach the end of the game.
