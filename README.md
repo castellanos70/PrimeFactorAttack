@@ -57,3 +57,5 @@ TODO (add more items or place your name on things you want to do):<br>
 11) Michael: I will change the blocks into some cool sprite graphics and make it dynamic so that future developers can easily     change them for different levels and block sizes.
 
 12) Scott: Improve instructions display at the start of the game so they are easier to read
+
+13) Tim: Add a pause button (esc)
