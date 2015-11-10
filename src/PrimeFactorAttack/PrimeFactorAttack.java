@@ -73,7 +73,9 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   private int skillLevelAtLastMiss;
   private final int KILLCOUNT_PER_LEVEL = 10;
   private int killCountThisLevel;
-  
+  private int killStreak  = 0;
+  private int killGoal = 10;
+
   private boolean lastBlockHitGround;
   
   
@@ -82,6 +84,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   private Random rand;
   
   private Mandala curMandala;
+  private Mandala mandalaForDeadBlocks;
   
   private SandTraveler pauseScreen; 
   
@@ -408,7 +411,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       //Must be called after block.setHit(factor, kill)
       if (kill)   setMandala();
 
-      
+
       
     } 
     else
@@ -445,7 +448,14 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
     createBlock();
   }
-  
+  private void destroyBlock(Block block)
+  {
+    if (Data.showHelp) Data.showHelp = false;
+    curMandala = null;
+    block.setZapped();
+    canvas.drawBlock(block);
+  }
+
   public void cheatLevelUp()
   {
     killCountThisLevel = KILLCOUNT_PER_LEVEL;
@@ -499,7 +509,51 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
      }
   }
   
-  
+  private void setMandala(Block block)
+  {
+
+
+    int[] sandColor = SandStorm.getColors();
+
+    if ( skillLevel < 5)
+    {
+      //Sand Puff
+      mandalaForDeadBlocks = new Mandala_Nick_Lauve(block, sandColor);
+
+     }
+     else if (skillLevel < 10)
+     { //Sand Explosion
+      mandalaForDeadBlocks = new Mandala_Cassandra_Shaffer(block, sandColor);
+     }
+     else if (skillLevel < 15)
+     { //Polar Equation mandalas with factor-fold rotational symmetry
+      mandalaForDeadBlocks = new Mandala_Sean_Chavez(block, sandColor);
+     }
+     else if (skillLevel < 20)
+     { //Paint-Ball
+      mandalaForDeadBlocks = new Mandala_Derek_Long(block, sandColor);
+     }
+     else if (skillLevel < 25)
+     { //Solar Flare
+      mandalaForDeadBlocks = new Mandala_Evan_King(block, sandColor);
+     }
+     else if (skillLevel < 30)
+     { //Blocks in a Wild Ride
+      mandalaForDeadBlocks = new Mandala_Ezra_Stallings(block, sandColor);
+     }
+     else if (skillLevel < 35)
+     { //deadly cross of pokodots
+      mandalaForDeadBlocks = new Mandala_Tyler_Brandt(block, sandColor);
+     }
+     else if (skillLevel < 40)
+     { //whirling dervish
+      mandalaForDeadBlocks = new Mandala_Conrad_Woidyla(block, sandColor);
+     }
+     else
+     { //Crossing Circles
+      mandalaForDeadBlocks = new Mandala_Steven_Kelley(block, sandColor);
+     }
+  }
 
   public int generateCompositeNumber()
   { 
@@ -765,6 +819,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
           if (done) 
           { distroyBlock();
             soundKill.play();
+            killStreak++;
             //System.out.println("soundKill.play()");
           }
         }
@@ -775,7 +830,11 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     
     block.move();
    
-    if (block.isOnGround()) blockHitBottom();
+    if (block.isOnGround())
+    {
+      blockHitBottom();
+      killStreak = 0;
+    }
     
     canvas.drawBlock(block);
   }
@@ -817,7 +876,36 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
    
   }
   
+  private void destroyAllDeadBlocks()
+  {
+    if (killStreak >= killGoal && deadBlocks.size() > 0)
+    {
+      for (Block b : deadBlocks)
+      {
+        setMandala(b);
 
+        int row = b.getRow();
+
+        int colLeft = b.getColumnLeft();
+        int colRight = colLeft + b.getColumnWidth();
+
+        for (int k=colLeft; k<colRight; k++)
+        {
+           grid.setEmpty(k, row);
+        }
+
+        destroyBlock(b);
+
+        mandalaForDeadBlocks = null;
+      }
+      grid.resetHighestRow();
+      deadBlocks.clear();
+      canvas.clearBackground(skillLevel);
+      soundKill.play();
+      killStreak -= killGoal;
+      killGoal++;
+    }
+  }
   
 
   public void actionPerformed(ActionEvent arg0)
@@ -867,8 +955,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     { pauseScreen.update();
       canvas.updateDisplay(); 
     }
-    
-
+    destroyAllDeadBlocks();
   }
 
   public static void main(String[] args)

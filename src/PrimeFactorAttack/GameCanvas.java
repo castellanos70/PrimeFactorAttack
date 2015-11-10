@@ -178,7 +178,7 @@ public class GameCanvas extends Canvas
       Data.graphTmp.drawImage(Data.imageSand, 0, 0, null);
     }
   }
-  
+
   public void drawlineOfRandomSand(int y)
   { for (int x=0; x<canvasWidth; x++)
     { 
@@ -193,7 +193,11 @@ public class GameCanvas extends Canvas
   { Data.graphTmp.setColor(c);
     Data.graphTmp.fillRect(x, y, size, size);
   }
-  
+
+  public void drawBox(int x, int y, int width, int height, Color c)
+  { Data.graphTmp.setColor(c);
+    Data.graphTmp.fillRect(x, y, width, height);
+  }
   
   public void drawArrow(Graphics g, Color c, int x0, int y0, int x1,int y1)
   {

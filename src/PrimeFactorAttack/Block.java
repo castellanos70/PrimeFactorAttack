@@ -239,9 +239,6 @@ public class Block
     }
   }
   
-  
-
-  
   public int move()
   {
     if (status == STATUS.ONGROUND) return (int)top;

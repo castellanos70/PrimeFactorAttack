@@ -221,6 +221,15 @@ public class Mandala_Cassandra_Shaffer extends Mandala
 
   }
 
+  public int getUpdateNeeded()
+  {
+    return updateNeeded;
+  }
+  public int getUpdateCount()
+  {
+    return updateCount;
+  }
+
   // ///////////////////////////////////// plotPoint ////////////////////////////////
   // Plots a point(x,y) in pointColor in both the sand layer and the temporary
   // screen layer.
@@ -233,6 +242,7 @@ public class Mandala_Cassandra_Shaffer extends Mandala
     return true;
 
   }
+
 
 }
 

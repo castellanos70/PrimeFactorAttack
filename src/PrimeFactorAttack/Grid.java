@@ -71,6 +71,14 @@ public class Grid
     if (y< highestRow) highestRow = y;
 
   }
+  public void setEmpty(int x, int y)
+  {
+    grid[x][y] = EMPTY;
+  }
+  public void resetHighestRow()
+  {
+    highestRow = rowCount - 1;
+  }
   
   /*
   public int getGap(int colWidth)
