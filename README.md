@@ -47,8 +47,9 @@ TODO (add more items or place your name on things you want to do):<br>
    And I plan to make this sound as various versions sounds for each level.
    Chase: I will add sound effects to when the user gives a bad input, a sort of shrieky sound, and other 
           sorts with my Viola, trumpet, clarinet etc...
+    Chase: I will also add a sound effect for win the user meets a kill goal as described in #9.
 
-9) Chase: When a user develops a "kill streak" and meets a "kill goal" the screen is cleared and all of the blocks are removed. Completed 11/9/15 6:10 P.M. 
+9) Chase: When a user develops a "kill streak" and meets a "kill goal" the screen is cleared and all of the blocks are removed and explosions are left behind. Completed 11/9/15 6:10 P.M. Updated 11/9/15 6:33 P.M.
 
 10) Evan: I will add a game over screen so that the user does not have to press the end game button when they lose.
 
