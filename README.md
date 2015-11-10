@@ -48,9 +48,7 @@ TODO (add more items or place your name on things you want to do):<br>
    Chase: I will add sound effects to when the user gives a bad input, a sort of shrieky sound, and other 
           sorts with my Viola, trumpet, clarinet etc...
 
-9) Chase: When a user gets 10 in a row correct all of the boxes on the bottom of the screen explode and a bonus
-   level automatically starts, perhaps randomly selected from the bonus levels already implemented. At the
-   conclusion of the bonus level, the game resumes as it was before. 
+9) Chase: When a user develops a "kill streak" and meets a "kill goal" the screen is cleared and all of the blocks are removed. Completed 11/9/15 6:10 P.M. 
 
 10) Evan: I will add a game over screen so that the user does not have to press the end game button when they lose.
 
