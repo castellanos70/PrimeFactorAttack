@@ -74,7 +74,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   private final int KILLCOUNT_PER_LEVEL = 10;
   private int killCountThisLevel;
   private int killStreak  = 0;
-  private int killGoal = 10;
+  private int killGoal = 2;
 
   private boolean lastBlockHitGround;
   
@@ -880,9 +880,12 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   {
     if (killStreak >= killGoal && deadBlocks.size() > 0)
     {
+      int factor = 1;
+      canvas.clearBackground(skillLevel);
       for (Block b : deadBlocks)
       {
         setMandala(b);
+        b.setHit(factor, true);
 
         int row = b.getRow();
 
@@ -893,15 +896,16 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
         {
            grid.setEmpty(k, row);
         }
+        if (mandalaForDeadBlocks != null) while (!mandalaForDeadBlocks.update()) {}
 
         destroyBlock(b);
 
         mandalaForDeadBlocks = null;
+        factor *= 2;
       }
+      soundKill.play();
       grid.resetHighestRow();
       deadBlocks.clear();
-      canvas.clearBackground(skillLevel);
-      soundKill.play();
       killStreak -= killGoal;
       killGoal++;
     }
