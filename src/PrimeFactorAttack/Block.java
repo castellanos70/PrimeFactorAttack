@@ -83,11 +83,11 @@ public class Block
 
     
     numStr = String.valueOf(num);
-    
+    factorList = Utility.getPrimeFactors(num);
+
     if (mode == MODE.BALLOONS)
     { 
       //System.out.println("Block("+num +") Constructor: MODE.BALLOONS");
-      factorList = Utility.getPrimeFactors(num);
       factorCount = factorList.length;
       factorBalloon = new boolean[factorCount];
       java.util.Arrays.fill(factorBalloon, false);
@@ -367,6 +367,11 @@ public class Block
   
   public MODE getMode()
   { return mode;
+  }
+
+  public int[] getFactorList()
+  {
+    return factorList;
   }
   
   

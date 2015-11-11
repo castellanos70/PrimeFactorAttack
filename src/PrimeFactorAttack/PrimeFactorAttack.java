@@ -41,8 +41,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 
 {
   private static final boolean DEBUG_FACTORS = false;
-  private static final long serialVersionUID = 1L; 
-  
+  private static final long serialVersionUID = 1L;
+
   public static final boolean DEBUG_DRAWGRID = true;
   public static final int MAX_FACTORS = 10;
   public static final Color WIGET_BACKGROUND = new Color(238,238,238);
@@ -74,7 +74,9 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   private final int KILLCOUNT_PER_LEVEL = 10;
   private int killCountThisLevel;
   private int killStreak  = 0;
-  private int killGoal = 2;
+  private int killGoal = 10;
+  private boolean perfectKills = true;
+  private int lastFactor = 0;
 
   private boolean lastBlockHitGround;
   
@@ -163,7 +165,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     
     try
     {
-      //soundKill = new SoundPlayer(Data.resourcePath + "sounds/fireworks.wav");
+      soundKill = new SoundPlayer(Data.resourcePath + "sounds/fireworks.wav");
       soundHit = new SoundPlayer(Data.resourcePath + "sounds/laser.wav");
       soundMiss = new SoundPlayer(Data.resourcePath + "sounds/wind.wav");
       soundGround  = new SoundPlayer(Data.resourcePath + "sounds/rockHitCement.wav");
@@ -380,6 +382,15 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     if (block == null) return false;
     if (curMandala!= null) return false;
     if (block.getCreationTime() > timeOfClick) return false;
+
+    if (lastFactor == 0) lastFactor = factor;
+    // check to see if the user is inputting smallest to largest values
+    else if (factor < lastFactor)
+    {
+      perfectKills = false;
+      lastFactor = factor;
+    }
+    else lastFactor = factor;
     
     boolean hit = false;
     boolean kill = false;
@@ -450,7 +461,6 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   }
   private void destroyBlock(Block block)
   {
-    if (Data.showHelp) Data.showHelp = false;
     curMandala = null;
     block.setZapped();
     canvas.drawBlock(block);
@@ -820,6 +830,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
           { distroyBlock();
             soundKill.play();
             killStreak++;
+            lastFactor = 0;
             //System.out.println("soundKill.play()");
           }
         }
@@ -834,6 +845,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     {
       blockHitBottom();
       killStreak = 0;
+      perfectKills = true; // reset perfectKills
+      lastFactor = 0;
     }
     
     canvas.drawBlock(block);
@@ -880,12 +893,10 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   {
     if (killStreak >= killGoal && deadBlocks.size() > 0)
     {
-      int factor = 1;
       canvas.clearBackground(skillLevel);
       for (Block b : deadBlocks)
       {
         setMandala(b);
-        b.setHit(factor, true);
 
         int row = b.getRow();
 
@@ -896,21 +907,42 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
         {
            grid.setEmpty(k, row);
         }
-        if (mandalaForDeadBlocks != null) while (!mandalaForDeadBlocks.update()) {}
 
+        if (mandalaForDeadBlocks != null)
+        {
+          int next = 0;
+          int [] factorList = b.getFactorList();
+          do
+          {
+            if (next < factorList.length)
+            {
+              b.setHit(b.getFactorList()[next], true);
+              next++;
+            }
+          }
+          while (!mandalaForDeadBlocks.update());
+        }
         destroyBlock(b);
-
         mandalaForDeadBlocks = null;
-        factor *= 2;
       }
       soundKill.play();
       grid.resetHighestRow();
       deadBlocks.clear();
       killStreak -= killGoal;
       killGoal++;
+      rewardStreak();
     }
   }
-  
+
+  private void rewardStreak()
+  {
+    if (perfectKills && skillLevel >= 5)
+    {
+      System.out.println("Perfect Streak");
+      this.setStatus(Data.Status.BONUS_LEVEL);
+    }
+    perfectKills = true;
+  }
 
   public void actionPerformed(ActionEvent arg0)
   { 
@@ -922,7 +954,10 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 //        ((curTime-lastTimerEvent)-Game.FRAME_RATE) + " milliseconds");
 //    }
 //    lastTimerEvent = curTime;
-    
+
+    // if kill Goal is met, all blocks are destroyed
+    destroyAllDeadBlocks();
+
     if(gameStatus == Data.Status.RUNNING)
     {  //control.requestFocus();
        nextTurn();
@@ -949,7 +984,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
     else if (gameStatus == Data.Status.BONUS_LEVEL)
     {
-      //System.out.println("......gameStatus == Game.Status.LEVELUP");
+      System.out.println("......gameStatus == Game.Status.LEVELUP");
       boolean stillRunning = bonusLevel.nextFrame();
       if (!stillRunning) this.setStatus(Data.Status.RUNNING);
       fullPanel.repaint();
@@ -959,7 +994,6 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     { pauseScreen.update();
       canvas.updateDisplay(); 
     }
-    destroyAllDeadBlocks();
   }
 
   public static void main(String[] args)
