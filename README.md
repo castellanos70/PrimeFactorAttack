@@ -50,8 +50,8 @@ TODO (add more items or place your name on things you want to do):<br>
     Chase: I will also add a sound effect for win the user meets a kill goal as described in #9.
 
 9) Chase: (a) When a user develops a "kill streak" and meets a "kill goal" the screen is cleared and all of the blocks are removed and explosions are left behind. Kill Goal is Incremented by one. Completed 11/9/15 6:10 P.M. Updated 11/9/15 6:33 P.M., 11/10/15 4:22 A.M. 
-(b) If a user, during their "kill streak" always chooses lowest factor possible then a bonus level will load after the screen clears when the user meets a "kill goal". Completed 11/10/15 5:30 PM
-(c) At any time the user may press "d" to destroy the last dead block added to the deadBlock ArrayList, but the user loses points equal to the maximum possible gain from the dead block that was destroyed if the user hadn't missed it in the first place and the user forfeits any opportunity for a bonus level until after the upcoming Congratulations title screen passes and the new level starts.
+(b) If a user, during their "kill streak" always chooses lowest factor possible then a bonus level will load after the screen clears when the user meets a "kill goal" and the bonus level will only activate once per title screen. Completed 11/10/15 5:30 PM Updated 11/14/15 2:20 P.M.
+(c) At any time the user may press "d" to destroy the last dead block added to the deadBlock ArrayList, but the user loses points equal to the maximum possible gain from the dead block that was destroyed if the user hadn't missed it in the first place and the user forfeits any opportunity for a bonus level until after the upcoming Congratulations title screen passes and the new level starts. Completed 11/14/15 2:20 P.M.
 
 10) Evan: I will add a game over screen so that the user does not have to press the end game button when they lose.
 
