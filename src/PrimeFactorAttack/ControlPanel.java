@@ -263,6 +263,10 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
     { parent.cheatLevelUp();
       return; 
     }
+    if (c == 'd')
+    {
+      parent.destroyLastDeadBlock();
+    }
     
     
     if (lastKeyPressed == ' ')

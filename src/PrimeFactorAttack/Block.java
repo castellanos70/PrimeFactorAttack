@@ -26,6 +26,7 @@ public class Block
   private static final Color BLOCK_COLOR = new Color(117,146,60); 
   private static final Color BONUSBLOCK_COLOR = new Color(101,77,143); 
   private static final Color DEAD_COLOR = new Color(170,63,60);//new Color(217,149,148);
+  public static final Color DESTROYED_COLOR = new Color(255, 255, 255, 128);
   
   public static final double SPEED_VERYSLOW = 0.5;  //pixels per frame
   public static final double SPEED_SLOW = 1.0;  //pixels per frame
@@ -83,11 +84,11 @@ public class Block
 
     
     numStr = String.valueOf(num);
-    factorList = Utility.getPrimeFactors(num);
 
     if (mode == MODE.BALLOONS)
     { 
       //System.out.println("Block("+num +") Constructor: MODE.BALLOONS");
+      factorList = Utility.getPrimeFactors(num);
       factorCount = factorList.length;
       factorBalloon = new boolean[factorCount];
       java.util.Arrays.fill(factorBalloon, false);
@@ -127,10 +128,8 @@ public class Block
   public void setZapped()
   { status = STATUS.ZAPPED;
   }
-  
-  
-  
-  
+
+
   public long getCreationTime()
   { return this.timeCreated;
   }
@@ -211,10 +210,12 @@ public class Block
     else g.setColor(BONUSBLOCK_COLOR);
     g.fillRect(left, iTop, width, height);
     
-    //System.out.println("left="+left+", top="+top+", width="+width+", height= "+height);
     g.setColor(Color.WHITE);
     g.drawString(numStr, left+textOffsetX, iTop+textOffsetY);
-    
+
+    //System.out.println("left="+left+", top="+top+", width="+width+", height= "+height);
+
+
     if ((status != STATUS.ONGROUND) && (mode == MODE.BALLOONS))
     { 
       
@@ -317,8 +318,8 @@ public class Block
   { if (status == STATUS.ZAPPED) return true;
     return false;
   }
-  
-  
+
+
   public void setFreefall()
   { status = STATUS.FREE_FALL;
   } 
