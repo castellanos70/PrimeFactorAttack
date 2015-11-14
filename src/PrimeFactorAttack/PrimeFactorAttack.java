@@ -165,7 +165,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     System.out.println("PrimeFactorAttack.init(): myTimer=" + myTimer.isRunning());
     
 
-    try {
+    try
+    {
       //soundKill = new SoundPlayer(Data.resourcePath + "sounds/fireworks.wav");
       soundHit = new SoundPlayer(Data.resourcePath + "sounds/laser.wav");
       soundMiss = new SoundPlayer(Data.resourcePath + "sounds/wind.wav");
@@ -186,42 +187,55 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   }
   
   
-  public void setStatus(Data.Status newStatus) {
+  public void setStatus(Data.Status newStatus)
+  {
 
-    if (newStatus == Data.Status.WELCOME) {
+    if (newStatus == Data.Status.WELCOME)
+    {
       fullPanel.setVisible(true);
       control.setVisible(false);
       canvas.setVisible(false);
       start();
     }
     
-    if (newStatus == Data.Status.READY_TO_START) {
+    if (newStatus == Data.Status.READY_TO_START)
+    {
       fullPanel.setVisible(false);
       control.setVisible(true);
       canvas.setVisible(true);
     }
     
-    if (newStatus == Data.Status.RUNNING) {
+    if (newStatus == Data.Status.RUNNING)
+    {
 
       fullPanel.setVisible(false);
       control.setVisible(true);
       canvas.setVisible(true);
-      if ((gameStatus == Data.Status.READY_TO_START) || (gameStatus == Data.Status.ENDED)) {
+      if ((gameStatus == Data.Status.READY_TO_START) || (gameStatus == Data.Status.ENDED))
+      {
         startGame();
-      } else if ((gameStatus == Data.Status.LEVELUP)) {
+      }
+
+      else if ((gameStatus == Data.Status.LEVELUP))
+      {
         canvas.clearBackground(skillLevel);
         deadBlocks.clear();
         grid.clear();
       }
-    } else if (newStatus == Data.Status.LEVELUP) {
+    }
+
+    else if (newStatus == Data.Status.LEVELUP)
+    {
       fullPanel.setVisible(true);
       control.setVisible(false);
       canvas.setVisible(false);
       
       BufferedImage buf = fullPanel.getOffscreenBuffer();
       levelUp = LevelUpScreen.create(skillLevel, buf);
-    } else if (newStatus == Data.Status.BONUS_LEVEL) {
+    }
 
+    else if (newStatus == Data.Status.BONUS_LEVEL)
+    {
       int r = rand.nextInt(4);
       if (r == 0) bonusLevel = new BonusLevel_Colin_Monroe();
       else if (r == 1) bonusLevel = new BonusLevel_Daniel_Gomez();
@@ -234,9 +248,15 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       contentPane.add(bonusLevel);
       bonusLevel.setLocation(0, 0);
       bonusLevel.init();
-    } else if (newStatus == Data.Status.ENDED) {
+    }
+
+    else if (newStatus == Data.Status.ENDED)
+    {
       endGame();
-    } else if (newStatus == Data.Status.TIMESTOP) {
+    }
+
+    else if (newStatus == Data.Status.TIMESTOP)
+    {
       block.moveToTop();
     }
     
@@ -245,17 +265,21 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     control.updateButtons();
   }
   
-  public void start() {
+  public void start()
+  {
     myTimer.start();
   }
 
-  public void stop() { //Pause game when user leaves the browser page.
+  public void stop()
+  { //Pause game when user leaves the browser page.
     myTimer.stop();
   }
   
   
-  private void endGame() {
-    if (myTimer.isRunning()) {
+  private void endGame()
+  {
+    if (myTimer.isRunning())
+    {
       myTimer.stop();
       
     }
@@ -264,7 +288,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   }
   
   
-  private void startGame() {
+  private void startGame()
+  {
     score = 0;
     skillLevel = 1;
     //killStreakLength = 0;
@@ -280,7 +305,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     minNumForRemoveHits = 0;
     blockStartSpeed = Block.SPEED_MIN;
     lastBlockHitGround = true;
-    for (int i = 0; i < killHistory.length; i++) {
+    for (int i = 0; i < killHistory.length; i++)
+    {
       killHistory[i] = 0;
     }
     
@@ -295,7 +321,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     grid.clear();
     control.newGame();
     control.setLevel(skillLevel, maxPrimeIdx);
-    if (myTimer.isRunning()) {
+    if (myTimer.isRunning())
+    {
       myTimer.stop();
     }
     canvas.newGame();
@@ -309,31 +336,41 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   }
   
   
-  public Data.Status getGameStatus() {
+  public Data.Status getGameStatus()
+  {
     return gameStatus;
   }
   
   
-  public int getFallingComposite() {
+  public int getFallingComposite()
+  {
     if (block == null) return -1;
     return block.getNumber();
   }
   
   
-  private void createBlock() {
-    if (Data.showHelp) {
+  private void createBlock()
+  {
+    if (Data.showHelp)
+    {
       block = new Block(grid, 15, blockStartSpeed, Block.MODE.REMOVE_HITS);
-    } else {
+    }
+    else
+    {
       blockMode = Block.MODE.REMOVE_HITS;
 
       int num = generateCompositeNumber();
       double speed = blockStartSpeed;
       if (lastBlockHitGround) speed = Math.min(speed, Block.SPEED_VERYSLOW);
       
-      if (skillLevel >= 3) {
-        if (num <= minNumForRemoveHits) {
+      if (skillLevel >= 3)
+      {
+        if (num <= minNumForRemoveHits)
+        {
           blockMode = Block.MODE.BALLOONS;
-        } else if (num < killHistory.length) {
+        }
+        else if (num < killHistory.length)
+        {
           if (killHistory[num] >= 2) blockMode = Block.MODE.BALLOONS;
         }
       }
@@ -342,14 +379,16 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   }
   
   
-  public boolean attack(int factor, long timeOfClick) {
+  public boolean attack(int factor, long timeOfClick)
+  {
     if (block == null) return false;
     if (curMandala != null) return false;
     if (block.getCreationTime() > timeOfClick) return false;
 
     if (lastFactor == 0) lastFactor = factor;
       // check to see if the user is inputting smallest to largest values
-    else if (factor < lastFactor) {
+    else if (factor < lastFactor)
+    {
       perfectKills = false;
       lastFactor = factor;
     } else lastFactor = factor;
@@ -374,7 +413,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       
       hit = true;
       if (num < killHistory.length) killHistory[num]++;
-      if (num == factor) {
+      if (num == factor)
+      {
         kill = true;
         lastBlockHitGround = false;
       }
@@ -384,12 +424,15 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       if (kill) setMandala();
 
 
-    } else { //if (block.getMode() == Block.MODE.BALLOONS) block.restoreOriginalFactors();
+    }
+    else
+    { //if (block.getMode() == Block.MODE.BALLOONS) block.restoreOriginalFactors();
       block.setSpeed(Block.SPEED_DROP);
     }
     
     
-    if (!SandStorm.isStormInProgress()) {
+    if (!SandStorm.isStormInProgress())
+    {
       SandStorm.startStorm(block, factor, hit);
     }
     
@@ -400,7 +443,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   }
   
   
-  private void distroyBlock() {
+  private void distroyBlock()
+  {
     //System.out.println("PrimeFactorAttack.distroyBlock("+block+")");
     if (Data.showHelp) Data.showHelp = false;
     curMandala = null;
@@ -408,7 +452,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     canvas.drawBlock(block);
     killCountThisLevel++;
 
-    if (killCountThisLevel >= KILLCOUNT_PER_LEVEL) {
+    if (killCountThisLevel >= KILLCOUNT_PER_LEVEL)
+    {
       increaseSkillLevel();
       //displayLevel();
       control.setLevel(skillLevel, maxPrimeIdx);
@@ -418,69 +463,105 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     createBlock();
   }
 
-  public void cheatLevelUp() {
+  public void cheatLevelUp()
+  {
     killCountThisLevel = KILLCOUNT_PER_LEVEL;
     distroyBlock();
   }
   
   
-  private void setMandala() {
+  private void setMandala()
+  {
     
     
     int[] sandColor = SandStorm.getColors();
     
-    if (skillLevel < 5) {
+    if (skillLevel < 5)
+    {
       //Sand Puff
       curMandala = new Mandala_Nick_Lauve(block, sandColor);
-
-    } else if (skillLevel < 10) { //Sand Explosion
+    }
+    else if (skillLevel < 10)
+    { //Sand Explosion
       curMandala = new Mandala_Cassandra_Shaffer(block, sandColor);
-    } else if (skillLevel < 15) { //Polar Equation mandalas with factor-fold rotational symmetry
+    }
+    else if (skillLevel < 15)
+    { //Polar Equation mandalas with factor-fold rotational symmetry
       curMandala = new Mandala_Sean_Chavez(block, sandColor);
-    } else if (skillLevel < 20) { //Paint-Ball
+    }
+    else if (skillLevel < 20)
+    { //Paint-Ball
       curMandala = new Mandala_Derek_Long(block, sandColor);
-    } else if (skillLevel < 25) { //Solar Flare
+    }
+    else if (skillLevel < 25)
+    { //Solar Flare
       curMandala = new Mandala_Evan_King(block, sandColor);
-    } else if (skillLevel < 30) { //Blocks in a Wild Ride
+    }
+    else if (skillLevel < 30)
+    { //Blocks in a Wild Ride
       curMandala = new Mandala_Ezra_Stallings(block, sandColor);
-    } else if (skillLevel < 35) { //deadly cross of pokodots
+    }
+    else if (skillLevel < 35)
+    { //deadly cross of pokodots
       curMandala = new Mandala_Tyler_Brandt(block, sandColor);
-    } else if (skillLevel < 40) { //whirling dervish
+    }
+    else if (skillLevel < 40)
+    { //whirling dervish
       curMandala = new Mandala_Conrad_Woidyla(block, sandColor);
-    } else { //Crossing Circles
+    }
+    else
+    { //Crossing Circles
       curMandala = new Mandala_Steven_Kelley(block, sandColor);
     }
   }
   
-  private void setMandala(Block block) {
+  private void setMandala(Block block)
+  {
 
 
     int[] sandColor = SandStorm.getColors();
 
-    if (skillLevel < 5) {
+    if (skillLevel < 5)
+    {
       //Sand Puff
       mandalaForDeadBlocks = new Mandala_Nick_Lauve(block, sandColor);
 
-    } else if (skillLevel < 10) { //Sand Explosion
+    }
+    else if (skillLevel < 10) { //Sand Explosion
       mandalaForDeadBlocks = new Mandala_Cassandra_Shaffer(block, sandColor);
-    } else if (skillLevel < 15) { //Polar Equation mandalas with factor-fold rotational symmetry
+    }
+    else if (skillLevel < 15)
+    { //Polar Equation mandalas with factor-fold rotational symmetry
       mandalaForDeadBlocks = new Mandala_Sean_Chavez(block, sandColor);
-    } else if (skillLevel < 20) { //Paint-Ball
+    }
+    else if (skillLevel < 20)
+    { //Paint-Ball
       mandalaForDeadBlocks = new Mandala_Derek_Long(block, sandColor);
-    } else if (skillLevel < 25) { //Solar Flare
+    }
+    else if (skillLevel < 25)
+    { //Solar Flare
       mandalaForDeadBlocks = new Mandala_Evan_King(block, sandColor);
-    } else if (skillLevel < 30) { //Blocks in a Wild Ride
+    }
+    else if (skillLevel < 30)
+    { //Blocks in a Wild Ride
       mandalaForDeadBlocks = new Mandala_Ezra_Stallings(block, sandColor);
-    } else if (skillLevel < 35) { //deadly cross of pokodots
+    }
+    else if (skillLevel < 35)
+    { //deadly cross of pokodots
       mandalaForDeadBlocks = new Mandala_Tyler_Brandt(block, sandColor);
-    } else if (skillLevel < 40) { //whirling dervish
+    }
+    else if (skillLevel < 40)
+    { //whirling dervish
       mandalaForDeadBlocks = new Mandala_Conrad_Woidyla(block, sandColor);
-    } else { //Crossing Circles
+    }
+    else
+    { //Crossing Circles
       mandalaForDeadBlocks = new Mandala_Steven_Kelley(block, sandColor);
     }
   }
 
-  public int generateCompositeNumber() {
+  public int generateCompositeNumber()
+  {
     if (DEBUG_FACTORS) System.out.print("-----> ");
 
     int factorCount = 0;
@@ -489,28 +570,37 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     boolean done = false;
     boolean hard = false;
     
-    if (rand.nextDouble() < probPerfectPower) {
+    if (rand.nextDouble() < probPerfectPower)
+    {
       num = getPowerOfPrime();
       factorCount = 2;
       blockMode = Block.MODE.BALLOONS;
       done = true;
     }
     
-    while (!done) {
+    while (!done)
+    {
       int nextPrime = Data.PRIME[rand.nextInt(maxPrimeIdx + 1)];
       if (DEBUG_FACTORS) System.out.print(nextPrime + " ");
       
-      if (easyPrimeOnly) {
+      if (easyPrimeOnly)
+      {
         nextPrime = getEasyPrime();
-      } else {
-        if (hard) {
-        } else if ((largestFactor >= 11) && (nextPrime >= 11)) hard = true;
+      }
+      else
+      {
+        if (hard)
+        {
+        }
+        else if ((largestFactor >= 11) && (nextPrime >= 11)) hard = true;
         else if ((largestFactor >= 7) && (nextPrime >= 13)) hard = true;
         else if ((largestFactor >= 13) && (nextPrime >= 7)) hard = true;
         else if ((num % 49 == 0) && (nextPrime >= 7)) hard = true;
 
-        if (hard) {
-          if (rand.nextDouble() >= probKeepSecondHardPrime) {
+        if (hard)
+        {
+          if (rand.nextDouble() >= probKeepSecondHardPrime)
+          {
             nextPrime = getEasyPrime();
             if (DEBUG_FACTORS) System.out.print("<-(" + nextPrime + ") ");
           }
@@ -519,18 +609,22 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 
 
       /////////////////////////////////////////
-      if ((factorCount < 2) || (num * nextPrime <= maxComposite)) {
+      if ((factorCount < 2) || (num * nextPrime <= maxComposite))
+      {
         if ((largestFactor >= 11) && (nextPrime >= 11)) done = true;
         if (nextPrime > largestFactor) largestFactor = nextPrime;
         num *= nextPrime;
         factorCount++;
-      } else {
+      }
+      else
+      {
         done = true;
       }
 
 
       if (factorCount >= maxFactors) done = true;
-      else if (largestFactor >= 11) {
+      else if (largestFactor >= 11)
+      {
         if (num > 50)  //allows stop on 29*3=87, 13*7=91, 23*3=69, 17*3=51
         {
           if (rand.nextDouble() < 0.5) {
@@ -538,12 +632,14 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
             done = true;
           }
         }
-      } else if (factorCount >= 2) {
-        if (num < killHistory.length) {
+      }
+      else if (factorCount >= 2)
+      {
+        if (num < killHistory.length)
+        {
           if ((killHistory[num] >= 2) && (killHistory[num] < 5)) done = true;
         }
       }
-      
       
     }
     if (DEBUG_FACTORS) System.out.println(" ==> " + num);
@@ -551,7 +647,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   }
   
   
-  private int getPowerOfPrime() {
+  private int getPowerOfPrime()
+  {
     int num = Data.PRIME[rand.nextInt(maxPrimeIdx + 1)];
     if (skillLevel < 10) num = num * num;
     else if (num == 2) num = power(2, rand.nextInt(7) + 4);
@@ -563,24 +660,29 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     return num;
   }
   
-  private static int power(int x, int y) {
+  private static int power(int x, int y)
+  {
     int p = 1;
-    for (int i = 0; i < y; i++) {
+    for (int i = 0; i < y; i++)
+    {
       p *= x;
     }
     return p;
   }
   
   ///////////////////////////////////////////////////////////////////////////////
-  private void increaseSkillLevel() {
+  private void increaseSkillLevel()
+  {
     skillLevel++;
     if (skillLevel >= 10) minNumForRemoveHits = 100;
 
-    if (skillLevel % 5 == 0) {
+    if (skillLevel % 5 == 0)
+    {
       setStatus(Data.Status.LEVELUP);
       easyPrimeOnly = false;
       usedRewardBonusThisRound = false;
-      if (maxPrimeIdx < Data.PRIME.length - 1) {
+      if (maxPrimeIdx < Data.PRIME.length - 1)
+      {
         maxPrimeIdx++;
         System.out.println("increaseSkillLevel(): level=" + skillLevel + ", maxPrime="
                 + Data.PRIME[maxPrimeIdx]);
@@ -589,40 +691,46 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
 
 
-    if (blockStartSpeed < Block.SPEED_NORMAL) {
+    if (blockStartSpeed < Block.SPEED_NORMAL)
+    {
       blockStartSpeed = Block.SPEED_NORMAL;
       System.out.println("increaseSkillLevel(): level=" + skillLevel + ", blockStartSpeed="
               + blockStartSpeed);
       return;
     }
     
-    if (easyPrimeOnly) {
+    if (easyPrimeOnly)
+    {
       easyPrimeOnly = false;
       System.out.println("increaseSkillLevel(): level=" + skillLevel + ", easyPrimeOnly=" + easyPrimeOnly);
       return;
     }
     
-    if (maxFactors < 3) {
+    if (maxFactors < 3)
+    {
       maxFactors++;
       System.out.println("increaseSkillLevel(): level=" + skillLevel + ", maxFactors="
               + maxFactors);
       return;
     }
     
-    if (probPerfectPower < 0.05) {
+    if (probPerfectPower < 0.05)
+    {
       probPerfectPower = 0.08;
       System.out.println("increaseSkillLevel(): level=" + skillLevel + ", probPerfectPower="
               + probPerfectPower);
       return;
     }
     
-    if (blockStartSpeed < Block.SPEED_FAST) {
+    if (blockStartSpeed < Block.SPEED_FAST)
+    {
       blockStartSpeed = Block.SPEED_FAST;
       System.out.println("increaseSkillLevel(): level=" + skillLevel + ", blockStartSpeed="
               + blockStartSpeed);
     }
 
-    if (maxComposite < 250) {
+    if (maxComposite < 250)
+    {
       maxComposite += 50;
       System.out.println("increaseSkillLevel(): level=" + skillLevel + ", maxComposite="
               + maxComposite);
@@ -630,7 +738,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
 
 
-    if (maxFactors < 6) {
+    if (maxFactors < 6)
+    {
       maxFactors++;
       System.out.println("increaseSkillLevel(): level=" + skillLevel + ", maxFactors="
               + maxFactors);
@@ -638,7 +747,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
 
 
-    if (maxComposite < 1000) {
+    if (maxComposite < 1000)
+    {
       maxComposite += 50;
       System.out.println("increaseSkillLevel(): level=" + skillLevel + ", maxComposite="
               + maxComposite);
@@ -646,7 +756,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
 
 
-    if (probKeepSecondHardPrime < .05) {
+    if (probKeepSecondHardPrime < .05)
+    {
       probKeepSecondHardPrime = 0.05;
       System.out.println("increaseSkillLevel(): level=" + skillLevel + ", probKeepSecondHardPrime="
               + probKeepSecondHardPrime);
@@ -654,7 +765,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
 
 
-    if (maxFactors < 10) {
+    if (maxFactors < 10)
+    {
       maxFactors++;
       System.out.println("increaseSkillLevel(): level=" + skillLevel + ", maxFactors="
               + maxFactors);
@@ -662,7 +774,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
 
 
-    if (probKeepSecondHardPrime < 0.5) {
+    if (probKeepSecondHardPrime < 0.5)
+    {
       probKeepSecondHardPrime += 0.05;
       System.out.println("increaseSkillLevel(): level=" + skillLevel + ", probKeepSecondHardPrime="
               + probKeepSecondHardPrime);
@@ -695,27 +808,35 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 //  }
   
   
-  private int getEasyPrime() {
+  private int getEasyPrime()
+  {
     int r = rand.nextInt(3);
     return Data.PRIME[r];
   }
   
 
-  public void nextTurn() {
+  public void nextTurn()
+  {
     if (block == null) return;
     
     canvas.copySandLayerToTempLayer();
 
-    if (SandStorm.isStormInProgress()) {
+    if (SandStorm.isStormInProgress())
+    {
       boolean stillTargeting = SandStorm.update();
-    } else {
-      if (block.isFatallyHit()) {
+    }
+    else {
+      if (block.isFatallyHit())
+      {
         block.setZapped();
       }
-      if (block.isZAPPED()) {
-        if (curMandala != null) {
+      if (block.isZAPPED())
+      {
+        if (curMandala != null)
+        {
           boolean done = curMandala.update();
-          if (done) {
+          if (done)
+          {
             distroyBlock();
             soundKill.play();
             killStreak++;
@@ -723,13 +844,15 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
             //System.out.println("soundKill.play()");
           }
         }
-      } else if (block.isHit()) block.removeHitFactor();
+      }
+      else if (block.isHit()) block.removeHitFactor();
     }
     
     
     block.move();
 
-    if (block.isOnGround()) {
+    if (block.isOnGround())
+    {
       blockHitBottom();
       killStreak = 0;
       perfectKills = true; // reset perfectKills
@@ -739,14 +862,16 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     canvas.drawBlock(block);
   }
   
-  private void blockHitBottom() {
+  private void blockHitBottom()
+  {
     lastBlockHitGround = true;
     //    killStreakLength = 0;
     //    killStreak_ToLevelUp = 10;
     //skillLevelAtLastMiss = skillLevel;
     
     int num = block.getNumber();
-    if (num < killHistory.length) {
+    if (num < killHistory.length)
+    {
       killHistory[num] = 0;
       int orgNum = block.getOrgNumber();
       if (orgNum < killHistory.length) killHistory[orgNum] = 0;
@@ -755,13 +880,15 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 
     int row = block.getRow();
     canvas.drawBlock(block);
-    if (row == 0) {
+    if (row == 0)
+    {
       endGame();
       return;
     } else {
       int colLeft = block.getColumnLeft();
       int colRight = colLeft + block.getColumnWidth();
-      for (int k = colLeft; k < colRight; k++) {
+      for (int k = colLeft; k < colRight; k++)
+      {
         grid.setFilled(k, row);
       }
       deadBlocks.add(block);
@@ -771,15 +898,19 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
   }
 
-  private void drawDeadBlocks() {
-    for (Block b : deadBlocks) {
+  private void drawDeadBlocks()
+  {
+    for (Block b : deadBlocks)
+    {
       canvas.drawBlock(b);
     }
   }
   
 
-  private void rewardStreak() {
-    if (perfectKills && !usedRewardBonusThisRound && !forfeitBonus) {
+  private void rewardStreak()
+  {
+    if (perfectKills && !usedRewardBonusThisRound && !forfeitBonus)
+    {
       this.setStatus(Data.Status.BONUS_LEVEL);
       System.out.println("Nice Save!");
       usedRewardBonusThisRound = true;
@@ -787,9 +918,12 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     perfectKills = true;
   }
 
-  private void destroyAllDeadBlocks() {
-    if (killStreak >= killGoal && deadBlocks.size() > 0) {
-      for (Block b : deadBlocks) {
+  private void destroyAllDeadBlocks()
+  {
+    if (killStreak >= killGoal && deadBlocks.size() > 0)
+    {
+      for (Block b : deadBlocks)
+      {
         destroyDeadBlock(b);
       }
       grid.resetHighestRow();
@@ -800,9 +934,11 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
   }
 
-  public void destroyLastDeadBlock() {
+  public void destroyLastDeadBlock()
+  {
     int size = deadBlocks.size();
-    if (size > 0) {
+    if (size > 0)
+    {
       usedSave = true;
       forfeitBonus = true;
       Block lastDeadBlock = deadBlocks.get(size - 1);
@@ -812,7 +948,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
   }
 
-  private void destroyDeadBlock(Block b) {
+  private void destroyDeadBlock(Block b)
+  {
     setMandala(b);
 
     int row = b.getRow();
@@ -820,15 +957,19 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     int colLeft = b.getColumnLeft();
     int colRight = colLeft + b.getColumnWidth();
 
-    for (int k = colLeft; k < colRight; k++) {
+    for (int k = colLeft; k < colRight; k++)
+    {
       grid.setEmpty(k, row);
     }
 
-    if (mandalaForDeadBlocks != null) {
+    if (mandalaForDeadBlocks != null)
+    {
       int next = 0;
       int[] factorList = Utility.getPrimeFactors(b.getOrgNumber());
-      do {
-        if (next < factorList.length) {
+      do
+      {
+        if (next < factorList.length)
+        {
           int factor = factorList[next];
           b.setHit(factor, true);
 
@@ -850,7 +991,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   }
 
 
-  public void actionPerformed(ActionEvent arg0) {
+  public void actionPerformed(ActionEvent arg0)
+  {
     //System.out.println("PrimeFactorAttac.actionPerformed()" + this.is);
     //System.out.println("PrimeFactorAttac.actionPerformed()");
 //    long curTime = System.currentTimeMillis();
@@ -861,7 +1003,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 //    lastTimerEvent = curTime;
 
 
-    if (gameStatus == Data.Status.RUNNING) {
+    if (gameStatus == Data.Status.RUNNING)
+    {
       //control.requestFocus();
       nextTurn();
       drawDeadBlocks();
@@ -870,34 +1013,55 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       destroyAllDeadBlocks();
 //       destroyLastDeadBlock();
       canvas.updateDisplay();
-    } else if (gameStatus == Data.Status.WELCOME) {
+    }
+
+    else if (gameStatus == Data.Status.WELCOME)
+    {
       boolean done = welcomeScreen.update();
       if (done) setStatus(Data.Status.READY_TO_START);
-    } else if (gameStatus == Data.Status.READY_TO_START) {
+    }
+
+    else if (gameStatus == Data.Status.READY_TO_START)
+    {
       diffusionLimitedAggregation.update();
       canvas.updateDisplay();
-    } else if (gameStatus == Data.Status.LEVELUP) {
+    }
+
+    else if (gameStatus == Data.Status.LEVELUP)
+    {
       //System.out.println("......gameStatus == Game.Status.LEVELUP");
       boolean stillRunning = levelUp.update();
 
-      if (!stillRunning) {
+      if (!stillRunning)
+      {
         this.setStatus(Data.Status.BONUS_LEVEL);
-      } else fullPanel.repaint();
-    } else if (gameStatus == Data.Status.BONUS_LEVEL && !forfeitBonus) {
+      }
+      else fullPanel.repaint();
+    }
+
+    else if (gameStatus == Data.Status.BONUS_LEVEL && !forfeitBonus)
+    {
       System.out.println("......gameStatus == Game.Status.LEVELUP");
       boolean stillRunning = bonusLevel.nextFrame();
       if (!stillRunning) this.setStatus(Data.Status.RUNNING);
       fullPanel.repaint();
-    } else if (forfeitBonus) {
+    }
+
+    else if (forfeitBonus)
+    {
       this.setStatus(Data.Status.RUNNING);
       forfeitBonus = false;
-    } else if (gameStatus == Data.Status.TIMESTOP) {
+    }
+
+    else if (gameStatus == Data.Status.TIMESTOP)
+    {
       pauseScreen.update();
       canvas.updateDisplay();
     }
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args)
+  {
     new PrimeFactorAttack();
   }
 }
