@@ -43,11 +43,9 @@ TODO (add more items or place your name on things you want to do):<br>
 
 8) Different sound effects or each level. Not sound effects that you find on the web,
    but sounds that you create and record yourself.
-   Jaehee: I already changed that sound when I shoot the number(original sound:fireworks.wav -> changed sound: sand.wav)
+   Jaehee: I already changed that sound when I shoot the number(original sound:fireworks.wav -> changed sound: sand.wav) 
    And I plan to make this sound as various versions sounds for each level.
-   Chase: I will add sound effects to when the user gives a bad input, a sort of shrieky sound, and other 
-          sorts with my Viola, trumpet, clarinet etc...
-    Chase: I will also add a sound effect for win the user meets a kill goal as described in #9.
+    Chase: I will add a sound effect for win the user meets a kill goal as described in #9.
 
 9) Chase: (a) When a user develops a "kill streak" and meets a "kill goal" the screen is cleared and all of the blocks are removed and explosions are left behind. Kill Goal is Incremented by one. Completed 11/9/15 6:10 P.M. Updated 11/9/15 6:33 P.M., 11/10/15 4:22 A.M. 
 (b) If a user, during their "kill streak" always chooses lowest factor possible then a bonus level will load after the screen clears when the user meets a "kill goal" and the bonus level will only activate once per title screen. Completed 11/10/15 5:30 PM Updated 11/14/15 2:20 P.M.
