@@ -9,6 +9,7 @@ public class Grid
   
   private int columnCount, rowCount;
   private int highestRow = rowCount-1;
+  private int lastHighestRow = rowCount-1;
   
   private boolean[][] grid;
   
@@ -52,15 +53,10 @@ public class Grid
   { return columnCount;
   }
   
-  public int getHeightestRow()
-  { return highestRow;
-  }
-  
   public int getPixelLeft(int column)
   { return GRID_PIXELS*column;
   }
-  
-  
+
   public boolean isEmpty(int x, int y)
   { if (grid[x][y] == EMPTY) return true; 
     return false;
@@ -68,8 +64,11 @@ public class Grid
   
   public void setFilled(int x, int y)
   { grid[x][y] = FILLED;
-    if (y< highestRow) highestRow = y;
-
+    if (y< highestRow)
+    {
+      lastHighestRow = highestRow;
+      highestRow = y;
+    }
   }
   public void setEmpty(int x, int y)
   {
@@ -78,6 +77,14 @@ public class Grid
   public void resetHighestRow()
   {
     highestRow = rowCount - 1;
+  }
+  public void revertToLastHighest()
+  {
+    highestRow = lastHighestRow;
+  }
+  public int getHighestRow()
+  {
+    return highestRow;
   }
   
   /*

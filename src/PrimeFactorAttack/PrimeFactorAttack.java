@@ -94,7 +94,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   
   private SandTraveler pauseScreen;
   
-  private SoundPlayer soundKill, soundHit, soundMiss, soundGround;
+  private SoundPlayer soundKill, soundHit, soundMiss, soundGround, soundBang;
 
   private FullPanel fullPanel;
   private WelcomeScreen welcomeScreen;
@@ -172,6 +172,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       soundMiss = new SoundPlayer(Data.resourcePath + "sounds/wind.wav");
       soundGround = new SoundPlayer(Data.resourcePath + "sounds/rockHitCement.wav");
       soundKill = new SoundPlayer(Data.resourcePath + "sounds/sand.wav");
+      soundBang = new SoundPlayer(Data.resourcePath + "sounds/bang.wav");
     } catch (Exception e) { //Print out an error and stack trace, but keep running.
       System.out.println("PrimeFactorAttack:: *** ERROR Creating Sound effect ****\n" +
               "     " + e.getMessage());
@@ -922,6 +923,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   {
     if (killStreak >= killGoal && deadBlocks.size() > 0)
     {
+      soundBang.play();
       for (Block b : deadBlocks)
       {
         destroyDeadBlock(b);
@@ -986,6 +988,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       while (!mandalaForDeadBlocks.update());
     }
     canvas.drawBlock(b);
+    if (row == grid.getHighestRow()) grid.revertToLastHighest();
     mandalaForDeadBlocks = null;
     usedSave = false;
   }

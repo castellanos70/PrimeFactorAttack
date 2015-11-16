@@ -259,6 +259,7 @@ public class Block
 //    }
     
     //System.out.println("Block.move(): speed="+speed);
+    //System.out.println("Row: " + row);
     
     
     boolean dead=false;
