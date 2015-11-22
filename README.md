@@ -60,3 +60,5 @@ TODO (add more items or place your name on things you want to do):<br>
 12) Scott: Improve instructions display at the start of the game so they are easier to read
 
 13) Tim: Add a pause button (Press 'p')
+
+14) Aakash: Add a Hint Button. When a player press hint button then the factor of the prime number is displayed. At the beginning there will only be one hint available. And, as the user playes the game, the hint is increased. 
