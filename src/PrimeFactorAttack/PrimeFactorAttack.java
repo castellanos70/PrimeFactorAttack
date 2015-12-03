@@ -386,6 +386,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     if (curMandala != null) return false;
     if (block.getCreationTime() > timeOfClick) return false;
 
+
     if (lastFactor == 0) lastFactor = factor;
       // check to see if the user is inputting smallest to largest values
     else if (factor < lastFactor)
