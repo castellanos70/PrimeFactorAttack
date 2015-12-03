@@ -391,6 +391,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     else if (factor < lastFactor)
     {
       perfectKills = false;
+      rewarding = false;
       lastFactor = factor;
     } else lastFactor = factor;
     
