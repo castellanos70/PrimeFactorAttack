@@ -26,8 +26,7 @@ public class Block
   private static final Color BLOCK_COLOR = new Color(117,146,60); 
   private static final Color BONUSBLOCK_COLOR = new Color(101,77,143); 
   private static final Color DEAD_COLOR = new Color(170,63,60);//new Color(217,149,148);
-  public static final Color DESTROYED_COLOR = new Color(255, 255, 255, 128);
-  
+
   public static final double SPEED_VERYSLOW = 0.5;  //pixels per frame
   public static final double SPEED_SLOW = 1.0;  //pixels per frame
   public static final double SPEED_NORMAL = 2.0;  //pixels per frame
@@ -371,12 +370,6 @@ public class Block
   { return mode;
   }
 
-  public int[] getFactorList()
-  {
-    return factorList;
-  }
-  
-  
 
   
   public void setSpeed(double dy)

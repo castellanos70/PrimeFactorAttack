@@ -265,6 +265,7 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
     }
     if (c == 'd')
     {
+      parent.rewarding = false;
       parent.destroyLastDeadBlock();
     }
     

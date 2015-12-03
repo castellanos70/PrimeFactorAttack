@@ -57,7 +57,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   
   
   private Timer myTimer;
-  
+
 
   private double probKeepSecondHardPrime;
   private double probPerfectPower;
@@ -81,6 +81,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   private boolean forfeitBonus = false;
   private boolean usedRewardBonusThisRound = false;
   private int lastFactor = 0;
+  public boolean rewarding = false;
 
   private boolean lastBlockHitGround;
   
@@ -378,8 +379,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       block = new Block(grid, num, speed, blockMode);
     }
   }
-  
-  
+
   public boolean attack(int factor, long timeOfClick)
   {
     if (block == null) return false;
@@ -399,7 +399,10 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     
     //If the block was already in the process of being hit, then 
     //  remove the old factor before working on the new factor.
-    if (block.isHit()) block.removeHitFactor();
+    if (block.isHit())
+    {
+      block.removeHitFactor();
+    }
 
 
     int num = block.getNumber();
@@ -819,7 +822,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   public void nextTurn()
   {
     if (block == null) return;
-    
+
     canvas.copySandLayerToTempLayer();
 
     if (SandStorm.isStormInProgress())
@@ -849,7 +852,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       else if (block.isHit()) block.removeHitFactor();
     }
     
-    
+
     block.move();
 
     if (block.isOnGround())
@@ -866,6 +869,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   private void blockHitBottom()
   {
     lastBlockHitGround = true;
+
     //    killStreakLength = 0;
     //    killStreak_ToLevelUp = 10;
     //skillLevelAtLastMiss = skillLevel;
@@ -895,6 +899,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       deadBlocks.add(block);
       soundMiss.stop();
       soundGround.play();
+      if (rewarding) killGoal++;
+      rewarding = false;
       createBlock();
     }
   }
@@ -910,18 +916,21 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 
   private void rewardStreak()
   {
-    if (perfectKills && !usedRewardBonusThisRound && !forfeitBonus)
+    if (!forfeitBonus)
     {
-      this.setStatus(Data.Status.BONUS_LEVEL);
-      System.out.println("Nice Save!");
-      usedRewardBonusThisRound = true;
+      rewarding = true;
+      if (rewarding && block.isZAPPED())
+      {
+        soundKill.play();
+        destroyLastDeadBlock();
+      }
     }
-    perfectKills = true;
   }
 
   private void destroyAllDeadBlocks()
   {
-    if (killStreak >= killGoal && deadBlocks.size() > 0)
+    if (!usedRewardBonusThisRound && killStreak >= killGoal &&
+            deadBlocks.size() > 0)
     {
       soundBang.play();
       for (Block b : deadBlocks)
@@ -932,8 +941,9 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       deadBlocks.clear();
       killStreak -= killGoal;
       killGoal++;
-      rewardStreak();
+      usedRewardBonusThisRound = true;
     }
+    else if (perfectKills && killStreak >= killGoal && deadBlocks.size() > 0) rewardStreak();
   }
 
   public void destroyLastDeadBlock()
@@ -941,8 +951,11 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     int size = deadBlocks.size();
     if (size > 0)
     {
-      usedSave = true;
-      forfeitBonus = true;
+      if (!rewarding)
+      {
+        usedSave = true;
+        forfeitBonus = true;
+      }
       Block lastDeadBlock = deadBlocks.get(size - 1);
       destroyDeadBlock(lastDeadBlock);
       deadBlocks.remove(size - 1);
@@ -978,6 +991,11 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
           if (usedSave)
           {
             score -= (factor * factor) * (block.getFactorCount());
+            control.setScore(score);
+          }
+          else if (rewarding)
+          {
+            score += (factor * factor) * (block.getFactorCount());
             control.setScore(score);
           }
 
@@ -1062,6 +1080,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       canvas.updateDisplay();
     }
   }
+
 
   public static void main(String[] args)
   {
