@@ -59,7 +59,7 @@ TODO (add more items or place your name on things you want to do):<br>
 
 12) Scott: Improve instructions display at the start of the game so they are easier to read
 
-13) Tim: Add a pause button (Press 'p')
+13) Tim: Add a pause button (Press 'p') DONE
 
 
 14)Aakash: Add hint button. 
