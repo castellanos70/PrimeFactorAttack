@@ -252,10 +252,30 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
   
   
   public void keyTyped(KeyEvent e) 
-  { 
+  {
+    char c = e.getKeyChar();
+
+    if (c == 'p')
+
+    {
+      if(parent.getGameStatus() == Data.Status.TIMESTOP)
+      {
+        parent.setStatus(Data.Status.RUNNING);
+        return;
+      }
+
+      { if (parent.getGameStatus() != Data.Status.RUNNING) return;
+        if (timestopChargeCount <= 0)
+        { timestopChargeCount=0;
+          updateButtons();
+          return;
+        }
+        timestopChargeCount--;
+        parent.setStatus(Data.Status.TIMESTOP);
+      }
+    }
     if (parent.getGameStatus() != Data.Status.RUNNING) return;
     
-    char c = e.getKeyChar();
     //System.out.println("ContgrolPanel.keyTyped("+c+")");
     int prime = -1;
     
@@ -269,20 +289,7 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
       parent.destroyLastDeadBlock();
     }
 
-    if (c == 'p')
 
-    {
-
-      { if (parent.getGameStatus() != Data.Status.RUNNING) return;
-        if (timestopChargeCount <= 0)
-        { timestopChargeCount=0;
-          updateButtons();
-          return;
-        }
-        timestopChargeCount--;
-        parent.setStatus(Data.Status.TIMESTOP);
-      }
-    }
     
     
     if (lastKeyPressed == ' ')
