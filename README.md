@@ -6,6 +6,7 @@ TODO (add more items or place your name on things you want to do):<br>
     The colors must stand out form the background and the numbers on the blocks must be clearly readable.
 
 2) Add background images to levels past 3.
+AYeong : I will add background images to level 1,2,3 differently. 
 
 3) Greatly improve transition screens.
 
