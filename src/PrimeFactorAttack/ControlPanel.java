@@ -268,6 +268,21 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
       parent.rewarding = false;
       parent.destroyLastDeadBlock();
     }
+
+    if (c == 'p')
+
+    {
+
+      { if (parent.getGameStatus() != Data.Status.RUNNING) return;
+        if (timestopChargeCount <= 0)
+        { timestopChargeCount=0;
+          updateButtons();
+          return;
+        }
+        timestopChargeCount--;
+        parent.setStatus(Data.Status.TIMESTOP);
+      }
+    }
     
     
     if (lastKeyPressed == ' ')
