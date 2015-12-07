@@ -64,3 +64,5 @@ AYeong : I will add background images to level 1,2,3 differently.
 
 
 14)Aakash: Add hint button. 
+
+15) Soyeon An : I will change 'end game' button to 'new game' button, when the game ends.
