@@ -11,14 +11,10 @@ AYeong : I will add background images to level 1,2,3 differently.
 3) Greatly improve transition screens.
 
 4) Greatly improve bonus level games/add new games.  
-   Jarek:  I plan to add a new bonus level (that extends BonusLevel.java) in which a player must avoid composite 
-   numbers entering the screen at random locations.  The player is given ammunition consisting of the prime numbers im
-   the initial number's prime factorization.  When the player shoots a composite number with a divisible prime number,
-   the prime number will be shown inside of the block drawn for the composite number.  If the player successfully his 
-   the composite number with all of the values in its prime factorization, the ammunition used will be dropped by the 
-   composite number block.  New composite number monsters will be spawn in addition to prime number ammunition.  
-   If the player hits a composite number monster with a prime number that is not divisible, the composite number will
-   increase in size based on a difficulty factor.
+   Jarek:  Instead of adding a new bonus level, I plan to add some of the ideas I suggested earlier to 
+   BonusLevel_DanielGomez.java.  This game contains basic shooting mechanics but the player is immobile, enemies spawn
+   randomly, and they move in a predictable pattern.  I plan to improve this game by allowing the player to be moved with the
+   keyboard.  I will update the enemy AI so that monsters follow the player. 
    
    (I plan on creating a new bonus level as well. I'll probably squeeze it in directly after the first level is finished, as to give the kids an opportunity to play it. I'm not sure how far in the game they will get. The bonus level I'm thinking of doing is something similar to the Space Invaders arcade game. -Josh Rhodes)
    
