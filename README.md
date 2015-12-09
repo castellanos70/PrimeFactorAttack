@@ -61,4 +61,4 @@ AYeong : I will add background images to level 1,2,3 differently.
 
 15) Soyeon An : I will change 'end game' button to 'new game' button, when the game ends.
 
-16) I will give the cursor a new design when it's in the game window. Won't be doing a bonus level anymore.
+16) I will give the cursor a new design when it's in the game window. Won't be doing a bonus level anymore. -Josh Rhodes
