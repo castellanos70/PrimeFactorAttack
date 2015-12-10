@@ -80,7 +80,7 @@ public class Utility
     
     int width = loadedImage.getWidth(null);
     int height = loadedImage.getHeight(null);
-    BufferedImage imageBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    BufferedImage imageBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
     Graphics g = imageBuffer.getGraphics();
     g.drawImage(loadedImage, 0, 0, null);
     return imageBuffer;
