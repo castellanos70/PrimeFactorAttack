@@ -13,7 +13,7 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
   private static final int PRIME_BUTTON_PIXELS = 70;
   private PrimeFactorAttack parent;
 
-  private JButton butStart, butTimeStop;
+  private JButton butStart, butTimeStop, soundToggle;
   private JLabel labelScore, labelLevel;
   private int lastScore;
   private JButton[] primeButtons = new JButton[Data.PRIME.length];
@@ -43,6 +43,11 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
     butTimeStop = new JButton();
     this.add(butTimeStop);
     butTimeStop.addActionListener(this);
+
+    soundToggle = new JButton();
+    this.add(soundToggle);
+    soundToggle.addActionListener(this);
+    soundToggle.setText("Sound");
     
    
     labelScore = new JLabel(Data.version);
@@ -52,15 +57,18 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
     
     int butStartWidth = 100;
     int butTimestopWidth = 150;
+    int soundToggleWidth = 75;
     int butHeight = 30;
     int row1 = 5;
     int row2 = row1+PRIME_BUTTON_PIXELS+10;
     int butStartLeft = (width-butStartWidth)/2;
     int butTimestopLeft = butStartLeft-butTimestopWidth-10;
+    int soundToggleLeft = width - soundToggleWidth - 7;
     
     butStart.setBounds(butStartLeft, row2, butStartWidth, butHeight); 
-    butTimeStop.setBounds(butTimestopLeft, row2, butTimestopWidth, butHeight); 
-    
+    butTimeStop.setBounds(butTimestopLeft, row2, butTimestopWidth, butHeight);
+    soundToggle.setBounds(soundToggleLeft, row2, soundToggleWidth, butHeight);
+
     int scoreLeft = butStartLeft+butStartWidth+20;
     int scoreWidth = width-20-butStartLeft;
     labelScore.setBounds(scoreLeft, row2, scoreWidth, butHeight); 
@@ -231,6 +239,19 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
       parent.setStatus(Data.Status.TIMESTOP);
     }
 
+    else if (obj == soundToggle)
+    {
+      //if (parent.getGameStatus() != Data.Status.RUNNING) return;
+      if (parent.sound)
+      {
+        parent.sound = false;
+      }
+      else if(!parent.sound)
+      {
+        parent.sound = true;
+      }
+    }
+
     else 
     { 
       if (parent.getGameStatus() != Data.Status.RUNNING) return;
@@ -246,9 +267,42 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
   }
 
   public void keyTyped(KeyEvent e) 
-  { 
-    if (parent.getGameStatus() != Data.Status.RUNNING) return;
+  {
     char c = e.getKeyChar();
+
+    if (c == 'p')
+
+    {
+      if(parent.getGameStatus() == Data.Status.TIMESTOP)
+      {
+        parent.setStatus(Data.Status.RUNNING);
+        return;
+      }
+
+      { if (parent.getGameStatus() != Data.Status.RUNNING) return;
+        if (timestopChargeCount <= 0)
+        { timestopChargeCount=0;
+          updateButtons();
+          return;
+        }
+        timestopChargeCount--;
+        parent.setStatus(Data.Status.TIMESTOP);
+      }
+    }
+    if (c == 's')
+    {
+      if (parent.sound)
+      {
+        parent.sound = false;
+      }
+      else if(!parent.sound)
+      {
+        parent.sound = true;
+      }
+    }
+
+    if (parent.getGameStatus() != Data.Status.RUNNING) return;
+    c = e.getKeyChar();
     int prime = -1;
     
     if (Data.CHEAT_ON && (c == 'n'))
@@ -256,7 +310,11 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
       parent.cheatLevelUp();
       return; 
     }
-
+    if (c == 'd')
+    {
+      parent.rewarding = false;
+      parent.destroyLastDeadBlock();
+    }
     if (lastKeyPressed == ' ')
     {
       if (c == '2')

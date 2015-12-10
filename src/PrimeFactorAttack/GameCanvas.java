@@ -147,7 +147,7 @@ public class GameCanvas extends Canvas
   
   public void drawBlock(Block block)
   { 
-    if (!block.isOnGround()) 
+    if (!block.isOnGround())
     { 
       if (Data.showHelp)
       { int x0 = block.getLeft() + block.getWidth() / 2;
@@ -172,13 +172,15 @@ public class GameCanvas extends Canvas
       }
       block.draw(Data.graphTmp);
     }
-    else 
-    { block.draw(Data.graph);
-      block.draw(Data.graphSand);
-      Data.graphTmp.drawImage(Data.imageSand, 0, 0, null);
+    else
+    {
+      block.draw(Data.graphTmp);
+    //  block.draw(Data.graph);
+    //  block.draw(Data.graphSand);
+    //  Data.graphTmp.drawImage(Data.imageSand, 0, 0, null);
     }
   }
-  
+
   public void drawlineOfRandomSand(int y)
   { for (int x=0; x<canvasWidth; x++)
     { 
@@ -190,11 +192,12 @@ public class GameCanvas extends Canvas
 
   
   public void drawBox(int x, int y, int size, Color c)
-  { Data.graphTmp.setColor(c);
+  {
+    Data.graphTmp.setColor(c);
     Data.graphTmp.fillRect(x, y, size, size);
   }
-  
-  
+
+
   public void drawArrow(Graphics g, Color c, int x0, int y0, int x1,int y1)
   {
     g.setColor(c);
