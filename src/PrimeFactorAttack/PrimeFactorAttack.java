@@ -1,6 +1,6 @@
 package PrimeFactorAttack;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import java.awt.Color;
 import java.awt.Container;  //On which to add buttons and JPanel
@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.Timer;
 import java.awt.Insets;
 
 import PrimeFactorAttack.mandala.Mandala;
@@ -242,8 +241,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       control.setVisible(false);
       canvas.setVisible(false);
       contentPane.add(bonusLevel);
-      bonusLevel.setLocation(0,0);
-      bonusLevel.init();
+      bonusLevel.setLocation(0, 0);
+      //bonusLevel.init(); Put this back in!!!!!
     }
     
     else if (newStatus == Data.Status.ENDED)
@@ -607,7 +606,9 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     if (skillLevel >= 10) minNumForRemoveHits = 100; 
     
     if (skillLevel%5 == 0)
-    { setStatus(Data.Status.LEVELUP);
+    {
+      control.loadButtonImages(skillLevel);
+      setStatus(Data.Status.LEVELUP);
       easyPrimeOnly = false;
       if (maxPrimeIdx < Data.PRIME.length-1)
       { maxPrimeIdx++;
@@ -846,8 +847,10 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     else if (gameStatus == Data.Status.LEVELUP)
     {
       //System.out.println("......gameStatus == Game.Status.LEVELUP");
-      boolean stillRunning = levelUp.update();
-      if (!stillRunning)
+      //boolean stillRunning = levelUp.update(); Put back in
+      boolean stillRunning = false;
+      //stillRunning = false;
+      if (!stillRunning)//change back to
       {
         this.setStatus(Data.Status.BONUS_LEVEL);
       }
@@ -856,7 +859,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     else if (gameStatus == Data.Status.BONUS_LEVEL)
     {
       //System.out.println("......gameStatus == Game.Status.LEVELUP");
-      boolean stillRunning = bonusLevel.nextFrame();
+      //boolean stillRunning = bonusLevel.nextFrame(); Put back in
+      boolean stillRunning = false;
       if (!stillRunning) this.setStatus(Data.Status.RUNNING);
       fullPanel.repaint();
     }
@@ -865,12 +869,11 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     { pauseScreen.update();
       canvas.updateDisplay(); 
     }
-    
-
   }
 
   public static void main(String[] args)
   {
+    //new ButtonDesignsJosh();
     new PrimeFactorAttack();
   }
 }

@@ -1,18 +1,12 @@
 package PrimeFactorAttack;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
-
-
 
 public class ControlPanel extends JPanel implements ActionListener, KeyListener
 {
@@ -25,6 +19,7 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
   private JButton[] primeButtons = new JButton[Data.PRIME.length];
   private ImageIcon[] icons = new ImageIcon[10];
   private ImageIcon[] rollIcons = new ImageIcon[10];
+  private ImageIcon[] rollSelected = new ImageIcon[10];
   private DecimalFormat commaFormat = new DecimalFormat("#,###,##0");
   
   private int maxPrimeIdx;
@@ -32,7 +27,6 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
   
   private int timestopChargeCount;
   private int timestopNextChargeScore;
-  
 
   public ControlPanel(PrimeFactorAttack frame, int width, int height)
   {
@@ -73,55 +67,53 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
     labelLevel.setBounds(10, row2, butStartWidth, butHeight); 
     
     Font buttonFont = new Font("DialogInput",Font.BOLD, 18);
-    
     for (int i=0; i<primeButtons.length; i++)
     {
       primeButtons[i] = new JButton();
       this.add(primeButtons[i]);
       primeButtons[i].addActionListener(this);
-      primeButtons[i].setBounds(7+i*(PRIME_BUTTON_PIXELS+4), row1, 
-          PRIME_BUTTON_PIXELS, PRIME_BUTTON_PIXELS);
-      //System.out.println(5+i*(PRIME_BUTTON_PIXELS+2)+PRIME_BUTTON_PIXELS);
+      primeButtons[i].setBounds(7 + i * (PRIME_BUTTON_PIXELS + 4), row1,
+              PRIME_BUTTON_PIXELS, PRIME_BUTTON_PIXELS);
+      primeButtons[i].setFocusPainted(false); // Get rid of the outline when the button is clicked
+      primeButtons[i].setBorderPainted(false); // Get rid of the background box
+      primeButtons[i].setContentAreaFilled(false); // Get rid of the background box outline
     }
     labelScore.setFont(buttonFont);
     labelLevel.setFont(buttonFont);
     
-    loadButtonImages();
+    loadButtonImages(0);
     this.addKeyListener(this);
-    
   }
-  
-  
-  private void loadButtonImages()
-  {    
-    for( int i=0; i<primeButtons.length; i++ )
+
+  public void loadButtonImages(int skillLevel)
+  {
+    for(int i=0; i<primeButtons.length; i++)
     {
       //Populate our image and rollover image arrays
-      
-      
-      String str1 = "buttons/Nicholas_Antonio/" + Data.PRIME[i] + ".png";
-      String str2 = "buttons/Nicholas_Antonio/" + Data.PRIME[i] + "r.png";
-      
-
+      String myColors[] = {"Blue", "Brown", "Gray", "Yellow", "Green", "Orange", "Purple", "Red"};
+      String myBrightDarkColors[] = {"", "bright", "dark"};
+      skillLevel = skillLevel%(myColors.length*5);
+      String str1 = "buttons/Josh_Demick/Num" + Data.PRIME[i] + myColors[skillLevel/5] + myBrightDarkColors[0] + ".png";
+      String str2 = "buttons/Josh_Demick/Num" + Data.PRIME[i] + myColors[skillLevel/5] + myBrightDarkColors[1] + ".png";
+      String str3 = "buttons/Josh_Demick/Num" + Data.PRIME[i] + myColors[skillLevel/5] + myBrightDarkColors[2] + ".png";
       icons[i] = new ImageIcon(Data.resourcePath + str1);
       rollIcons[i] = new ImageIcon(Data.resourcePath + str2);
-      
-      
+      rollSelected[i] = new ImageIcon(Data.resourcePath + str3);
+
       //Change the button icons
       primeButtons[i].setIcon(icons[i]);
       primeButtons[i].setRolloverIcon(rollIcons[i]);
-
+      primeButtons[i].setPressedIcon(rollSelected[i]);
       //Make sure rollovers are enabled
       primeButtons[i].setRolloverEnabled(true);
-      
       //Disable the buttons by default - they will be enabled when the game starts
       primeButtons[i].setEnabled(false);
-      //System.out.println("Loading Image " + i);
     }
   }
-  
+
   public void newGame()
-  { timestopChargeCount=1;
+  {
+    timestopChargeCount=1;
     timestopNextChargeScore=5000;
     lastScore = 0;
     setScore(0);
@@ -131,29 +123,31 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
   { 
     int increase = score-lastScore;
     if (increase > 0)
-    { labelScore.setText("Score: +" + increase + " = " + commaFormat.format(score));
+    {
+      labelScore.setText("Score: +" + increase + " = " + commaFormat.format(score));
     }
     else labelScore.setText("Score: "+score);
     lastScore = score;
     
     if (score >= timestopNextChargeScore) 
-    { timestopChargeCount++;
+    {
+      timestopChargeCount++;
       timestopNextChargeScore += 5000;
       butTimeStop.setText("Time-Turner x"+timestopChargeCount);
       butTimeStop.setEnabled(true);
     }
-    
     labelScore.repaint();
   }
   
   public void setLevel(int skillLevel, int maxPrimeIdx)
-  { labelLevel.setText("Level: " + skillLevel);
+  {
+    labelLevel.setText("Level: " + skillLevel);
     this.maxPrimeIdx = maxPrimeIdx;
     updateButtons();
   }
   
   public void updateButtons()
-  { 
+  {
     lastKeyPressed = ' ';
     
     if (parent.getGameStatus() == Data.Status.RUNNING)
@@ -171,36 +165,38 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
     }
   
     else 
-    { for(int i=0; i<primeButtons.length; i++ )
+    {
+      for(int i=0; i<primeButtons.length; i++ )
       {
         primeButtons[i].setEnabled(false);
       }
       butTimeStop.setEnabled(false);
       
       if (parent.getGameStatus() == Data.Status.READY_TO_START)
-      { butStart.setText("START");
+      {
+        butStart.setText("START");
       }
       else if (parent.getGameStatus() == Data.Status.LEVELUP)
-      { butStart.setText("Resume");
+      {
+        butStart.setText("Resume");
       }
       else if (parent.getGameStatus() == Data.Status.TIMESTOP)
-      { butStart.setText("Resume");
+      {
+        butStart.setText("Resume");
         butTimeStop.setText("Time-Turner x"+timestopChargeCount);
       }
       else if (parent.getGameStatus() == Data.Status.ENDED)
-      { butStart.setText("New Game");
+      {
+        butStart.setText("New Game");
       }
     }
   }
-
-
 
   public void actionPerformed(ActionEvent event)
   {
     long timeOfClick = event.getWhen();
     
     Object obj = event.getSource();
-    //System.out.println("actionPerformed("+obj.toString());
     if (obj == butStart) 
     { if (parent.getGameStatus() == Data.Status.LEVELUP)
       { parent.setStatus(Data.Status.RUNNING);
@@ -224,7 +220,8 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
     }
     
     else if (obj == butTimeStop) 
-    { if (parent.getGameStatus() != Data.Status.RUNNING) return;
+    {
+      if (parent.getGameStatus() != Data.Status.RUNNING) return;
       if (timestopChargeCount <= 0)
       { timestopChargeCount=0;
         updateButtons();
@@ -239,7 +236,6 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
       if (parent.getGameStatus() != Data.Status.RUNNING) return;
       for (int i=0; i<primeButtons.length; i++)
       {
-        //System.out.println("====>("+primeButtons[i].toString());
         if (obj == primeButtons[i])
         { int factor = Data.PRIME[i];
           parent.attack(factor, timeOfClick);
@@ -248,26 +244,24 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
     }
     this.requestFocus();
   }
-  
-  
-  
+
   public void keyTyped(KeyEvent e) 
   { 
     if (parent.getGameStatus() != Data.Status.RUNNING) return;
-    
     char c = e.getKeyChar();
-    //System.out.println("ContgrolPanel.keyTyped("+c+")");
     int prime = -1;
     
     if (Data.CHEAT_ON && (c == 'n'))
-    { parent.cheatLevelUp();
+    {
+      parent.cheatLevelUp();
       return; 
     }
-    
-    
+
     if (lastKeyPressed == ' ')
-    { if (c == '2')
-      { if (Data.PRIME[maxPrimeIdx] < 23) prime = 2;
+    {
+      if (c == '2')
+      {
+        if (Data.PRIME[maxPrimeIdx] < 23) prime = 2;
         else if (parent.getFallingComposite() % 2 == 0) prime = 2;
       }
       else if (c == '3') prime = 3;
@@ -275,32 +269,32 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
       else if (c == '7') prime = 7;
     }
     else if (lastKeyPressed == '1')
-    { if (c == '1') prime = 11;
+    {
+      if (c == '1') prime = 11;
       else if (c == '3') prime = 13;
       else if (c == '7') prime = 17;
       else if (c == '9') prime = 19;
       else c = ' ';
     }
     else if (lastKeyPressed == '2')
-    { if (c == '3') prime = 23;
+    {
+      if (c == '3') prime = 23;
       else if (c == '9') prime = 29;
       else c = ' ';
     }
 
     else c = ' ';
-    
-    
+
     if (prime > 0)
-    { lastKeyPressed = ' ';
+    {
+      lastKeyPressed = ' ';
       int idx = Data.getIndexOfPrime(prime);
       primeButtons[idx].doClick();
     }
     else
-    { lastKeyPressed = c;
+    {
+      lastKeyPressed = c;
     }
-   
-    
-    
   }
   public void keyPressed(KeyEvent e) {}
   public void keyReleased(KeyEvent e) {}
