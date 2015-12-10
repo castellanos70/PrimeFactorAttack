@@ -287,6 +287,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
     gameStatus = Data.Status.ENDED;
     diffusionLimitedAggregation.endGame();
+    control.updateButtons();
   }
   
   
