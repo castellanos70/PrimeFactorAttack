@@ -841,6 +841,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       //System.out.println("END!");
       last = tmp;
        canvas.updateDisplay();
+
     }
     else if (gameStatus == Data.Status.WELCOME)
     {
