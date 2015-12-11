@@ -20,7 +20,7 @@ public class GameCanvas extends Canvas
 {
   private static final long serialVersionUID = 1L;
   
-  private Image background1, background2, background3;
+  private Image background1, background2, background3, background4, background5, background6;
   private BufferStrategy screenBuffer;
   
   private int canvasWidth, canvasHeight;
@@ -53,10 +53,16 @@ public class GameCanvas extends Canvas
     String str1 = "background-Level1.png";
     String str2 = "background-Level2.png";
     String str3 = "background-Level3.png";
+    String str4 = "background-Level4.jpg";
+    String str5 = "background-Level5.jpg";
+    String str6 = "background-Level6.jpg";
     
     background1 = new ImageIcon(Data.resourcePath + str1).getImage();
     background2 = new ImageIcon(Data.resourcePath + str2).getImage();
     background3 = new ImageIcon(Data.resourcePath + str3).getImage();
+    background4 = new ImageIcon(Data.resourcePath + str4).getImage();
+    background5 = new ImageIcon(Data.resourcePath + str5).getImage();
+    background6 = new ImageIcon(Data.resourcePath + str6).getImage();
   }
 
   
@@ -103,20 +109,37 @@ public class GameCanvas extends Canvas
   {
     System.out.println("Draw.newGame()");
     clearBackground(1);
-
+    Data.graph.drawImage(background4, 0, 0, 750, 450, null);
   }
   
   public void clearBackground(int level)
   {
-    if (level < 5) 
-    { Data.graph.drawImage(background1, 0, 0, null);
-    }
-    else if (level < 10) 
+     if(level==1)
+      {
+        Data.graph.drawImage(background4,0,0,750,450,null);
+      }
+      else if(level==2)
+      {
+       Data.graph.drawImage(background5,0,0,750,450,null);
+      }
+      else if(level==3)
+      {
+        Data.graph.drawImage(background6,0,0,750,450,null);
+      }
+      else if(level==4)
+      {
+        Data.graph.drawImage(background1, 0, 0, null);
+      }
+    
+    
+    else if ((!(level==1))&&(level < 10))
     { Data.graph.drawImage(background2, 0, 0, null);
     }
-    else if (level < 15) 
+    //else if (level < 15)
+      else if ((!(level==1))&&(level < 15))
     { Data.graph.drawImage(background3, 0, 0, null);
     }
+    
     else
     { int x = canvasWidth/2;
 
@@ -147,7 +170,7 @@ public class GameCanvas extends Canvas
   
   public void drawBlock(Block block)
   { 
-    if (!block.isOnGround()) 
+    if (!block.isOnGround())
     { 
       if (Data.showHelp)
       { int x0 = block.getLeft() + block.getWidth() / 2;
@@ -172,13 +195,15 @@ public class GameCanvas extends Canvas
       }
       block.draw(Data.graphTmp);
     }
-    else 
-    { block.draw(Data.graph);
-      block.draw(Data.graphSand);
-      Data.graphTmp.drawImage(Data.imageSand, 0, 0, null);
+    else
+    {
+      block.draw(Data.graphTmp);
+    //  block.draw(Data.graph);
+    //  block.draw(Data.graphSand);
+    //  Data.graphTmp.drawImage(Data.imageSand, 0, 0, null);
     }
   }
-  
+
   public void drawlineOfRandomSand(int y)
   { for (int x=0; x<canvasWidth; x++)
     { 
@@ -190,11 +215,12 @@ public class GameCanvas extends Canvas
 
   
   public void drawBox(int x, int y, int size, Color c)
-  { Data.graphTmp.setColor(c);
+  {
+    Data.graphTmp.setColor(c);
     Data.graphTmp.fillRect(x, y, size, size);
   }
-  
-  
+
+
   public void drawArrow(Graphics g, Color c, int x0, int y0, int x1,int y1)
   {
     g.setColor(c);

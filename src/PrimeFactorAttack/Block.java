@@ -1,76 +1,75 @@
-/*    There are two major changes I am going to make to this file. One is to implement some sort of sprite texturing
- * system for the blocks, and the other is to edit the comments and code so that they are clear, easy to understand, and
- * descriptive of their respective keywords. -Michael Perley                                                          */
-
-
-/*    Declare Package */
 package PrimeFactorAttack;
 
-
-/* Import Libraries */
-import java.awt.*;
-import java.util.Random;                                                                      // For Random
-import PrimeFactorAttack.utility.Utility;                                                     // Static Helper Methods
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.util.Random;
+import PrimeFactorAttack.utility.Utility;
 
 
 public class Block
 {
+  
+  //rand must be static so that a new random number generator is not created each time
+  //a new block is created.
+  private static Random rand = new Random();
+  
+  
   public enum STATUS
-  {
-    FREE_FALL, HIT, FATALLY_HIT, ONGROUND, ZAPPED
+  { FREE_FALL, HIT, FATALLY_HIT, ONGROUND, ZAPPED
   }
   
   public enum MODE
-  {
-    REMOVE_HITS, BALLOONS
+  { REMOVE_HITS, BALLOONS
   }
   
-  /* Color Finals */
-
-  private static final Color BLOCK_COLOR = new Color(117,146,60);
+  private static final Color BLOCK_COLOR = new Color(117,146,60); 
   private static final Color BONUSBLOCK_COLOR = new Color(101,77,143); 
-  private static final Color DEAD_COLOR = new Color(170,63,60);
-
-  /* Speed Finals */
-
-  public static final double SPEED_VERYSLOW = 0.5;
-  public static final double SPEED_SLOW = 1.0;
-  public static final double SPEED_NORMAL = 2.0;
-  public static final double SPEED_FAST = 3.0;
-  public static final double SPEED_DROP = 24.0;
-  public static final double SPEED_MIN = 0.25;
-  public static final double SPEED_UPBUMP = -12.0;
-  public static final double UPBUMP_DELTA_SPEED = 0.75;
+  private static final Color DEAD_COLOR = new Color(170,63,60);//new Color(217,149,148);
+  
+  public static final double SPEED_VERYSLOW = 0.5;  //pixels per frame
+  public static final double SPEED_SLOW = 1.0;  //pixels per frame
+  public static final double SPEED_NORMAL = 2.0;  //pixels per frame
+  public static final double SPEED_FAST = 3.0;  //pixels per frame
+  public static final double SPEED_DROP = 24.0;  //pixels per frame
+  public static final double SPEED_MIN = 0.25;//pixels per frame
+  public static final double SPEED_UPBUMP = -12.0;  //pixels per frame
+  public static final double UPBUMP_DELTA_SPEED = 0.75;  //pixels per frame per frame
   private double currentBaseSpeed = SPEED_NORMAL;
 
-  /* Class Variables */
   
-  private int origNum, num, factorCount, hitFactor, left, width, height, colLeft, colWidth, row, textOffsetX,
-    textOffsetY;
+  private int origNum;
+  private int num; 
   private String numStr;
+  private int factorCount;
   private int[] factorList;
   private boolean[] factorBalloon;
+  
   private MODE mode;
+  
   private STATUS status;
+  private int hitFactor;
+  
   private Grid grid;
-  private double top, speed;
+  private int left, width, height;
+  private double top;
+  private int colLeft, colWidth, row; 
+  private double speed;
+  private int textOffsetX, textOffsetY;
   private long timeCreated;
   
   public static FontMetrics fontMetrics;
-  private static Random rand = new Random();                                                  // rand must be static
+
   private static Color[] primeColor = 
   { new Color(0x0314aa), new Color(0x2ecbdc), new Color(0x03ae80), new Color(0x207b06), new Color(0xb2b400), 
     new Color(0xf68a03), new Color(0x9d0102), new Color(0xa90a88), new Color(0x982ceb), new Color(0x84837e) 
   };
 
-  private int blockLoop = 0;
-  private boolean pulseFlag;
-
-
-  
+  private int variableName = 0;
+  private boolean booleanName = false;
   public Block(Grid grid, int num, double speed, MODE mode)
   {
-
+    //System.out.println("Block("+num +") Constructor");
     this.grid = grid;
     this.num = num;
     origNum = num;
@@ -87,14 +86,17 @@ public class Block
     numStr = String.valueOf(num);
     
     if (mode == MODE.BALLOONS)
-    {
+    { 
+      //System.out.println("Block("+num +") Constructor: MODE.BALLOONS");
       factorList = Utility.getPrimeFactors(num);
       factorCount = factorList.length;
       factorBalloon = new boolean[factorCount];
       java.util.Arrays.fill(factorBalloon, false);
+      //System.out.println("     factorCount="+factorCount);
     }
     else
-    { factorCount = Utility.countFactors(num); }
+    { factorCount = Utility.countFactors(num);
+    }
 
     colWidth = 2*factorCount;
     width = colWidth*Grid.GRID_PIXELS;
@@ -102,9 +104,16 @@ public class Block
     int numPixelWidth = fontMetrics.stringWidth(numStr);
     textOffsetX = (width - numPixelWidth)/2;
     
-
+    //if (grid.getHeightestRow() < 8)
+    //{ 
+    //  System.out.println("Block(): Center over deep Trough");
+    //  colLeft = 1+(grid.getTroughCenter()-colWidth/2);
+    //}
+    //else
+    //{
     colLeft = rand.nextInt(grid.getColumnCount())-colWidth/2;
-
+    //}
+    
     if (colLeft < 0) colLeft = 0;
     else if (colLeft+colWidth >=grid.getColumnCount())
     { colLeft = grid.getColumnCount() - colWidth;
@@ -117,16 +126,20 @@ public class Block
   }
   
   public void setZapped()
-  { status = STATUS.ZAPPED; }
+  { status = STATUS.ZAPPED;
+  }
   
   
   
   
   public long getCreationTime()
-  { return this.timeCreated; }
+  { return this.timeCreated;
+  }
   
   public void removeHitFactor()
   {
+    //System.out.println("Block.removeFactor() num="+num + ", col="+colLeft);
+
     if (status != STATUS.HIT) return;
 
     speed = SPEED_UPBUMP;
@@ -148,11 +161,12 @@ public class Block
       textOffsetX = (width - numPixelWidth)/2;
     }
     else
-    {
+    { //System.out.println("Block.removeFactor() MODE.BALLOON   factorBalloon.length="+factorBalloon.length);
       for (int i=0; i<factorBalloon.length; i++)
-      {
+      { //System.out.println("Block.removeFactor() factorList["+i+"]="+factorList[i]);
         if ((!factorBalloon[i]) && (factorList[i] == hitFactor))
-        {
+        { 
+          //System.out.println("Block.removeFactor() factorBalloon["+hitFactor+"]=true");
           factorBalloon[i] = true;
           break;
         }
@@ -188,41 +202,29 @@ public class Block
     row = 0;
   }
   
-  private void morphBlockGround(Graphics g, int top)
-  {
-    /* Color of block when it is resting on the ground
-    *
-    *   - Activates twice when current falling block is at rest, never again.
-    */
 
-    g.setColor(DEAD_COLOR);
+  private void bonusFlash(Graphics g)
+  {
+    Color flashColor = new Color(variableName, variableName, 0);
+    if (booleanName) variableName-=5;
+    if (!booleanName) variableName+=5;
+    if (variableName < 30) booleanName = false;
+    if (variableName > 200) booleanName = true;
+    g.setColor(flashColor);
   }
 
-  private void morphBlockHit(Graphics g, int top)
-  {
-    /* Color of the block as it is falling */
 
-    //g.setColor(BLOCK_COLOR);
-  }
 
-  private void morphBlockBonus(Graphics g, int top)
-  {
-    Color blockColor = new Color(blockLoop,blockLoop,0);   // the colors the pulse goes through
-    if (blockLoop <= 10) pulseFlag = true;                 // lower pulse limit
-    if (blockLoop >= 235) pulseFlag = false;               // upper pulse limit
-    if (pulseFlag) blockLoop+=10;                          // upward pulse modifier
-    if (!pulseFlag) blockLoop-=10;                         // downward pulse modifier
-    g.setColor(blockColor);
-  }
-
+  
   public void draw(Graphics g)
   { 
     int iTop = (int)top;
-    if (status == STATUS.ONGROUND) morphBlockGround(g, iTop);
-    else if (mode == MODE.REMOVE_HITS) morphBlockHit(g, iTop);
-    else morphBlockBonus(g, iTop);
-
+    if (status == STATUS.ONGROUND) g.setColor(DEAD_COLOR);
+    else if (mode ==MODE.REMOVE_HITS) bonusFlash(g);
+    else g.setColor(BONUSBLOCK_COLOR);
     g.fillRect(left, iTop, width, height);
+    
+    //System.out.println("left="+left+", top="+top+", width="+width+", height= "+height);
     g.setColor(Color.WHITE);
     g.drawString(numStr, left+textOffsetX, iTop+textOffsetY);
     
