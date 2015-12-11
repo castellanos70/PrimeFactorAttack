@@ -38,6 +38,10 @@ public class DiffusionLimitedAggregation
   private static final String STR1 = "Prime Factor Attack";
   private static final String STR2 = "Level 1: Sand Storm on Titan";
   private static final String STR3 = "To Play: Click START";
+   private static final String STR4 = "GAME OVER";
+  private static final String STR5 = "IF YOU WANT TO CONTINUE";
+  private static final String STR6 = "CLICK 'NEW GAME' BUTTON";
+  
   
   private static int levelIdx;
   
@@ -69,6 +73,33 @@ public class DiffusionLimitedAggregation
   
   public void endGame()
   { levelIdx=0;
+  
+    Data.graph.setPaint(Color.WHITE);
+    Data.graph.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    Data.graphSand.drawImage(Data.image, 0, 0, null);
+
+    Data.graphSand.setFont(supperLargeFont);
+    Data.graphSand.setColor(Color.BLACK);
+    Data.graphSand.drawString(STR4, 200, 220);
+
+    Data.graphSand.setFont(largeFont);
+
+
+    Data.graphSand.drawString(STR5, 170, 290);
+    Data.graphSand.drawString(STR6, 170, 330);
+
+
+    for (int xx = 0; xx < canvasWidth; xx++) {
+      for (int yy = 0; yy < canvasHeight; yy++) {
+        int rgb = Data.imageSand.getRGB(xx, yy);
+        if (rgb != WHITE) {
+          rgb = sandStoneTexture.getRGB(xx, yy);
+          Data.imageSand.setRGB(xx, yy, rgb);
+        }
+      }
+    }
+  
   }
   
   public void setLevelScreen()
