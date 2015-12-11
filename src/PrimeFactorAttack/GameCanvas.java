@@ -53,10 +53,16 @@ public class GameCanvas extends Canvas
     String str1 = "background-Level1.png";
     String str2 = "background-Level2.png";
     String str3 = "background-Level3.png";
+    String str4 = "background-Level4.jpg";
+    String str5 = "background-Level5.jpg";
+    String str6 = "background-Level6.jpg";
     
     background1 = new ImageIcon(Data.resourcePath + str1).getImage();
     background2 = new ImageIcon(Data.resourcePath + str2).getImage();
     background3 = new ImageIcon(Data.resourcePath + str3).getImage();
+    background4 = new ImageIcon(Data.resourcePath + str4).getImage();
+    background5 = new ImageIcon(Data.resourcePath + str5).getImage();
+    background6 = new ImageIcon(Data.resourcePath + str6).getImage();
   }
 
   
@@ -108,15 +114,32 @@ public class GameCanvas extends Canvas
   
   public void clearBackground(int level)
   {
-    if (level < 5) 
-    { Data.graph.drawImage(background1, 0, 0, null);
-    }
-    else if (level < 10) 
+     if(level==1)
+      {
+        Data.graph.drawImage(background4,0,0,750,450,null);
+      }
+      else if(level==2)
+      {
+       Data.graph.drawImage(background5,0,0,750,450,null);
+      }
+      else if(level==3)
+      {
+        Data.graph.drawImage(background6,0,0,750,450,null);
+      }
+      else if(level==4)
+      {
+        Data.graph.drawImage(background1, 0, 0, null);
+      }
+    
+    
+    else if ((!(level==1))&&(level < 10))
     { Data.graph.drawImage(background2, 0, 0, null);
     }
-    else if (level < 15) 
+    //else if (level < 15)
+      else if ((!(level==1))&&(level < 15))
     { Data.graph.drawImage(background3, 0, 0, null);
     }
+    
     else
     { int x = canvasWidth/2;
 
