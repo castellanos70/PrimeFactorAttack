@@ -2,8 +2,7 @@ package PrimeFactorAttack;
 
 import javax.swing.*;
 
-import java.awt.Color;
-import java.awt.Container;  //On which to add buttons and JPanel
+import java.awt.*;
 
 //Listen to button clicks
 import java.awt.event.ActionEvent;
@@ -12,7 +11,6 @@ import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.awt.Insets;
 
 import PrimeFactorAttack.mandala.Mandala;
 import PrimeFactorAttack.mandala.Mandala_Cassandra_Shaffer;
@@ -130,6 +128,15 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     fullPanel.setLocation(0, 0);
 
     welcomeScreen = new WelcomeScreen(fullPanel);
+
+    Toolkit toolkit = Toolkit.getDefaultToolkit();
+
+    Image image = new ImageIcon(Data.resourcePath + "cursor1.png").getImage();
+    Cursor c = toolkit.createCustomCursor(image, new Point(0, 0), "img");
+    this.getRootPane().setCursor(c);
+
+    Image logoImage = new ImageIcon(Data.resourcePath + "logo10.png").getImage();
+    setIconImage(logoImage);
 
 
     int width = 752;
