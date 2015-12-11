@@ -40,6 +40,9 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
 
   private int mouseX,mouseY;
 
+  private int playerX=WIDTH/2;
+  private int playerY=HEIGHT/2;
+
   private int level;
 
   private final static int BLOCK_SIZE = 50; //player base size
@@ -48,7 +51,7 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
 
   private static final int FREEZE_TIME = 50; //how long a monster stays frozen when hit
   private ArrayList<Monster> monsters =new ArrayList<>();
-  private Player player=new Player();
+  private ArrayList<Integer> activeCommands=new ArrayList<>();
   private static final int MONSTER_STEP=4;
   private static final int PLAYER_STEP=7;
 
@@ -69,7 +72,6 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
   private final int sw = 20; //the width of the shot
   private final int sv = 40; //the velocity of the shot
 
-  private int currentPrime = 0; //prime number attached to current bullet
   private int maxNumber = 60;
 
   // sets up the buffered image, instructions
@@ -142,7 +144,9 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
 
     //how often we update the game
     this.requestFocusInWindow();
+
     clearMonsters();
+    movePlayer();
     drawMonsters();
     drawPlayer();
     drawBullets();
@@ -221,7 +225,7 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     {
       mouseClickX = e.getX(); //get mouse coordinates
       mouseClickY = e.getY();
-      createBullet(mouseClickX, mouseClickY, currentPrime); //create bullet
+      createBullet(mouseClickX, mouseClickY); //create bullet
       for(int i=monsters.size()-1;i>=0;i--)
       {
         Monster currentMonster=monsters.get(i);
@@ -245,7 +249,6 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
         }
       }
     }
-    currentPrime = 0; //reset prime
   }
   private void drawCursor(int x, int y)
   {
@@ -254,7 +257,7 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     final BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
     canvas.setStroke(dashed);
     canvas.setColor(Color.BLACK);
-    canvas.drawLine(WIDTH/2, HEIGHT/2, x, y);
+    canvas.drawLine(playerX, playerY, x, y);
     canvas.fillOval(x-5, y-5, 10, 10); //draw circle at mouse point
     canvas.fillOval(WIDTH/2-10, HEIGHT/2-10, 20, 20);
   }
@@ -262,9 +265,8 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
   //check if a monster reached the player
   private boolean isAtPlayer(int x, int y) //x and y are the monsters coordinates
   {
-    if((x>=(player.x-BLOCK_SIZE/2)&&x<=(player.x+BLOCK_SIZE/2))&&(y>=(player.y-BLOCK_SIZE/2)&&y<=(player.y+BLOCK_SIZE/2)))
+    if((x>=(playerX-BLOCK_SIZE/2)&&x<=(playerX+BLOCK_SIZE/2))&&(y>=(playerY-BLOCK_SIZE/2)&&y<=(playerY+BLOCK_SIZE/2)))
     {
-      System.out.println(true);
       return true;
     }
 
@@ -336,9 +338,9 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
       }
       else
       {
-        double monsterAngle=Math.atan2(-(player.y-currentMonster.y),player.x-currentMonster.x);
+        double monsterAngle=Math.atan2(-(playerY-currentMonster.y),playerX-currentMonster.x);
         currentMonster.x=(int)(currentMonster.x+MONSTER_STEP*Math.cos(monsterAngle));
-        System.out.println(currentMonster.x+" "+monsters.get(i).x);
+        //System.out.println(currentMonster.x+" "+monsters.get(i).x);
         currentMonster.y=(int)(currentMonster.y-MONSTER_STEP*Math.sin(monsterAngle));
       }
     }
@@ -374,11 +376,11 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
   private void drawPlayer()
   {
     canvas.setColor(Color.RED);
-    canvas.fillRect(player.x - BLOCK_SIZE / 2, player.y - BLOCK_SIZE / 2, BLOCK_SIZE, BLOCK_SIZE);
+    canvas.fillRect(playerX - BLOCK_SIZE / 2, playerY - BLOCK_SIZE / 2, BLOCK_SIZE, BLOCK_SIZE);
   }
 
   //create a new bullet
-  public void createBullet(int clickX, int clickY, int prime)
+  public void createBullet(int clickX, int clickY)
   {
     double xVel; //bullet speeds
     double yVel;
@@ -392,8 +394,8 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
 
     //set all bullet parameters
     bulletStatus[bulletCount] = 1; //bullet is active
-    bulletX[bulletCount] = WIDTH/2-(sw/2); //bullet starting location
-    bulletY[bulletCount] = HEIGHT/2-(sw/2);
+    bulletX[bulletCount] = playerX; //bullet starting location
+    bulletY[bulletCount] = playerY;
     bulletEndX[bulletCount] = clickX; //bullet end point (not implemented yet)
     bulletEndY[bulletCount] = clickY;
     bulletXVel[bulletCount] = xVel; //bullet velocity
@@ -431,6 +433,31 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
       }
     }
   }
+  private void movePlayer()
+  {
+    System.out.println("---------------------");
+    for(Integer pressedKey:activeCommands)
+    {
+     System.out.println((char)pressedKey.intValue());
+      if (pressedKey == KeyEvent.VK_W || pressedKey == KeyEvent.VK_UP)
+      {
+        if (playerY > 0) playerY -= PLAYER_STEP;
+
+      }
+      else if (pressedKey == KeyEvent.VK_S || pressedKey == KeyEvent.VK_DOWN)
+      {
+        if (playerY < HEIGHT) playerY += PLAYER_STEP;
+      }
+      else if (pressedKey == KeyEvent.VK_A || pressedKey == KeyEvent.VK_LEFT)
+      {
+        if (playerX > 0) playerX -= PLAYER_STEP;
+      }
+      else if (pressedKey == KeyEvent.VK_D || pressedKey == KeyEvent.VK_RIGHT)
+      {
+        if (playerX < WIDTH) playerX += PLAYER_STEP;
+      }
+    }
+  }
 
   class Monster
   {
@@ -446,13 +473,10 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     }
   }
 
-  class Player
+  class Bullet
   {
-    public int x=WIDTH/2;
-    public int y=HEIGHT/2;
+
   }
-
-
 
 
   public void paintComponent(Graphics canvas)
@@ -490,32 +514,13 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
   @Override
   public void keyPressed(KeyEvent e)
   {
-    int pressedKey=e.getKeyCode();
-    System.out.println(pressedKey);
+    if(!activeCommands.contains(e.getKeyCode())) activeCommands.add(e.getKeyCode());
 
-    if(pressedKey==KeyEvent.VK_W||pressedKey==KeyEvent.VK_UP)
-    {
-      System.out.print(player.y + "-> ");
-      if(player.y>0) player.y-=PLAYER_STEP;
-      System.out.print(player.y);
-    }
-    else if(pressedKey==KeyEvent.VK_S||pressedKey==KeyEvent.VK_DOWN)
-    {
-      if(player.y<HEIGHT) player.y+=PLAYER_STEP;
-    }
-    else if(pressedKey==KeyEvent.VK_A||pressedKey==KeyEvent.VK_LEFT)
-    {
-      if(player.x>0) player.x-=PLAYER_STEP;
-    }
-    else if(pressedKey==KeyEvent.VK_D||pressedKey==KeyEvent.VK_RIGHT)
-    {
-      if(player.x<WIDTH) player.x+=PLAYER_STEP;
-    }
   }
 
   @Override
   public void keyReleased(KeyEvent e)
   {
-
+    activeCommands.remove(new Integer(e.getKeyCode()));
   }
 }

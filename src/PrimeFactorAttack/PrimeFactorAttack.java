@@ -1054,7 +1054,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     {
       //System.out.println("......gameStatus == Game.Status.LEVELUP");
       boolean stillRunning = levelUp.update();
-
+      stillRunning=false;
       if (!stillRunning)
       {
         this.setStatus(Data.Status.BONUS_LEVEL);
