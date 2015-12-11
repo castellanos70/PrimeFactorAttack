@@ -170,11 +170,11 @@ public class GameCanvas extends Canvas
         Data.graphTmp.drawString("-OR-   Type prime factor on keyboard." ,
             30, y+20);
       }
-      block.draw(Data.graphTmp,6);
+      block.draw(Data.graphTmp, 6);
     }
     else 
-    { block.draw(Data.graph,6);
-      block.draw(Data.graphSand,6);
+    { block.draw(Data.graph, 6);
+      block.draw(Data.graphSand, 6);
       Data.graphTmp.drawImage(Data.imageSand, 0, 0, null);
     }
   }

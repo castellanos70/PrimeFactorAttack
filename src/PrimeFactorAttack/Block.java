@@ -69,7 +69,8 @@ public class Block
     new Color(0xf68a03), new Color(0x9d0102), new Color(0xa90a88), new Color(0x982ceb), new Color(0x84837e) 
   };
 
-  
+  private int variableName = 0;
+  private boolean booleanName = false;
   public Block(Grid grid, int num, double speed, MODE mode)
   {
     //System.out.println("Block("+num +") Constructor");
@@ -206,10 +207,23 @@ public class Block
   }
   
 
+  private void bonusFlash(Graphics g)
+  {
+    Color flashColor = new Color(variableName, variableName, 0);
+    if (booleanName) variableName-=5;
+    if (!booleanName) variableName+=5;
+    if (variableName < 30) booleanName = false;
+    if (variableName > 200) booleanName = true;
+    g.setColor(flashColor);
+  }
+
+
+
   
   public void draw(Graphics g, int tmp)
   { 
     int iTop = (int)top;
+<<<<<<< HEAD
     if (status == STATUS.ONGROUND)
     {
 
@@ -232,6 +246,10 @@ public class Block
 
     }
     else if (mode ==MODE.REMOVE_HITS) g.setColor(BLOCK_COLOR);
+=======
+    if (status == STATUS.ONGROUND) g.setColor(DEAD_COLOR);
+    else if (mode ==MODE.REMOVE_HITS) bonusFlash(g);
+>>>>>>> origin/master
     else g.setColor(BONUSBLOCK_COLOR);
     g.fillRect(left, iTop, width, height);
     
