@@ -109,7 +109,7 @@ public class GameCanvas extends Canvas
   {
     System.out.println("Draw.newGame()");
     clearBackground(1);
-
+    Data.graph.drawImage(background4, 0, 0, 750, 450, null);
   }
   
   public void clearBackground(int level)
