@@ -69,3 +69,5 @@ AYeong : I will add background images to level 1,2,3 differently.
 18) I will add a sound toggle button (on/off), and add a shortcut ('s'). DONE
 
 19) Chun Chen Chen: I will do some variation on dead blocks. Making them keep change their color. DONE
+
+20) I will add a screen that represent game is over , When the game ends. SOYEONAN.
