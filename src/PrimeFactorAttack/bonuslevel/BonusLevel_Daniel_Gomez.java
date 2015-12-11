@@ -42,25 +42,15 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
 
   private int level;
 
-  private final static int BLOCK_SIZE            = 50; //player base size
+  private final static int BLOCK_SIZE = 50; //player base size
 
-  int health = 100;
+  private int health = MAX_HEALTH;
 
-  //monster variables
-  private int totalMonsters = 500; //maximum number of monsters
-  private int monsterSize = 40; //monster box size
-  private int monsterCount = 0; //how many monsters have been created
-  private int currentMonsters = 0; //how many monsters are on screen
-  private int[] monsterStatus = new int[totalMonsters]; //monster alive or dead
-  private int[] monsterHit = new int[totalMonsters]; //monster hit by bullet
-  private int[] monsterNum = new int[totalMonsters]; //monsters composite number
-  private int[] monsterSide = new int[totalMonsters]; //monster spawn side
-  private int[] monsterX = new int[totalMonsters]; //monster X coordinate
-  private int[] monsterY = new int[totalMonsters]; //monster Y coordinate
   private static final int FREEZE_TIME = 50; //how long a monster stays frozen when hit
   private ArrayList<Monster> monsters =new ArrayList<>();
   private Player player=new Player();
   private static final int MONSTER_STEP=4;
+  private static final int PLAYER_STEP=7;
 
 
   //bullet variables
@@ -80,10 +70,6 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
   private final int sv = 40; //the velocity of the shot
 
   private int currentPrime = 0; //prime number attached to current bullet
-
-  private int[] components = {4,6,8,9,10,12,14,15,16,18,20,21,22,24,25,26,27,28,30,32,33,34,35,36,
-          38,39,40,42,44,45,46,48,49,50,51,52,54,55,56,57,58,60};
-  private int[] primes = {2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59};
   private int maxNumber = 60;
 
   // sets up the buffered image, instructions
@@ -95,10 +81,11 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     canvas = (Graphics2D)buffer.getGraphics();
     init();
-    this.repaint();
-
     addMouseMotionListener(this);
     addMouseListener(this);
+    addKeyListener(this);
+    this.setFocusable(true);
+    this.requestFocusInWindow();
   }
 
   // Called whenever the user starts your bonus level.
@@ -113,17 +100,16 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     bulletCount = 0;
     frameCount = 0; //initialize frame count
     level = 20;
-    score = 0;
+    score = 50;
     health = 100;
     //set background
     canvas.setColor(Color.WHITE);
     canvas.fillRect(0, 0, WIDTH, HEIGHT);
     //draw background image
-    canvas.drawImage(background,0,0,null);
+    canvas.drawImage(background, 0, 0, null);
     //draw center circle
     canvas.setColor(Color.RED);
-    canvas.fillRect((WIDTH / 2) - (BLOCK_SIZE / 2), (HEIGHT / 2) - (BLOCK_SIZE / 2), BLOCK_SIZE, BLOCK_SIZE);
-
+    drawPlayer();
     createMonster();//create first monster
 
     this.repaint();
@@ -139,7 +125,7 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     frameCount++;
 
     // Check to see if the game has reached the time limit
-    if (frameCount > 6000 || health < 1)
+    if (frameCount > 6000 || health < 1||score<=0||score>=100)
     {
       canvas.setColor(Color.WHITE);
       canvas.fillRect(0, 0, WIDTH, HEIGHT);
@@ -151,21 +137,21 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "cursor"));
     canvas.setFont(new Font("TimesRoman", Font.PLAIN, 16));
     //set a limit to how quickly we spawn monsters
-    if(frameCount%(level*10)==0)  createMonster();
+    if(frameCount%(level*5)==0)  createMonster();
 
 
     //how often we update the game
-    if (frameCount%1 == 0)
-    {
-      clearMonsters();
-      drawMonsters();
-      drawBullets();
-      updateMonsters();
-      updateBullets();
-      //check reload time
-      if (bulletTimer >= 1) bulletTimer++;
-      if (bulletTimer >= bulletReloadTime) bulletTimer = 0;
-    }
+    this.requestFocusInWindow();
+    clearMonsters();
+    drawMonsters();
+    drawPlayer();
+    drawBullets();
+    updateMonsters();
+    updateBullets();
+    //check reload time
+    if (bulletTimer >= 1) bulletTimer++;
+    if (bulletTimer >= bulletReloadTime) bulletTimer = 0;
+
 
 
     //draw aimer
@@ -182,7 +168,9 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     {
       canvas.setColor(Color.WHITE);
       canvas.setFont(new Font("TimesRoman", Font.PLAIN, 24));
-      String instructions1 = "Shoot composite numbers and let primes reach your base!";
+      String instructions1 = "Shoot composite numbers and let primes reach your base!"+"\n" +
+                             "If a composite hits your base you will lose health and points!"+"\n" +
+                              "Don't let you health or score reach zero.";
       String instructions2 = "If a composite hits your base you will lose health!";
       canvas.drawString(instructions1, 40,  HEIGHT-100);
       canvas.drawString(instructions2, 40,  HEIGHT-60);
@@ -234,51 +222,31 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
       mouseClickX = e.getX(); //get mouse coordinates
       mouseClickY = e.getY();
       createBullet(mouseClickX, mouseClickY, currentPrime); //create bullet
-
-      /*for (int i = 0; i < monsterCount; i++) //for every monster on screen
+      for(int i=monsters.size()-1;i>=0;i--)
       {
-        //if player clicks within a monster
-        if (mouseClickX > monsterX[i] && mouseClickX < monsterX[i]+monsterSize
-                && mouseClickY > monsterY[i] && mouseClickY < monsterY[i]+monsterSize && monsterHit[i] == 0)
+        Monster currentMonster=monsters.get(i);
+        int leftXBound=currentMonster.x-BLOCK_SIZE/2;
+        int rightXBound=currentMonster.x+BLOCK_SIZE/2;
+        int topYBound=currentMonster.y-BLOCK_SIZE/2;
+        int botYBound=currentMonster.y+BLOCK_SIZE/2;
+        if((mouseClickX>leftXBound&&mouseClickX<rightXBound)&&(mouseClickY>topYBound&&mouseClickY<botYBound))
         {
-          for (int j=0; j < components.length; j++)
+          if(!Utility.isPrime(currentMonster.number))
           {
-            if (monsterNum[i] == components[j]) //if player hit a component
-            {
-              score++; //add to score
-              monsterStatus[i] = 0; //kill monster
-              if (level > 4) level--; //increase difficulty
-            }
+            score+=SCORE_BOOST;
+            monsters.remove(currentMonster);
+            if (level > 4) level--;
           }
-          monsterHit[i] = 1; //monster was hit
-        }*/
-        for(int i=monsters.size()-1;i>=0;i--)
-        {
-          Monster currentMonster=monsters.get(i);
-          int leftXBound=currentMonster.x-BLOCK_SIZE/2;
-          int rightXBound=currentMonster.x+BLOCK_SIZE/2;
-          int topYBound=currentMonster.y-BLOCK_SIZE/2;
-          int botYBound=currentMonster.y+BLOCK_SIZE/2;
-          if((mouseClickX>leftXBound&&mouseClickX<rightXBound)&&(mouseClickY>topYBound&&mouseClickY<botYBound))
+          else
           {
-            if(!Utility.isPrime(currentMonster.number))
-            {
-              score+=SCORE_BOOST;
-              monsters.remove(currentMonster);
-              if (level > 4) level--;
-            }
-            else
-            {
-              score-=SCORE_BOOST;
-              currentMonster.isHit=true;
-            }
+            score-=SCORE_BOOST;
+            currentMonster.isHit=true;
           }
         }
       }
-      currentPrime = 0; //reset prime
     }
-
-
+    currentPrime = 0; //reset prime
+  }
   private void drawCursor(int x, int y)
   {
     //draw a dashed line from the player to the mouse
@@ -294,27 +262,9 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
   //check if a monster reached the player
   private boolean isAtPlayer(int x, int y) //x and y are the monsters coordinates
   {
-    /*if (x <= (WIDTH / 2) - (BLOCK_SIZE / 2) + BLOCK_SIZE &&
-            x >= (WIDTH / 2) - (BLOCK_SIZE / 2) &&
-            y >= (HEIGHT / 2) - (BLOCK_SIZE / 2) &&
-            y <= (HEIGHT / 2) - (BLOCK_SIZE / 2) + BLOCK_SIZE) return true;
-
-    if (x <= (WIDTH / 2) - (BLOCK_SIZE / 2) + BLOCK_SIZE &&
-            x >= (WIDTH / 2) - (BLOCK_SIZE / 2) &&
-            y >= (HEIGHT / 2) - (BLOCK_SIZE / 2) &&
-            y <= (HEIGHT / 2) - (BLOCK_SIZE / 2) + BLOCK_SIZE) return true;
-
-    if (x <= (WIDTH / 2) - (BLOCK_SIZE / 2) + BLOCK_SIZE &&
-            x >= (WIDTH / 2) - (BLOCK_SIZE / 2) &&
-            y >= (HEIGHT / 2) - (BLOCK_SIZE / 2) &&
-            y <= (HEIGHT / 2) - (BLOCK_SIZE / 2) + BLOCK_SIZE) return true;
-
-    if (x <= (WIDTH / 2) - (BLOCK_SIZE / 2) + BLOCK_SIZE &&
-            x >= (WIDTH / 2) - (BLOCK_SIZE / 2) &&
-            y >= (HEIGHT / 2) - (BLOCK_SIZE / 2) &&
-            y <= (HEIGHT / 2) - (BLOCK_SIZE / 2) + BLOCK_SIZE) return true;*/
     if((x>=(player.x-BLOCK_SIZE/2)&&x<=(player.x+BLOCK_SIZE/2))&&(y>=(player.y-BLOCK_SIZE/2)&&y<=(player.y+BLOCK_SIZE/2)))
     {
+      System.out.println(true);
       return true;
     }
 
@@ -330,8 +280,8 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     //draw background image
     canvas.drawImage(background,0,0,Color.WHITE,null);
     //draw center square
-    canvas.setColor(Color.RED);
-    canvas.fillRect((WIDTH / 2) - (BLOCK_SIZE / 2), (HEIGHT / 2) - (BLOCK_SIZE / 2), BLOCK_SIZE, BLOCK_SIZE);
+    /*canvas.setColor(Color.RED);
+    canvas.fillRect((WIDTH / 2) - (BLOCK_SIZE / 2), (HEIGHT / 2) - (BLOCK_SIZE / 2), BLOCK_SIZE, BLOCK_SIZE);*/
   }
 
   //create a new monster
@@ -344,107 +294,11 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     int newMonsterY=rand.nextInt(HEIGHT);
     Monster newMonster =new Monster(newMonsterX, newMonsterY);
     monsters.add(newMonster);
-
-    /*int side = rand.nextInt(8); //determine which side the monster will spawn
-    monsterSide[monsterCount] = side;
-    if (side == 0)
-    {
-      monsterX[monsterCount] = 10; //monster starting coordinates
-      monsterY[monsterCount] = 10;
-    } else if (side == 1)
-    {
-      monsterX[monsterCount] = 376-monsterSize/2; //monster starting coordinates
-      monsterY[monsterCount] = 10;
-    } else if (side == 2)
-    {
-      monsterX[monsterCount] = 742-monsterSize; //monster starting coordinates
-      monsterY[monsterCount] = 10;
-    } else if (side == 3)
-    {
-      monsterX[monsterCount] = 742-monsterSize; //monster starting coordinates
-      monsterY[monsterCount] = 287-monsterSize/2;
-    } else if (side == 4)
-    {
-      monsterX[monsterCount] = 742-monsterSize; //monster starting coordinates
-      monsterY[monsterCount] = 565-monsterSize;
-    } else if (side == 5)
-    {
-      monsterX[monsterCount] = 376-monsterSize/2; //monster starting coordinates
-      monsterY[monsterCount] = 565-monsterSize;
-    } else if (side == 6)
-    {
-      monsterX[monsterCount] = 10; //monster starting coordinates
-      monsterY[monsterCount] = 565-monsterSize;
-    } else if (side == 7)
-    {
-      monsterX[monsterCount] = 10; //monster starting coordinates
-      monsterY[monsterCount] = 287-monsterSize/2;
-    }
-    monsterStatus[monsterCount] = 1;
-    monsterCount++; //increment monster count*/
-
   }
 
   //update the monsters positions
   private void updateMonsters()
   {
-    /*for (int i = 0; i < monsterCount; i++) //for every monster in play
-    {
-      if (monsterStatus[i] == 1) //if the monster is alive
-      {
-        if (monsterHit[i] == 0) //if the monster is not frozen by a hit
-        {
-          //check if monsters reached center
-          if (isAtPlayer(monsterX[i] + monsterSize / 2, monsterY[i] + monsterSize / 2))
-          {
-            for (int j=0; j < primes.length; j++)
-            {
-              if (monsterNum[i] == primes[j]) score++; //if a prime reached the center, add to score
-            }
-            for (int j=0; j < components.length; j++)
-            {
-              if (monsterNum[i] == components[j]) health -= 5; //if a component reached the center, lose health
-            }
-            monsterStatus[i] = 0; //kill monster
-            currentMonsters--;
-          }
-          //move all monsters towards center
-          else if (monsterSide[i] == 0)
-          {
-            if (monsterX[i]+monsterSize/2 < (WIDTH-BLOCK_SIZE)/2) monsterX[i] += 1;
-            if (monsterY[i]+monsterSize/2 < (HEIGHT-BLOCK_SIZE)/2) monsterY[i] += 1;
-          } else if (monsterSide[i] == 1)
-          {
-            if (monsterY[i]+monsterSize/2 < (HEIGHT-BLOCK_SIZE)/2) monsterY[i] += 1;
-          } else if (monsterSide[i] == 2)
-          {
-            if (monsterX[i]+monsterSize/2 > (WIDTH-50)/2 + BLOCK_SIZE) monsterX[i] -= 1;
-            if (monsterY[i]+monsterSize/2 < (HEIGHT-BLOCK_SIZE)/2) monsterY[i] += 1;
-          } else if (monsterSide[i] == 3)
-          {
-            if (monsterX[i]+monsterSize/2 > (WIDTH-50)/2 + BLOCK_SIZE) monsterX[i] -= 1;
-          } else if (monsterSide[i] == 4)
-          {
-            if (monsterX[i]+monsterSize/2 > (WIDTH-50)/2 + BLOCK_SIZE) monsterX[i] -= 1;
-            if (monsterY[i]+monsterSize/2 > (HEIGHT-BLOCK_SIZE)/2 + BLOCK_SIZE) monsterY[i] -= 1;
-          } else if (monsterSide[i] == 5)
-          {
-            if (monsterY[i]+monsterSize/2 > (HEIGHT-BLOCK_SIZE)/2 + BLOCK_SIZE) monsterY[i] -= 1;
-          } else if (monsterSide[i] == 6)
-          {
-            if (monsterX[i]+monsterSize/2 < (WIDTH-50)/2) monsterX[i] += 1;
-            if (monsterY[i]+monsterSize/2 > (HEIGHT-BLOCK_SIZE)/2 + BLOCK_SIZE) monsterY[i] -= 1;
-          } else if (monsterSide[i] == 7)
-          {
-            if (monsterX[i]+monsterSize/2 < (WIDTH-50)/2) monsterX[i] += 1;
-          }
-        } else if (monsterHit[i] >= 1) //if the monster was hit by a bullet
-        {
-          monsterHit[i]++; //freeze monster until monsterHit reaches our freeze timer
-          if (monsterHit[i] >= freezeTime) monsterHit[i] = 0;
-        }
-      }
-    }*/
 
     for(int i=monsters.size()-1;i>=0;i--)
     {
@@ -454,18 +308,18 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
         if(Utility.isPrime(currentMonster.number))
         {
           score+=SCORE_BOOST;
-          if(player.health<MAX_HEALTH-MONSTER_DAMAGE)
+          if(health<MAX_HEALTH-MONSTER_DAMAGE)
           {
-            player.health+=MONSTER_DAMAGE;
+            health+=MONSTER_DAMAGE;
           }
-          else if(player.health>MAX_HEALTH-MONSTER_DAMAGE&&player.health<MAX_HEALTH)
+          else if(health>MAX_HEALTH-MONSTER_DAMAGE&&health<MAX_HEALTH)
           {
-            player.health+=MAX_HEALTH-player.health;
+            health+=MAX_HEALTH-health;
           }
         }
         else
         {
-          player.health-=MONSTER_DAMAGE;
+          health-=MONSTER_DAMAGE;
         }
         monsters.remove(currentMonster);
       }
@@ -500,7 +354,7 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
       {
         //draw monster
         canvas.setColor(Color.BLUE);
-        canvas.fillRect(monster.x-BLOCK_SIZE/2, monster.y-BLOCK_SIZE/2, monsterSize, monsterSize);
+        canvas.fillRect(monster.x-BLOCK_SIZE/2, monster.y-BLOCK_SIZE/2, BLOCK_SIZE, BLOCK_SIZE);
         //draw monster number
         canvas.setColor(Color.WHITE);
         canvas.drawString(Integer.toString(monster.number),monster.x, monster.y);
@@ -509,12 +363,18 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
       {
         //draw monster
         canvas.setColor(Color.YELLOW);
-        canvas.fillRect(monster.x-BLOCK_SIZE/2, monster.y-BLOCK_SIZE/2, monsterSize, monsterSize);
+        canvas.fillRect(monster.x-BLOCK_SIZE/2, monster.y-BLOCK_SIZE/2, BLOCK_SIZE, BLOCK_SIZE);
         //draw monster number
         canvas.setColor(Color.RED);
         canvas.drawString(Integer.toString(monster.number),monster.x, monster.y);
       }
     }
+  }
+
+  private void drawPlayer()
+  {
+    canvas.setColor(Color.RED);
+    canvas.fillRect(player.x - BLOCK_SIZE / 2, player.y - BLOCK_SIZE / 2, BLOCK_SIZE, BLOCK_SIZE);
   }
 
   //create a new bullet
@@ -590,7 +450,6 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
   {
     public int x=WIDTH/2;
     public int y=HEIGHT/2;
-    public int health=MAX_HEALTH;
   }
 
 
@@ -631,7 +490,27 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
   @Override
   public void keyPressed(KeyEvent e)
   {
+    int pressedKey=e.getKeyCode();
+    System.out.println(pressedKey);
 
+    if(pressedKey==KeyEvent.VK_W||pressedKey==KeyEvent.VK_UP)
+    {
+      System.out.print(player.y + "-> ");
+      if(player.y>0) player.y-=PLAYER_STEP;
+      System.out.print(player.y);
+    }
+    else if(pressedKey==KeyEvent.VK_S||pressedKey==KeyEvent.VK_DOWN)
+    {
+      if(player.y<HEIGHT) player.y+=PLAYER_STEP;
+    }
+    else if(pressedKey==KeyEvent.VK_A||pressedKey==KeyEvent.VK_LEFT)
+    {
+      if(player.x>0) player.x-=PLAYER_STEP;
+    }
+    else if(pressedKey==KeyEvent.VK_D||pressedKey==KeyEvent.VK_RIGHT)
+    {
+      if(player.x<WIDTH) player.x+=PLAYER_STEP;
+    }
   }
 
   @Override
