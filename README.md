@@ -62,7 +62,7 @@ AYeong : I will add background images to level 1,2,3 differently.
 
 15) Soyeon An : I will change 'end game' button to 'new game' button, when the game ends. DONE
 
-16) I will give the cursor a new design when it's in the game window. Won't be doing a bonus level anymore. -Josh Rhodes
+16) I will give the cursor a new design when it's in the game window. Won't be doing a bonus level anymore. Also added a new logo to the top left corner instead of the java symbol. DONE.
 
 17) I will change the blocks graphics slightly to make them easier to see against the background. - Colton Decker DONE
 
