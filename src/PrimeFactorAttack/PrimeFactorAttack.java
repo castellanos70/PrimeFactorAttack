@@ -213,6 +213,8 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       fullPanel.setVisible(false);
       control.setVisible(true);
       canvas.setVisible(true);
+      
+       canvas.clearBackground(skillLevel);
       if ((gameStatus == Data.Status.READY_TO_START) || (gameStatus == Data.Status.ENDED))
       {
         startGame();
@@ -685,6 +687,17 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   {
     skillLevel++;
     if (skillLevel >= 10) minNumForRemoveHits = 100; 
+    
+     if(skillLevel == 2)
+    {
+
+      setStatus(Data.Status.RUNNING);
+    }
+    if(skillLevel == 3)
+    {
+      setStatus(Data.Status.RUNNING);
+  
+    }
     
     if (skillLevel % 5 == 0)
     {
