@@ -22,7 +22,9 @@ public class Block
   public enum MODE
   { REMOVE_HITS, BALLOONS
   }
-  
+
+  private static final Color VIOLET_COLOR = new Color(159,0,255);
+  private static final Color NEW_COLOR = new Color(150,10,100);
   private static final Color BLOCK_COLOR = new Color(117,146,60); 
   private static final Color BONUSBLOCK_COLOR = new Color(101,77,143); 
   private static final Color DEAD_COLOR = new Color(170,63,60);//new Color(217,149,148);
@@ -59,6 +61,8 @@ public class Block
   private long timeCreated;
   
   public static FontMetrics fontMetrics;
+
+  Random random  = new Random();
 
   private static Color[] primeColor = 
   { new Color(0x0314aa), new Color(0x2ecbdc), new Color(0x03ae80), new Color(0x207b06), new Color(0xb2b400), 
@@ -203,10 +207,30 @@ public class Block
   
 
   
-  public void draw(Graphics g)
+  public void draw(Graphics g, int tmp)
   { 
     int iTop = (int)top;
-    if (status == STATUS.ONGROUND) g.setColor(DEAD_COLOR);
+    if (status == STATUS.ONGROUND)
+    {
+
+      if(tmp==0)
+        g.setColor(Color.PINK);
+      else if(tmp==1)
+        g.setColor(Color.ORANGE);
+      else if(tmp==2)
+        g.setColor(NEW_COLOR);
+      else if(tmp==3)
+        g.setColor(Color.GREEN);
+      else if(tmp==4)
+        g.setColor(Color.BLUE);
+      else if(tmp==5)
+        g.setColor(VIOLET_COLOR);
+      else if(tmp==6)
+        g.setColor(Color.RED);
+
+      g.fillRect(left, iTop, width, height);
+
+    }
     else if (mode ==MODE.REMOVE_HITS) g.setColor(BLOCK_COLOR);
     else g.setColor(BONUSBLOCK_COLOR);
     g.fillRect(left, iTop, width, height);

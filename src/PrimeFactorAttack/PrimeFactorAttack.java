@@ -41,12 +41,12 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 
 {
   private static final boolean DEBUG_FACTORS = false;
-  private static final long serialVersionUID = 1L; 
-  
+  private static final long serialVersionUID = 1L;
   public static final boolean DEBUG_DRAWGRID = true;
   public static final int MAX_FACTORS = 10;
   public static final Color WIGET_BACKGROUND = new Color(238,238,238);
 
+  private static int last = 6;
   private Container contentPane;
   private GameCanvas canvas; 
   private Grid grid;
@@ -832,7 +832,15 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     if(gameStatus == Data.Status.RUNNING)
     {  //control.requestFocus();
        nextTurn();
-       canvas.updateDisplay(); 
+      //System.out.println("Begin:");
+      int tmp = rand.nextInt(6);
+      if(tmp==last)
+        tmp = (last+1)%6;
+      for(int i = 0;i< deadBlocks.size();i++)
+        deadBlocks.get(i).draw(Data.graph, tmp);
+      //System.out.println("END!");
+      last = tmp;
+       canvas.updateDisplay();
     }
     else if (gameStatus == Data.Status.WELCOME)
     {
