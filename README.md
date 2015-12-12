@@ -39,7 +39,25 @@ AYeong : I will add background images to level 1,2,3 differently.
 8) Different sound effects or each level. Not sound effects that you find on the web,
    but sounds that you create and record yourself.
    Jaehee: I already changed that sound when I shoot the number(original sound:fireworks.wav -> changed sound: sand.wav) 
-   And I plan to make this sound as various versions sounds for each level.
+
+   1) And I made this sound as various versions sounds for each level.
+   (sand2.wav, sand3.wav....., sand9.wav / SoundPlayer soundKill2, soundKill3, soundKill4, soundKill5, soundKill6, soundKill7, soundKill8, soundKill9)
+
+   2)I added sandStorm.wav sound in Data.Status.READY_TO_START.
+     And I wanted to make this sound looping so I add this code <<public void play(int count){clip.loop(count);}>> to <<SoundPlayer.java>>
+
+   3)I got an error when I tried to hit the block which is out of panel.
+   The error was this::
+
+   Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: -1
+   	at PrimeFactorAttack.Grid.isEmpty(Grid.java:61)
+   	at PrimeFactorAttack.Block.move(Block.java:274)
+   	at PrimeFactorAttack.PrimeFactorAttack.nextTurn(PrimeFactorAttack.java:865)
+   	at PrimeFactorAttack.PrimeFactorAttack.actionPerformed(PrimeFactorAttack.java:1044)
+
+   So I figured it out as adding this code <<if(y<Grid.GRID_PIXELS) y = 0;>> to <<public int pixelToRow(int y)>> in Grid.java file.
+
+    DONE.
 
 
 9) Chase: (a) When a user develops a "kill streak" and meets a "kill goal" the screen is cleared and all of the blocks are removed and explosions are left behind. Kill Goal is Incremented by one. This only happens once per update screen. Completed 11/9/15 6:10 P.M. Updated 11/9/15 6:33 P.M., 11/10/15 4:22 A.M. 12/3/15 3:30 P.M.
