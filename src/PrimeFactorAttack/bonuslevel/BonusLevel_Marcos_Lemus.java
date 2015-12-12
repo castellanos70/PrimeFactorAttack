@@ -6,17 +6,20 @@ package PrimeFactorAttack.bonuslevel;
  * Prime number fish mini game.
  ****************************************/
 
+import PrimeFactorAttack.PrimeFactorAttack;
 import PrimeFactorAttack.utility.Utility;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
 
-public class BonusLevel_Marcos_Lemus extends BonusLevel
+public class BonusLevel_Marcos_Lemus extends BonusLevel implements KeyListener
 {
   ////////////////////////////////////////////////////////////////////////////////////////
   //user -- [0] = x_pos, [1] = y_pos, [2] = circumference, [3] = speed, [4] = user value
@@ -41,6 +44,10 @@ public class BonusLevel_Marcos_Lemus extends BonusLevel
   private BufferedImage[][] greenFish_left = new BufferedImage[6][30];// resized versions of images
   private BufferedImage BG; //background
 
+  private int heading = 0;
+  private boolean moving = false;
+  private int bonusTimer = 0;
+
   private BufferedImage buffer;
   private Graphics canvas;
   private int score;
@@ -51,6 +58,28 @@ public class BonusLevel_Marcos_Lemus extends BonusLevel
 
   // Converts integers into string form.
   // From original code
+
+  public void keyTyped(KeyEvent e) {  }
+
+  /** Handle the key-pressed event from the text field. */
+  public void keyPressed(KeyEvent e) {
+    char keyChar = e.getKeyChar();
+    switch (keyChar)
+    {
+      case 'w': heading = 1;
+      case 'a': heading = 2;
+      case 's': heading = 3;
+      case 'd': heading = 0;
+    }
+    moving = true;
+  }
+
+  /** Handle the key-released event from the text field. */
+  public void keyReleased(KeyEvent e) {
+    moving = false;
+  }
+
+
   public static String convertInteger(int n)
   {
     return Integer.toString(n);
@@ -401,7 +430,9 @@ public class BonusLevel_Marcos_Lemus extends BonusLevel
     user[2] = 25; // size
     user[1] = (HEIGHT/2) - (user[2]/2); //y position
     user[0] = (WIDTH/2) - (user[2]/2);  //x position
+    addKeyListener(this);
   }
+
   // all images loaded here
   private void images()
   {
@@ -477,8 +508,13 @@ public class BonusLevel_Marcos_Lemus extends BonusLevel
   public boolean nextFrame()
   {
     framecount++;
+    if (framecount == 33 || framecount  == 66 || framecount == 100)
+    {
+      bonusTimer++;
+      if (framecount == 100) framecount = 0;
+    }
     score = user[4];
-    if(framecount > 6000 || user[4] < 2) return false;
+    if(bonusTimer >= 30 || user[4] < 2) return false;
 
     canvas.drawImage(BG, 0, 0, null);
     for(int i = 0; i < NUMBALLS; i++)
@@ -491,20 +527,27 @@ public class BonusLevel_Marcos_Lemus extends BonusLevel
       canvas.drawChars(message.toCharArray(), 0, message.length(), 0, 10);
       return false;
     }
-    else if(framecount <= 200)
+    else if(bonusTimer <= 3)
     {
       font = new Font(Font.SANS_SERIF, Font.BOLD, 24);
       canvas.setFont(font);
       canvas.setColor(Color.BLACK);
-      canvas.drawString("Directions: Eat the compound Numbers Aviod the primes!", 50 , HEIGHT/2 );
+      canvas.drawString("Directions: Eat the compound Numbers.  Avoid the primes!", 50 , HEIGHT/2 );
     }
     else
     {
-      String message = "Score:" + Integer.toString(getScore());
-      canvas.drawChars(message.toCharArray(), 0, message.length(), 0, 10);
+      font = new Font(Font.SANS_SERIF, Font.BOLD, 24);
+      canvas.setFont(font);
+      canvas.setColor(Color.BLACK);
+      String message = "SCORE:" + Integer.toString(getScore());
+      canvas.drawChars(message.toCharArray(), 0, message.length(), 0, 25);
+      String timeDisplay = "TIME LEFT: " + (30 - bonusTimer);
+      int pixelStringWidth = canvas.getFontMetrics().stringWidth(timeDisplay);
+      canvas.drawString(timeDisplay, (PrimeFactorAttack.INSIDE_WIDTH/2) - pixelStringWidth/2, 25);
     }
     draw_user();
     repaint();
+
 
     if(animation == 2) swimming = false;
     else if(animation == 0) swimming = true;
@@ -531,4 +574,5 @@ public class BonusLevel_Marcos_Lemus extends BonusLevel
   {
 
   }
+
 }
