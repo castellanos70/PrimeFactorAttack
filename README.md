@@ -14,7 +14,7 @@ AYeong : I will add background images to level 1,2,3 differently.
    Jarek:  Instead of adding a new bonus level, I plan to add some of the ideas I suggested earlier to 
    BonusLevel_DanielGomez.java.  This game contains basic shooting mechanics but the player is immobile, enemies spawn
    randomly, and they move in a predictable pattern.  I plan to improve this game by allowing the player to be moved with the
-   keyboard.  I will update the enemy AI so that monsters follow the player. 
+   keyboard.  I will update the enemy AI so that monsters follow the player. -DONE
       
    Sam: Improve fish bonus level: fix transparency issues with sprite display; add timer end condition in addition to score;           display said timer; update score display to match new timer display and be more visible; edit typos in instruction             display -DONE
 
