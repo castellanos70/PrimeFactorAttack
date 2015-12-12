@@ -16,7 +16,7 @@ AYeong : I will add background images to level 1,2,3 differently.
    randomly, and they move in a predictable pattern.  I plan to improve this game by allowing the player to be moved with the
    keyboard.  I will update the enemy AI so that monsters follow the player. 
       
-   Sam: Improve fish bonus level: fix transparency issues with sprite display; add timer end condition rather than score, and      display said timer; implement WASD movement in place of mouse -TRANSPARENCY FIXED
+   Sam: Improve fish bonus level: fix transparency issues with sprite display; add timer end condition in addition to score;           display said timer; update score display to match new timer display and be more visible; edit typos in instruction             display -DONE
 
 5) Different button styles at different levels.                                                                              
    Josh: I plan to change the look of the buttons after every bonus level. For instance, the first 5 levels will be the black buttons at the beginning of the game then the buttons will have a different look on levels 6-10, 11-15, etc. until you reach the end of the game.
