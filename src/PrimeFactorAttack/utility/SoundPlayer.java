@@ -44,8 +44,8 @@ public class SoundPlayer
   public void play(int count)
   {
     clip.loop(count);
-
   }
+
   public void stop()
   {
     clip.stop();
