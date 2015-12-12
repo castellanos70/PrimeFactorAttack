@@ -204,10 +204,12 @@ public class Block
   public void draw(Graphics g)
   { 
     int iTop = (int)top;
+    g.setColor(Color.BLACK);
+    g.fillRect(left, iTop, width, height);
     if (status == STATUS.ONGROUND) g.setColor(DEAD_COLOR);
     else if (mode ==MODE.REMOVE_HITS) g.setColor(BLOCK_COLOR);
     else g.setColor(BONUSBLOCK_COLOR);
-    g.fillRect(left, iTop, width, height);
+    g.fillRect(left + 1, iTop + 1, width - 2, height - 2);
     
     g.setColor(Color.WHITE);
     g.drawString(numStr, left+textOffsetX, iTop+textOffsetY);

@@ -15,10 +15,8 @@ AYeong : I will add background images to level 1,2,3 differently.
    BonusLevel_DanielGomez.java.  This game contains basic shooting mechanics but the player is immobile, enemies spawn
    randomly, and they move in a predictable pattern.  I plan to improve this game by allowing the player to be moved with the
    keyboard.  I will update the enemy AI so that monsters follow the player. 
-   
-   (I plan on creating a new bonus level as well. I'll probably squeeze it in directly after the first level is finished, as to give the kids an opportunity to play it. I'm not sure how far in the game they will get. The bonus level I'm thinking of doing is something similar to the Space Invaders arcade game. -Josh Rhodes)
-   
-   Sam: Improve fish bonus level: fix transparency issues with image display; add timer end condition rather than score, and display said timer; implement WASD movement in place of mouse
+      
+   Sam: Improve fish bonus level: fix transparency issues with sprite display; add timer end condition rather than score, and      display said timer; implement WASD movement in place of mouse -TRANSPARENCY FIXED
 
 5) Different button styles at different levels.                                                                              
    Josh: I plan to change the look of the buttons after every bonus level. For instance, the first 5 levels will be the black buttons at the beginning of the game then the buttons will have a different look on levels 6-10, 11-15, etc. until you reach the end of the game.
@@ -61,4 +59,10 @@ AYeong : I will add background images to level 1,2,3 differently.
 
 14)Aakash: Add hint button. 
 
-15) Soyeon An : I will change 'end game' button to 'new game' button, when the game ends.
+15) Soyeon An : I will change 'end game' button to 'new game' button, when the game ends. DONE
+
+16) I will give the cursor a new design when it's in the game window. Won't be doing a bonus level anymore. -Josh Rhodes
+
+17) I will change the blocks graphics slightly to make them easier to see against the background. - Colton Decker DONE
+
+18) I will add a sound toggle button (on/off), and add a shortcut ('s'). DONE

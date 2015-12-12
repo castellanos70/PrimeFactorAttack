@@ -1,6 +1,6 @@
 package PrimeFactorAttack;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import java.awt.Color;
 import java.awt.Container;  //On which to add buttons and JPanel
@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.Timer;
 import java.awt.Insets;
 
 import PrimeFactorAttack.mandala.Mandala;
@@ -82,6 +81,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   private boolean usedRewardBonusThisRound = false;
   private int lastFactor = 0;
   public boolean rewarding = false;
+  public boolean sound = true;
 
   private boolean lastBlockHitGround;
   
@@ -287,6 +287,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     }
     gameStatus = Data.Status.ENDED;
     diffusionLimitedAggregation.endGame();
+    control.updateButtons();
   }
   
   
@@ -395,10 +396,10 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       rewarding = false;
       lastFactor = factor;
     } else lastFactor = factor;
-    
+
     boolean hit = false;
     boolean kill = false;
-    
+
     //If the block was already in the process of being hit, then 
     //  remove the old factor before working on the new factor.
     if (block.isHit())
@@ -409,14 +410,15 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 
     int num = block.getNumber();
 
-    if (num % factor == 0) {
+    if (num % factor == 0)
+    {
       score += (factor * factor) * (block.getFactorCount());
-      
+
       //System.out.println("score=" +score + ", num="+num+", factor="+factor);
-      
+
       control.setScore(score);
-      
-      
+
+
       hit = true;
       if (num < killHistory.length) killHistory[num]++;
       if (num == factor)
@@ -425,25 +427,27 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
         lastBlockHitGround = false;
       }
       block.setHit(factor, kill);
-      
+
       //Must be called after block.setHit(factor, kill)
       if (kill) setMandala();
 
 
-    }
-    else
+    } else
     { //if (block.getMode() == Block.MODE.BALLOONS) block.restoreOriginalFactors();
       block.setSpeed(Block.SPEED_DROP);
     }
-    
-    
+
+
     if (!SandStorm.isStormInProgress())
     {
       SandStorm.startStorm(block, factor, hit);
     }
-    
-    if (hit) soundHit.play();
-    else soundMiss.play();
+
+    if (sound)
+    {
+      if (hit) soundHit.play();
+      else soundMiss.play();
+    }
 
     return hit;
   }
@@ -680,10 +684,11 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   private void increaseSkillLevel()
   {
     skillLevel++;
-    if (skillLevel >= 10) minNumForRemoveHits = 100;
-
+    if (skillLevel >= 10) minNumForRemoveHits = 100; 
+    
     if (skillLevel % 5 == 0)
     {
+      control.loadButtonImages(skillLevel);
       setStatus(Data.Status.LEVELUP);
       easyPrimeOnly = false;
       usedRewardBonusThisRound = false;
@@ -844,7 +849,9 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
           if (done)
           {
             distroyBlock();
-            soundKill.play();
+
+            if(sound) soundKill.play();
+
             killStreak++;
             lastFactor = 0;
             //System.out.println("soundKill.play()");
@@ -899,8 +906,13 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
         grid.setFilled(k, row);
       }
       deadBlocks.add(block);
-      soundMiss.stop();
-      soundGround.play();
+
+      if(sound)
+      {
+        soundMiss.stop();
+        soundGround.play();
+      }
+
       if (rewarding) killGoal++;
       rewarding = false;
       createBlock();
@@ -923,7 +935,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       rewarding = true;
       if (rewarding && block.isZAPPED())
       {
-        soundKill.play();
+        if(sound) soundKill.play();
         destroyLastDeadBlock();
       }
     }
@@ -934,7 +946,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     if (!usedRewardBonusThisRound && killStreak >= killGoal &&
             deadBlocks.size() > 0)
     {
-      soundBang.play();
+      if(sound) soundBang.play();
       for (Block b : deadBlocks)
       {
         destroyDeadBlock(b);
@@ -961,7 +973,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       Block lastDeadBlock = deadBlocks.get(size - 1);
       destroyDeadBlock(lastDeadBlock);
       deadBlocks.remove(size - 1);
-      soundKill.play();
+      if(sound) soundKill.play();
     }
   }
 
@@ -1052,7 +1064,6 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 
     else if (gameStatus == Data.Status.LEVELUP)
     {
-      //System.out.println("......gameStatus == Game.Status.LEVELUP");
       boolean stillRunning = levelUp.update();
       if (!stillRunning)
       {
@@ -1074,17 +1085,15 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
       this.setStatus(Data.Status.RUNNING);
       forfeitBonus = false;
     }
-
     else if (gameStatus == Data.Status.TIMESTOP)
     {
       pauseScreen.update();
       canvas.updateDisplay();
     }
   }
-
-
   public static void main(String[] args)
   {
+    //new ButtonDesignsJosh();
     new PrimeFactorAttack();
   }
 }
