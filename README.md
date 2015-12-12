@@ -51,6 +51,7 @@ AYeong : I will add background images to level 1,2,3 differently.
 10) Evan: I will add a game over screen so that the user does not have to press the end game button when they lose.
 
 11) Michael: I will change the blocks into some cool sprite graphics and make it dynamic so that future developers can easily     change them for different levels and block sizes.
+        Well that didn't happen but I did make the bonus blocks flash yellow instead of being boring static colors.
 
 12) Scott: Improve instructions display at the start of the game so they are easier to read
 
@@ -61,8 +62,12 @@ AYeong : I will add background images to level 1,2,3 differently.
 
 15) Soyeon An : I will change 'end game' button to 'new game' button, when the game ends. DONE
 
-16) I will give the cursor a new design when it's in the game window. Won't be doing a bonus level anymore. -Josh Rhodes
+16) I will give the cursor a new design when it's in the game window. Won't be doing a bonus level anymore. Also added a new logo to the top left corner instead of the java symbol. DONE.
 
 17) I will change the blocks graphics slightly to make them easier to see against the background. - Colton Decker DONE
 
 18) I will add a sound toggle button (on/off), and add a shortcut ('s'). DONE
+
+19) Chun Chen Chen: I will do some variation on dead blocks. Making them keep change their color. DONE
+
+20) I will add a screen that represent game is over , When the game ends. SOYEONAN. DONE
