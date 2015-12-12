@@ -1,7 +1,8 @@
 package PrimeFactorAttack;
 
-import javax.swing.*;
 
+import javax.swing.*;
+import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Container;  //On which to add buttons and JPanel
 import java.awt.Cursor;
@@ -15,6 +16,7 @@ import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.Timer;
 import java.awt.Insets;
 
 import PrimeFactorAttack.mandala.Mandala;
