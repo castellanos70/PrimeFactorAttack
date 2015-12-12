@@ -26,6 +26,7 @@ import PrimeFactorAttack.mandala.Mandala_Sean_Chavez;
 import PrimeFactorAttack.mandala.Mandala_Steven_Kelley;
 import PrimeFactorAttack.mandala.Mandala_Tyler_Brandt;
 import PrimeFactorAttack.transition.DiffusionLimitedAggregation;
+import PrimeFactorAttack.transition.EndGameScreen_Evan_Pierce;
 import PrimeFactorAttack.transition.LevelUpScreen;
 import PrimeFactorAttack.utility.SandTraveler;
 import PrimeFactorAttack.transition.WelcomeScreen;
@@ -255,7 +256,13 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 
     else if (newStatus == Data.Status.ENDED)
     {
-      endGame();
+      fullPanel.setVisible(true);
+      control.setVisible(false);
+      canvas.setVisible(false);
+
+      BufferedImage buf = fullPanel.getOffscreenBuffer();
+      levelUp = LevelUpScreen.create(-1, buf);
+
     }
 
     else if (newStatus == Data.Status.TIMESTOP)
@@ -281,14 +288,9 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   
   private void endGame()
   {
-    if (myTimer.isRunning())
-    {
-      myTimer.stop();
-      
-    }
-    gameStatus = Data.Status.ENDED;
-    diffusionLimitedAggregation.endGame();
-    control.updateButtons();
+    this.setStatus(Data.Status.WELCOME);
+    this.dispose();
+    new PrimeFactorAttack();
   }
   
   
@@ -1092,6 +1094,17 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     {
       pauseScreen.update();
       canvas.updateDisplay();
+    }
+
+    else if (gameStatus == Data.Status.ENDED)
+    {
+      boolean stillRunning = levelUp.update();
+
+      if (!stillRunning)
+      {
+        endGame();
+      }
+      else fullPanel.repaint();
     }
   }
 
