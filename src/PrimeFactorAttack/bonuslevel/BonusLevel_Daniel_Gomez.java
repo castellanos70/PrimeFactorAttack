@@ -171,13 +171,11 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     if (frameCount < 500) //display instructions
     {
       canvas.setColor(Color.WHITE);
-      canvas.setFont(new Font("TimesRoman", Font.PLAIN, 24));
-      String instructions1 = "Shoot composite numbers and let primes reach your base!"+"\n" +
-                             "If a composite hits your base you will lose health and points!"+"\n" +
-                              "Don't let you health or score reach zero.";
-      String instructions2 = "If a composite hits your base you will lose health!";
+      canvas.setFont(new Font("TimesRoman", Font.PLAIN, 16));
+      String instructions1 = "Shoot composite numbers. Move over primes to gain health!";
+      String instructions2="If you hit a composite number you will lose health and points!";
       canvas.drawString(instructions1, 40,  HEIGHT-100);
-      canvas.drawString(instructions2, 40,  HEIGHT-60);
+      canvas.drawString(instructions2, 40, HEIGHT-60);
     }
 
     this.repaint(); //repaint
@@ -259,7 +257,6 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     canvas.setColor(Color.BLACK);
     canvas.drawLine(playerX, playerY, x, y);
     canvas.fillOval(x-5, y-5, 10, 10); //draw circle at mouse point
-    canvas.fillOval(WIDTH/2-10, HEIGHT/2-10, 20, 20);
   }
 
   //check if a monster reached the player
@@ -281,17 +278,11 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     canvas.fillRect(0, 0, WIDTH, HEIGHT);
     //draw background image
     canvas.drawImage(background,0,0,Color.WHITE,null);
-    //draw center square
-    /*canvas.setColor(Color.RED);
-    canvas.fillRect((WIDTH / 2) - (BLOCK_SIZE / 2), (HEIGHT / 2) - (BLOCK_SIZE / 2), BLOCK_SIZE, BLOCK_SIZE);*/
   }
 
   //create a new monster
   private void createMonster()
   {
-  /*   //determine component number attached to new monster
-    monsterNum[monsterCount] = number;
-    currentMonsters++;*/
     int newMonsterX=rand.nextInt(WIDTH);
     int newMonsterY=rand.nextInt(HEIGHT);
     Monster newMonster =new Monster(newMonsterX, newMonsterY);
@@ -305,6 +296,9 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     for(int i=monsters.size()-1;i>=0;i--)
     {
       Monster currentMonster=monsters.get(i);
+
+      //If the monster reached the player and monster.number was prime, increase score and health.  Otherwise, remove health.
+
       if(isAtPlayer(currentMonster.x, currentMonster.y))
       {
         if(Utility.isPrime(currentMonster.number))
@@ -314,7 +308,7 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
           {
             health+=MONSTER_DAMAGE;
           }
-          else if(health>MAX_HEALTH-MONSTER_DAMAGE&&health<MAX_HEALTH)
+          else if(health>=MAX_HEALTH-MONSTER_DAMAGE&&health<MAX_HEALTH)
           {
             health+=MAX_HEALTH-health;
           }
@@ -325,6 +319,8 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
         }
         monsters.remove(currentMonster);
       }
+
+      //If a prime numbered monster is hit, freeze it.
       else if(currentMonster.isHit)
       {
         currentMonster.isFrozen=true;
@@ -338,9 +334,9 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
       }
       else
       {
+        //Update monsters that are not hit to follow the player.
         double monsterAngle=Math.atan2(-(playerY-currentMonster.y),playerX-currentMonster.x);
         currentMonster.x=(int)(currentMonster.x+MONSTER_STEP*Math.cos(monsterAngle));
-        //System.out.println(currentMonster.x+" "+monsters.get(i).x);
         currentMonster.y=(int)(currentMonster.y-MONSTER_STEP*Math.sin(monsterAngle));
       }
     }
@@ -385,8 +381,8 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     double xVel; //bullet speeds
     double yVel;
 
-    double mouseX = clickX - (WIDTH/2); //difference between player and the mouse click
-    double mouseY = clickY - (HEIGHT/2);
+    double mouseX = clickX - (playerX); //difference between player and the mouse click
+    double mouseY = clickY - (playerY);
 
     angle = Math.atan2(mouseY, mouseX); //TRIGONOMETRYYYYYYYYYYYYY
     xVel =  Math.round(sv*Math.cos(angle));
@@ -433,12 +429,13 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
       }
     }
   }
+
+  //Method moves the player according to all recorded keyboard commands.
   private void movePlayer()
   {
-    System.out.println("---------------------");
+
     for(Integer pressedKey:activeCommands)
     {
-     System.out.println((char)pressedKey.intValue());
       if (pressedKey == KeyEvent.VK_W || pressedKey == KeyEvent.VK_UP)
       {
         if (playerY > 0) playerY -= PLAYER_STEP;
@@ -459,23 +456,19 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     }
   }
 
+  //Monster data class.
   class Monster
   {
     public boolean isFrozen=false;
     public boolean isHit=false;
     public int freezeTimer=0;
-    public int number=rand.nextInt(maxNumber)+1;
+    public int number=rand.nextInt(maxNumber)+2;
     public int x, y;
     public Monster(int x, int y)
     {
       this.x=x;
       this.y=y;
     }
-  }
-
-  class Bullet
-  {
-
   }
 
 
@@ -512,6 +505,8 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
   }
 
   @Override
+
+  //Every time a new key command is entered, add it to the list.
   public void keyPressed(KeyEvent e)
   {
     if(!activeCommands.contains(e.getKeyCode())) activeCommands.add(e.getKeyCode());
@@ -519,6 +514,8 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
   }
 
   @Override
+
+  //Every time a key is released, remove it from the list.
   public void keyReleased(KeyEvent e)
   {
     activeCommands.remove(new Integer(e.getKeyCode()));

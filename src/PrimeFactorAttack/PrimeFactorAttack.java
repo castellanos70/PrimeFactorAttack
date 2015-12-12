@@ -238,7 +238,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
 
     else if (newStatus == Data.Status.BONUS_LEVEL)
     {
-      int r = 1;
+      int r = rand.nextInt(4);
       if (r == 0) bonusLevel = new BonusLevel_Colin_Monroe();
       else if (r == 1) bonusLevel = new BonusLevel_Daniel_Gomez();
       else if (r == 3) bonusLevel = new BonusLevel_Jeffrey_Nichol();
@@ -1054,7 +1054,6 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     {
       //System.out.println("......gameStatus == Game.Status.LEVELUP");
       boolean stillRunning = levelUp.update();
-      stillRunning=false;
       if (!stillRunning)
       {
         this.setStatus(Data.Status.BONUS_LEVEL);
