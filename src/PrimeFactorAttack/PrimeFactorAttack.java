@@ -287,9 +287,16 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
   
   private void endGame()
   {
-    this.setStatus(Data.Status.WELCOME);
-    this.dispose();
-    new PrimeFactorAttack();
+    boolean stillRunning = levelUp.update();
+
+    if (!stillRunning)
+    {
+      this.setStatus(Data.Status.WELCOME);
+      this.dispose();
+      new PrimeFactorAttack();
+    }
+    else fullPanel.repaint();
+
   }
   
   
@@ -897,6 +904,17 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     canvas.drawBlock(block);
     if (row == 0)
     {
+      fullPanel.setVisible(true);
+      control.setVisible(false);
+      canvas.setVisible(false);
+
+      BufferedImage buf = fullPanel.getOffscreenBuffer();
+      levelUp = LevelUpScreen.create(-1, buf);
+
+      gameStatus = Data.Status.ENDED;
+
+      control.updateButtons();
+
       endGame();
       return;
     } else {
@@ -1093,6 +1111,10 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
     {
       pauseScreen.update();
       canvas.updateDisplay();
+    }
+    else if (gameStatus == Data.Status.ENDED)
+    {
+      endGame();
     }
   }
 
