@@ -66,7 +66,7 @@ AYeong : I will add background images to level 1,2,3 differently.
 (d) I will add a sound effect for win the user meets a kill goal Completed 11/16/15 1:59 PM
 
 
-10) Evan: I will add a game over screen so that the user does not have to press the end game button when they lose.
+10) Evan: I will add a game over screen so that the user does not have to press the end game button when they lose. DONE
 
 11) Michael: I will change the blocks into some cool sprite graphics and make it dynamic so that future developers can easily     change them for different levels and block sizes.
 
