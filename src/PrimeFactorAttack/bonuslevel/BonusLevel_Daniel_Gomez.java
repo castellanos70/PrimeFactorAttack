@@ -375,7 +375,7 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
     canvas.fillRect(playerX - BLOCK_SIZE / 2, playerY - BLOCK_SIZE / 2, BLOCK_SIZE, BLOCK_SIZE);
   }
 
-  //create a new bullet
+  //create a new bulletdw
   public void createBullet(int clickX, int clickY)
   {
     double xVel; //bullet speeds
@@ -433,7 +433,7 @@ public class BonusLevel_Daniel_Gomez extends BonusLevel implements MouseMotionLi
   //Method moves the player according to all recorded keyboard commands.
   private void movePlayer()
   {
-
+    if(!hasFocus()) activeCommands.clear();
     for(Integer pressedKey:activeCommands)
     {
       if (pressedKey == KeyEvent.VK_W || pressedKey == KeyEvent.VK_UP)
