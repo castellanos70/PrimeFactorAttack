@@ -201,7 +201,10 @@ public class Grid
   */
 
   public int pixelToRow(int y)
-  { int row = y/Grid.GRID_PIXELS;
+  {
+    if(y<Grid.GRID_PIXELS) y = 0;
+
+    int row = y/Grid.GRID_PIXELS;
     return row;
   }
   

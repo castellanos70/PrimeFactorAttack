@@ -14,9 +14,9 @@ AYeong : I will add background images to level 1,2,3 differently.
    Jarek:  Instead of adding a new bonus level, I plan to add some of the ideas I suggested earlier to 
    BonusLevel_DanielGomez.java.  This game contains basic shooting mechanics but the player is immobile, enemies spawn
    randomly, and they move in a predictable pattern.  I plan to improve this game by allowing the player to be moved with the
-   keyboard.  I will update the enemy AI so that monsters follow the player. 
+   keyboard.  I will update the enemy AI so that monsters follow the player. -DONE
       
-   Sam: Improve fish bonus level: fix transparency issues with image display; add timer end condition rather than score, and display said timer; implement WASD movement in place of mouse
+   Sam: Improve fish bonus level: fix transparency issues with sprite display; add timer end condition rather than score, and      display said timer; implement WASD movement in place of mouse -TRANSPARENCY FIXED
 
 5) Different button styles at different levels.                                                                              
    Josh: I plan to change the look of the buttons after every bonus level. For instance, the first 5 levels will be the black buttons at the beginning of the game then the buttons will have a different look on levels 6-10, 11-15, etc. until you reach the end of the game.
@@ -39,7 +39,25 @@ AYeong : I will add background images to level 1,2,3 differently.
 8) Different sound effects or each level. Not sound effects that you find on the web,
    but sounds that you create and record yourself.
    Jaehee: I already changed that sound when I shoot the number(original sound:fireworks.wav -> changed sound: sand.wav) 
-   And I plan to make this sound as various versions sounds for each level.
+
+   1) And I made this sound as various versions sounds for each level.
+   (sand2.wav, sand3.wav....., sand9.wav / SoundPlayer soundKill2, soundKill3, soundKill4, soundKill5, soundKill6, soundKill7, soundKill8, soundKill9)
+
+   2)I added sandStorm.wav sound in Data.Status.READY_TO_START.
+     And I wanted to make this sound looping so I add this code <<public void play(int count){clip.loop(count);}>> to <<SoundPlayer.java>>
+
+   3)I got an error when I tried to hit the block which is out of panel.
+   The error was this::
+
+   Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: -1
+   	at PrimeFactorAttack.Grid.isEmpty(Grid.java:61)
+   	at PrimeFactorAttack.Block.move(Block.java:274)
+   	at PrimeFactorAttack.PrimeFactorAttack.nextTurn(PrimeFactorAttack.java:865)
+   	at PrimeFactorAttack.PrimeFactorAttack.actionPerformed(PrimeFactorAttack.java:1044)
+
+   So I figured it out as adding this code <<if(y<Grid.GRID_PIXELS) y = 0;>> to <<public int pixelToRow(int y)>> in Grid.java file.
+
+    DONE.
 
 
 9) Chase: (a) When a user develops a "kill streak" and meets a "kill goal" the screen is cleared and all of the blocks are removed and explosions are left behind. Kill Goal is Incremented by one. This only happens once per update screen. Completed 11/9/15 6:10 P.M. Updated 11/9/15 6:33 P.M., 11/10/15 4:22 A.M. 12/3/15 3:30 P.M.
