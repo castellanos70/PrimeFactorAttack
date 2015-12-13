@@ -400,6 +400,7 @@ public class PrimeFactorAttack extends JFrame implements ActionListener
         }
       }
       block = new Block(grid, num, speed, blockMode);
+      control.factorNum = num;
     }
   }
 

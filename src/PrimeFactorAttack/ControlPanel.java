@@ -27,6 +27,7 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
   
   private int timestopChargeCount;
   private int timestopNextChargeScore;
+  public int factorNum;
 
   public ControlPanel(PrimeFactorAttack frame, int width, int height)
   {
@@ -320,6 +321,23 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
       }
       timestopChargeCount++;
       updateButtons();
+    }
+    if (Data.CHEAT_ON && (c == 'h') && (factorNum != 0))
+    {
+      int keyNum = 0;
+      if (parent.getGameStatus() == Data.Status.RUNNING)
+      {
+        for (int i=0; i<primeButtons.length; i++)
+        {
+          if (factorNum % Data.PRIME[i] == 0)
+          {
+            keyNum = Data.PRIME[i];
+            break;
+          }
+        }
+        primeButtons[Data.getIndexOfPrime(keyNum)].doClick();
+        factorNum = factorNum / keyNum;
+      }
     }
     if (c == 'd')
     {

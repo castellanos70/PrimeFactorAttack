@@ -39,7 +39,7 @@ public class Block
 
   
   private int origNum;
-  private int num; 
+  private int num;
   private String numStr;
   private int factorCount;
   private int[] factorList;
