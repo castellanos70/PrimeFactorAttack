@@ -85,8 +85,8 @@ AYeong : I will add background images to level 1,2,3 differently.
 
 18) I will add a sound toggle button (on/off), and add a shortcut ('s'). DONE
 
-19) Myung Wouk Lee : I will add two cheating buttons. - DONE
+19) Myung Wouk Lee : I will add two cheating buttons.
     1. add a cheat button (increase 'Time-Turner')
         : press 't', increase 'Time-Turner' (Max = 9).
     2. add a cheat button (HELP button)
-        : press 'h', factorize the number automatically.
+        : press 'h', factorize the number automatically. - DONE
