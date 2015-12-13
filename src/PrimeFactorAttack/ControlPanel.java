@@ -310,6 +310,17 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener
       parent.cheatLevelUp();
       return; 
     }
+    if (Data.CHEAT_ON && (c == 't'))
+    {
+      if (timestopChargeCount >= 9)
+      {
+        timestopChargeCount = 9;
+        updateButtons();
+        return;
+      }
+      timestopChargeCount++;
+      updateButtons();
+    }
     if (c == 'd')
     {
       parent.rewarding = false;
