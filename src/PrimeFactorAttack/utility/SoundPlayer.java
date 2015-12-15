@@ -16,7 +16,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 
 public class SoundPlayer
-{ private Clip clip;
+{
+  private Clip clip;
 
   public SoundPlayer(String soundFilePath) throws Exception
   {
@@ -38,6 +39,11 @@ public class SoundPlayer
     clip.setFramePosition(0);
     clip.start(); // Play only once
 
+  }
+
+  public void play(int count)
+  {
+    clip.loop(count);
   }
 
   public void stop()

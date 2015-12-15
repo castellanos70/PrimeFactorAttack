@@ -27,7 +27,7 @@ public class Block
   private static final Color BLOCK_COLOR = new Color(117,146,60); 
   private static final Color BONUSBLOCK_COLOR = new Color(101,77,143); 
   private static final Color DEAD_COLOR = new Color(170,63,60);//new Color(217,149,148);
-  
+
   public static final double SPEED_VERYSLOW = 0.5;  //pixels per frame
   public static final double SPEED_SLOW = 1.0;  //pixels per frame
   public static final double SPEED_NORMAL = 2.0;  //pixels per frame
@@ -40,7 +40,7 @@ public class Block
 
   
   private int origNum;
-  private int num; 
+  private int num;
   private String numStr;
   private int factorCount;
   private int[] factorList;
@@ -84,11 +84,11 @@ public class Block
 
 
     numStr = String.valueOf(num);
-    factorList = Utility.getPrimeFactors(num);
 
     if (mode == MODE.BALLOONS)
     { 
       //System.out.println("Block("+num +") Constructor: MODE.BALLOONS");
+      factorList = Utility.getPrimeFactors(num);
       factorCount = factorList.length;
       factorBalloon = new boolean[factorCount];
       java.util.Arrays.fill(factorBalloon, false);
@@ -134,10 +134,8 @@ public class Block
   public void setZapped()
   { status = STATUS.ZAPPED;
   }
-  
-  
-  
-  
+
+
   public long getCreationTime()
   { return this.timeCreated;
   }
@@ -213,15 +211,19 @@ public class Block
   public void draw(Graphics g)
   { 
     int iTop = (int)top;
+    g.setColor(Color.BLACK);
+    g.fillRect(left, iTop, width, height);
     if (status == STATUS.ONGROUND) g.setColor(DEAD_COLOR);
     else if (mode ==MODE.REMOVE_HITS) g.setColor(BLOCK_COLOR);
     else g.setColor(BONUSBLOCK_COLOR);
-    g.fillRect(left, iTop, width, height);
+    g.fillRect(left + 1, iTop + 1, width - 2, height - 2);
     
-    //System.out.println("left="+left+", top="+top+", width="+width+", height= "+height);
     g.setColor(Color.WHITE);
     g.drawString(numStr, left+textOffsetX, iTop+textOffsetY);
-    
+
+    //System.out.println("left="+left+", top="+top+", width="+width+", height= "+height);
+
+
     if ((status != STATUS.ONGROUND) && (mode == MODE.BALLOONS))
     { 
       
@@ -265,6 +267,7 @@ public class Block
 //    }
     
     //System.out.println("Block.move(): speed="+speed);
+    //System.out.println("Row: " + row);
     
     
     boolean dead=false;
@@ -324,8 +327,8 @@ public class Block
   { if (status == STATUS.ZAPPED) return true;
     return false;
   }
-  
-  
+
+
   public void setFreefall()
   { status = STATUS.FREE_FALL;
   } 
@@ -376,12 +379,6 @@ public class Block
   { return mode;
   }
 
-  public int[] getFactorList()
-  {
-    return factorList;
-  }
-  
-  
 
   
   public void setSpeed(double dy)

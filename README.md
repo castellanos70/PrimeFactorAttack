@@ -6,22 +6,17 @@ TODO (add more items or place your name on things you want to do):<br>
     The colors must stand out form the background and the numbers on the blocks must be clearly readable.
 
 2) Add background images to levels past 3.
+AYeong : I will add background images to level 1,2,3 differently. 
 
 3) Greatly improve transition screens.
 
 4) Greatly improve bonus level games/add new games.  
-   Jarek:  I plan to add a new bonus level (that extends BonusLevel.java) in which a player must avoid composite 
-   numbers entering the screen at random locations.  The player is given ammunition consisting of the prime numbers im
-   the initial number's prime factorization.  When the player shoots a composite number with a divisible prime number,
-   the prime number will be shown inside of the block drawn for the composite number.  If the player successfully his 
-   the composite number with all of the values in its prime factorization, the ammunition used will be dropped by the 
-   composite number block.  New composite number monsters will be spawn in addition to prime number ammunition.  
-   If the player hits a composite number monster with a prime number that is not divisible, the composite number will
-   increase in size based on a difficulty factor.
-   
-   (I plan on creating a new bonus level as well. I'll probably squeeze it in directly after the first level is finished, as to give the kids an opportunity to play it. I'm not sure how far in the game they will get. The bonus level I'm thinking of doing is something similar to the Space Invaders arcade game. -Josh Rhodes)
-   
-   Sam: Improve fish bonus level: fix transparency issues with image display; add timer end condition rather than score, and display said timer; implement WASD movement in place of mouse
+   Jarek:  Instead of adding a new bonus level, I plan to add some of the ideas I suggested earlier to 
+   BonusLevel_DanielGomez.java.  This game contains basic shooting mechanics but the player is immobile, enemies spawn
+   randomly, and they move in a predictable pattern.  I plan to improve this game by allowing the player to be moved with the
+   keyboard.  I will update the enemy AI so that monsters follow the player. -DONE
+      
+   Sam: Improve fish bonus level: fix transparency issues with sprite display; add timer end condition rather than score, and      display said timer; implement WASD movement in place of mouse -TRANSPARENCY FIXED
 
 5) Different button styles at different levels.                                                                              
    Josh: I plan to change the look of the buttons after every bonus level. For instance, the first 5 levels will be the black buttons at the beginning of the game then the buttons will have a different look on levels 6-10, 11-15, etc. until you reach the end of the game.
@@ -43,20 +38,55 @@ TODO (add more items or place your name on things you want to do):<br>
 
 8) Different sound effects or each level. Not sound effects that you find on the web,
    but sounds that you create and record yourself.
-   Jaehee: I already changed that sound when I shoot the number(original sound:fireworks.wav -> changed sound: sand.wav)
-   And I plan to make this sound as various versions sounds for each level.
-   Chase: I will add sound effects to when the user gives a bad input, a sort of shrieky sound, and other 
-          sorts with my Viola, trumpet, clarinet etc...
-    Chase: I will also add a sound effect for win the user meets a kill goal as described in #9.
+   Jaehee: I already changed that sound when I shoot the number(original sound:fireworks.wav -> changed sound: sand.wav) 
 
-9) Chase: (a) When a user develops a "kill streak" and meets a "kill goal" the screen is cleared and all of the blocks are removed and explosions are left behind. Kill Goal is Incremented by one. Completed 11/9/15 6:10 P.M. Updated 11/9/15 6:33 P.M., 11/10/15 4:22 A.M. 
-(b) If a user, during their "kill streak" always chooses lowest factor possible then a bonus level will load after the screen clears when the user meets a "kill goal". Completed 11/10/15 5:30 PM
-(c) At any time the user may press "d" to destroy the last dead block added to the deadBlock ArrayList, but the user loses points equal to the maximum possible gain from the dead block that was destroyed if the user hadn't missed it in the first place and the user forfeits any opportunity for a bonus level until after the upcoming Congratulations title screen passes and the new level starts.
+   1) And I made this sound as various versions sounds for each level.
+   (sand2.wav, sand3.wav....., sand9.wav / SoundPlayer soundKill2, soundKill3, soundKill4, soundKill5, soundKill6, soundKill7, soundKill8, soundKill9)
 
-10) Evan: I will add a game over screen so that the user does not have to press the end game button when they lose.
+   2)I added sandStorm.wav sound in Data.Status.READY_TO_START.
+     And I wanted to make this sound looping so I add this code <<public void play(int count){clip.loop(count);}>> to <<SoundPlayer.java>>
+
+   3)I got an error when I tried to hit the block which is out of panel.
+   The error was this::
+
+   Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: -1
+   	at PrimeFactorAttack.Grid.isEmpty(Grid.java:61)
+   	at PrimeFactorAttack.Block.move(Block.java:274)
+   	at PrimeFactorAttack.PrimeFactorAttack.nextTurn(PrimeFactorAttack.java:865)
+   	at PrimeFactorAttack.PrimeFactorAttack.actionPerformed(PrimeFactorAttack.java:1044)
+
+   So I figured it out as adding this code <<if(y<Grid.GRID_PIXELS) y = 0;>> to <<public int pixelToRow(int y)>> in Grid.java file.
+
+    DONE.
+
+
+9) Chase: (a) When a user develops a "kill streak" and meets a "kill goal" the screen is cleared and all of the blocks are removed and explosions are left behind. Kill Goal is Incremented by one. This only happens once per update screen. Completed 11/9/15 6:10 P.M. Updated 11/9/15 6:33 P.M., 11/10/15 4:22 A.M. 12/3/15 3:30 P.M.
+(b) If a user, during their "kill streak" always chooses lowest factor possible then for every kill beyond the kill goal a dead block will be destroyed along with the falling block and the user will get points for the dead block. Completed 11/10/15 5:30 PM Updated 11/14/15 2:20 P.M. 12/3/15 3:30 P.M.
+(c) At any time the user may press "d" to destroy the last dead block added to the deadBlock ArrayList, but the user loses points equal to the maximum possible gain from the dead block that was destroyed if the user hadn't missed it in the first place and the user forfeits any opportunity for a bonus level until after the upcoming Congratulations title screen passes and the new level starts. Completed 11/14/15 2:20 P.M.
+(d) I will add a sound effect for win the user meets a kill goal Completed 11/16/15 1:59 PM
+
+
+10) Evan: I will add a game over screen so that the user does not have to press the end game button when they lose. DONE
 
 11) Michael: I will change the blocks into some cool sprite graphics and make it dynamic so that future developers can easily     change them for different levels and block sizes.
 
 12) Scott: Improve instructions display at the start of the game so they are easier to read
 
-13) Tim: Add a pause button (Press 'p')
+13) Tim: Add a pause button (Press 'p') DONE
+
+
+14)Aakash: Add hint button. 
+
+15) Soyeon An : I will change 'end game' button to 'new game' button, when the game ends. DONE
+
+16) Josh Rhodes: I will give the cursor a new design when it's in the game window. Won't be doing a bonus level anymore. Also added a logo to the top left corner to replace the Java logo. DONE
+
+17) I will change the blocks graphics slightly to make them easier to see against the background. - Colton Decker DONE
+
+18) I will add a sound toggle button (on/off), and add a shortcut ('s'). DONE
+
+19) Myung Wouk Lee : I will add two cheating buttons.
+    1. add a cheat button (increase 'Time-Turner')
+        : press 't', increase 'Time-Turner' (Max = 9).
+    2. add a cheat button (HELP button)
+        : press 'h', factorize the number automatically. - DONE

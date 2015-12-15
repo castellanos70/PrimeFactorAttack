@@ -22,7 +22,7 @@ public abstract class LevelUpScreen
     LevelUpScreen levelUp;
     if (level == 5)
     {
-      levelUp = new LevelUpScreen_Luke_Stankus(buf, 
+      levelUp = new LevelUpScreen_Luke_Stankus(buf,
           "You Have Reached Level 5", "Exploding Sands");
     }
     else if (level == 10)
@@ -35,6 +35,11 @@ public abstract class LevelUpScreen
     {
       levelUp = new LevelUpScreen_Micah_McNeil(buf, 
           "Unlocked 19", level, "Next Level: Paint-Ball");
+    }
+    else if (level == -1)
+    {
+      levelUp = new EndGameScreen_Evan_Pierce(buf,
+          "GAME OVER", "Try Again");
     }
     else //if (level == 20)
     {
