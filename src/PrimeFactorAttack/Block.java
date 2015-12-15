@@ -5,6 +5,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.Random;
 import PrimeFactorAttack.utility.Utility;
+import java.util.Random;
 
 
 public class Block
@@ -34,7 +35,7 @@ public class Block
   public static final double SPEED_DROP = 24.0;  //pixels per frame
   public static final double SPEED_MIN = 0.25;//pixels per frame
   public static final double SPEED_UPBUMP = -12.0;  //pixels per frame
-  public static final double UPBUMP_DELTA_SPEED = 0.75;  //pixels per frame per frame
+  public static final double UPBUMP_DELTA_SPEED =0.5;  //pixels per frame per frame
   private double currentBaseSpeed = SPEED_NORMAL;
 
   
@@ -53,7 +54,7 @@ public class Block
   private Grid grid;
   private int left, width, height;
   private double top;
-  private int colLeft, colWidth, row; 
+  private int colLeft, colWidth, row, colTop;
   private double speed;
   private int textOffsetX, textOffsetY;
   private long timeCreated;
@@ -81,7 +82,7 @@ public class Block
 
     hitFactor = 1;
 
-    
+
     numStr = String.valueOf(num);
     factorList = Utility.getPrimeFactors(num);
 
@@ -117,8 +118,14 @@ public class Block
     else if (colLeft+colWidth >=grid.getColumnCount())
     { colLeft = grid.getColumnCount() - colWidth;
     }
-      
-    
+
+
+    colTop = rand.nextInt(grid.getRowCount())-factorCount*1;
+
+    if (colTop< 0) colTop= 0;
+
+    top =grid.getPixelLeft(colTop);
+
     left = grid.getPixelLeft(colLeft);
     textOffsetY = height/2 + fontMetrics.getMaxAscent()/2 -1;
     timeCreated = System.currentTimeMillis();
@@ -246,7 +253,7 @@ public class Block
 
     if (speed < currentBaseSpeed) speed += UPBUMP_DELTA_SPEED;
     //System.out.println("Block.move(): speed="+speed);
-    top += speed;
+    top += speed+1;
     
 //    if (speed < SPEED_NORMAL)
 //    { long curTime = System.currentTimeMillis();
